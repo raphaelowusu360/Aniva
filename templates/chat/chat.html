@@ -1,0 +1,38 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Chat with {{ friend.username }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-6 py-8">
+
+    <h1 class="text-2xl font-bold text-zinc-100 mb-6">
+        Chat with {{ friend.username }}
+    </h1>
+
+    <!-- Chat Messages -->
+    <div class="mb-4 space-y-2 h-80 overflow-y-auto border border-zinc-700 p-4 rounded-2xl bg-zinc-900/80">
+        {% for msg in messages %}
+            <div class="mb-2 flex {% if msg.sender == request.user %}justify-end{% else %}justify-start{% endif %}">
+                <span class="inline-block px-3 py-2 rounded-lg 
+                             {% if msg.sender == request.user %}bg-gradient-to-r from-violet-600 to-purple-600 text-white{% else %}bg-zinc-700 text-zinc-100{% endif %}">
+                    <strong>{{ msg.sender.username }}</strong>: {{ msg.content }}
+                    <small class="block text-zinc-400 text-xs mt-1">{{ msg.timestamp|date:"M d, H:i" }}</small>
+                </span>
+            </div>
+        {% empty %}
+            <p class="text-zinc-400 text-center">No messages yet. Start chatting!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Input Form -->
+    <form method="post" class="flex space-x-2">
+        {% csrf_token %}
+        <textarea name="content" rows="3" placeholder="Type your message..."
+                  class="flex-1 p-2 border border-zinc-700 rounded-lg bg-zinc-800 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
+        <button type="submit" class="bg-gradient-to-r from-violet-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 transition shadow-sm shadow-violet-500/20">
+            Send
+        </button>
+    </form>
+
+</div>
+{% endblock %}

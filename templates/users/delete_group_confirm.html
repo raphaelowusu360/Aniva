@@ -1,0 +1,192 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Delete Group - Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-xl mx-auto px-6 py-12">
+
+
+
+
+
+
+<div class="bg-zinc-900/90
+
+            backdrop-blur-xl
+
+            border border-red-500/30
+
+            rounded-3xl
+
+            shadow-2xl
+
+            p-8
+
+            text-center">
+
+
+
+
+
+
+
+<!-- Warning Icon -->
+
+<div class="text-5xl mb-5">
+
+⚠️
+
+</div>
+
+
+
+
+
+
+
+
+<h1 class="text-3xl font-bold text-zinc-100 mb-4">
+
+Delete Group?
+
+</h1>
+
+
+
+
+
+
+
+<p class="text-zinc-400 leading-relaxed mb-6">
+
+
+You are about to permanently delete
+
+
+<strong class="text-zinc-100">
+
+{{ group.name }}
+
+</strong>
+
+
+.
+
+
+<br>
+
+
+This action cannot be undone.
+
+
+</p>
+
+
+
+
+
+
+
+
+
+<form method="POST" class="flex justify-center gap-4">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+<button type="submit"
+
+class="bg-red-600
+
+       text-white
+
+       px-6
+
+       py-3
+
+       rounded-xl
+
+       font-medium
+
+       hover:bg-red-500
+
+       transition
+
+       shadow-lg
+
+       shadow-red-500/20">
+
+
+Delete Group
+
+
+</button>
+
+
+
+
+
+
+
+
+<a href="{% url 'group_detail' group.id %}"
+
+class="px-6
+
+       py-3
+
+       rounded-xl
+
+       border border-zinc-700
+
+       text-zinc-300
+
+       hover:bg-zinc-800
+
+       transition">
+
+
+Cancel
+
+
+</a>
+
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}

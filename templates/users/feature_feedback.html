@@ -1,0 +1,528 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Shape Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-5xl mx-auto px-6 py-10">
+
+
+
+
+
+
+<!-- Hero -->
+
+
+<div class="bg-gradient-to-r
+
+            from-violet-700
+
+            via-purple-700
+
+            to-indigo-700
+
+            rounded-3xl
+
+            p-10
+
+            text-center
+
+            shadow-xl
+
+            mb-10">
+
+
+
+
+
+    <h1 class="text-4xl font-extrabold text-white mb-4">
+
+        Shape The Future Of Aniva 🚀
+
+    </h1>
+
+
+
+
+    <p class="text-purple-100 text-lg max-w-2xl mx-auto">
+
+        Your ideas help us build the ultimate anime social platform.
+
+        Suggest features, share opinions, and influence Aniva's future.
+
+    </p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Success Messages -->
+
+
+{% if messages %}
+
+
+{% for message in messages %}
+
+
+<div class="bg-green-600/20
+
+            border border-green-500
+
+            text-green-300
+
+            px-5 py-3
+
+            rounded-xl
+
+            mb-6
+
+            text-center">
+
+
+    ✅ {{ message }}
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+<!-- Feedback Form -->
+
+
+<div class="bg-zinc-900/90
+
+            border border-zinc-800
+
+            rounded-3xl
+
+            p-8
+
+            shadow-xl
+
+            mb-12">
+
+
+
+
+
+<h2 class="text-2xl font-bold text-white mb-6">
+
+    Share Your Ideas 💡
+
+</h2>
+
+
+
+
+
+
+
+<form method="POST" class="space-y-6">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+<div>
+
+
+<label class="block text-zinc-300 mb-2 font-medium">
+
+    Feature You Want To See
+
+</label>
+
+
+
+
+<textarea
+
+name="feature"
+
+rows="4"
+
+required
+
+placeholder="Example: Voice chat, anime clubs, tournaments..."
+
+class="w-full
+
+       bg-zinc-950
+
+       border border-zinc-700
+
+       rounded-xl
+
+       p-4
+
+       text-white
+
+       placeholder-zinc-500
+
+       focus:outline-none
+
+       focus:ring-2
+
+       focus:ring-violet-500">
+
+</textarea>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div>
+
+
+<label class="block text-zinc-300 mb-2 font-medium">
+
+    What Do You Love About Aniva?
+
+</label>
+
+
+
+
+<textarea
+
+name="likes"
+
+rows="4"
+
+required
+
+placeholder="Tell us what makes Aniva exciting..."
+
+class="w-full
+
+       bg-zinc-950
+
+       border border-zinc-700
+
+       rounded-xl
+
+       p-4
+
+       text-white
+
+       placeholder-zinc-500
+
+       focus:outline-none
+
+       focus:ring-2
+
+       focus:ring-violet-500">
+
+</textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<button type="submit"
+
+class="w-full
+
+       bg-gradient-to-r
+
+       from-violet-600
+
+       to-purple-600
+
+       text-white
+
+       py-3
+
+       rounded-xl
+
+       font-semibold
+
+       hover:from-violet-500
+
+       hover:to-purple-500
+
+       transition">
+
+
+Submit Idea 🚀
+
+
+</button>
+
+
+
+
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Community Ideas -->
+
+
+<div>
+
+
+<h2 class="text-3xl font-bold text-white mb-6">
+
+    Community Ideas
+
+</h2>
+
+
+
+
+
+
+
+{% if feedbacks %}
+
+
+
+<div class="space-y-5">
+
+
+
+
+
+
+{% for fb in feedbacks %}
+
+
+
+
+
+<div class="bg-zinc-900
+
+            border border-zinc-800
+
+            rounded-2xl
+
+            p-6
+
+            shadow-lg
+
+            hover:border-violet-500
+
+            transition">
+
+
+
+
+
+
+
+<div class="flex items-center justify-between mb-4">
+
+
+
+<h3 class="font-bold text-violet-400">
+
+
+    {{ fb.user.username }}
+
+
+</h3>
+
+
+
+
+<span class="text-xs text-zinc-500">
+
+    {{ fb.created_at|date:"M d, Y" }}
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="mb-4">
+
+
+<p class="text-sm text-zinc-400 mb-1">
+
+Feature Request
+
+</p>
+
+
+<p class="text-zinc-100">
+
+{{ fb.feature_request }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+
+<p class="text-sm text-zinc-400 mb-1">
+
+Why They Love Aniva
+
+</p>
+
+
+<p class="text-zinc-300">
+
+{{ fb.likes_about_site }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% else %}
+
+
+
+
+
+<div class="text-center
+
+            bg-zinc-900
+
+            border border-zinc-800
+
+            rounded-3xl
+
+            p-10">
+
+
+<div class="text-5xl mb-4">
+
+💭
+
+</div>
+
+
+
+<p class="text-zinc-400">
+
+No ideas yet. Be the first person to shape Aniva.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+{% endif %}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}

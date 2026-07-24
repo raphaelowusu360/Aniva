@@ -1,0 +1,296 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Communities | Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-6xl mx-auto px-6 py-10">
+
+
+
+
+
+    <!-- Header -->
+
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-5 mb-10">
+
+
+        <div>
+
+
+            <h1 class="text-4xl font-extrabold text-white">
+
+                Explore Communities
+
+            </h1>
+
+
+
+            <p class="text-zinc-400 mt-2">
+
+                Find people who share your interests and join conversations.
+
+            </p>
+
+
+
+        </div>
+
+
+
+
+
+        <a href="{% url 'create_group' %}"
+
+           class="bg-gradient-to-r from-violet-600 to-purple-600
+                  px-6 py-3 rounded-xl
+                  text-white font-semibold
+                  hover:from-violet-500
+                  hover:to-purple-500
+                  transition shadow-lg">
+
+
+            + Create Community
+
+
+        </a>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- Community Grid -->
+
+
+    {% if groups %}
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+
+
+
+        {% for group in groups %}
+
+
+
+
+
+        <div class="bg-gradient-to-br from-zinc-900
+                    to-zinc-950
+                    border border-zinc-800
+                    rounded-3xl
+                    p-6
+                    shadow-xl
+                    hover:border-violet-600
+                    hover:-translate-y-2
+                    transition duration-300">
+
+
+
+
+
+            <!-- Icon -->
+
+
+            <div class="w-14 h-14 rounded-2xl
+                        bg-gradient-to-br
+                        from-violet-600
+                        to-purple-700
+                        flex items-center justify-center
+                        text-2xl mb-5">
+
+
+                🌎
+
+
+            </div>
+
+
+
+
+
+
+
+            <!-- Name -->
+
+
+            <h2 class="text-2xl font-bold text-white mb-3">
+
+                {{ group.name }}
+
+            </h2>
+
+
+
+
+
+
+            <!-- Description -->
+
+
+            <p class="text-zinc-400 mb-5 leading-relaxed">
+
+                {{ group.description|truncatewords:20 }}
+
+            </p>
+
+
+
+
+
+
+
+            <!-- Stats -->
+
+
+            <div class="flex items-center justify-between
+                        text-sm text-zinc-500 mb-6">
+
+
+                <span>
+
+                    👥 {{ group.members.count }} members
+
+                </span>
+
+
+                <span>
+
+                    Aniva Community
+
+                </span>
+
+
+            </div>
+
+
+
+
+
+
+
+            <!-- Button -->
+
+
+            <a href="{% url 'group_detail' group.id %}"
+
+               class="block text-center
+                      bg-zinc-800
+                      hover:bg-violet-600
+                      text-white
+                      py-3
+                      rounded-xl
+                      font-semibold
+                      transition">
+
+
+                Enter Community
+
+
+            </a>
+
+
+
+
+        </div>
+
+
+
+
+
+        {% endfor %}
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    {% else %}
+
+
+
+
+
+    <!-- Empty State -->
+
+
+    <div class="bg-zinc-900 border border-zinc-800
+                rounded-3xl p-10 text-center">
+
+
+        <div class="text-5xl mb-4">
+            🌌
+        </div>
+
+
+        <h2 class="text-2xl font-bold text-white mb-3">
+
+            No Communities Yet
+
+        </h2>
+
+
+        <p class="text-zinc-400 mb-6">
+
+            Be the first person to create a community on Aniva.
+
+        </p>
+
+
+
+        <a href="{% url 'create_group' %}"
+
+           class="inline-block
+                  bg-gradient-to-r
+                  from-violet-600
+                  to-purple-600
+                  px-6 py-3
+                  rounded-xl
+                  text-white
+                  font-semibold">
+
+
+            Create First Community
+
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+    {% endif %}
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,615 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}{{ other_user.username }} | Messages{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-4xl mx-auto px-4 py-6">
+
+
+
+
+
+    <!-- Chat Header -->
+
+
+    <div class="flex items-center gap-4
+
+                bg-zinc-900/90
+
+                border border-zinc-800
+
+                rounded-2xl
+
+                px-5 py-4
+
+                mb-4
+
+                shadow-lg">
+
+
+
+
+
+
+        <div class="w-14 h-14 rounded-full
+
+                    bg-gradient-to-br
+
+                    from-violet-600
+
+                    to-purple-700
+
+                    flex items-center justify-center
+
+                    text-xl
+
+                    font-bold
+
+                    text-white">
+
+
+            {{ other_user.username|first|upper }}
+
+
+        </div>
+
+
+
+
+
+
+
+        <div>
+
+
+            <h1 class="text-xl font-bold text-white">
+
+                {{ other_user.username }}
+
+            </h1>
+
+
+            <p class="text-sm text-green-400">
+
+                ● Connected on Aniva
+
+            </p>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- Messages Container -->
+
+
+    <div id="chat-container"
+
+         class="h-[32rem]
+
+                overflow-y-auto
+
+                space-y-5
+
+                p-5
+
+                rounded-3xl
+
+                bg-gradient-to-b
+
+                from-zinc-900
+
+                to-zinc-950
+
+                border border-zinc-800">
+
+
+
+
+
+        {% for msg in messages %}
+
+
+
+
+
+            {% ifchanged msg.timestamp.date %}
+
+
+            <div class="flex justify-center">
+
+
+                <span class="text-xs
+
+                             bg-zinc-800
+
+                             text-zinc-400
+
+                             px-4 py-1
+
+                             rounded-full">
+
+
+                    {{ msg.timestamp|date:"M d, Y" }}
+
+
+                </span>
+
+
+            </div>
+
+
+            {% endifchanged %}
+
+
+
+
+
+
+
+            <!-- Message Wrapper -->
+
+
+            <div class="flex
+
+                {% if msg.sender == request.user %}
+
+                    justify-end
+
+                {% else %}
+
+                    justify-start
+
+                {% endif %}">
+
+
+
+
+
+
+
+                <div class="max-w-xs md:max-w-md relative">
+
+
+
+
+
+
+                    <!-- Bubble -->
+
+
+                    <div onclick="toggleDelete(this)"
+
+                         class="px-5 py-3
+
+                         cursor-pointer
+
+                         shadow-lg
+
+                         rounded-3xl
+
+                         {% if msg.sender == request.user %}
+
+
+                         bg-gradient-to-r
+
+                         from-violet-600
+
+                         to-purple-600
+
+                         text-white
+
+                         rounded-br-md
+
+
+                         {% else %}
+
+
+                         bg-zinc-800
+
+                         text-zinc-100
+
+                         rounded-bl-md
+
+
+                         {% endif %}">
+
+
+
+
+
+
+
+                        {% if msg.content %}
+
+
+                        <p class="break-words leading-relaxed">
+
+                            {{ msg.content }}
+
+                        </p>
+
+
+                        {% endif %}
+
+
+
+
+
+
+
+
+                        {% if msg.image %}
+
+
+                        <img src="{{ msg.image.url }}"
+
+                             class="mt-3 rounded-2xl max-h-72 object-cover">
+
+
+                        {% endif %}
+
+
+
+
+
+
+
+
+
+                        <!-- Time + Read -->
+
+
+                        <div class="flex justify-end items-center gap-2 mt-2">
+
+
+                            <span class="text-xs opacity-70">
+
+                                {{ msg.timestamp|date:"H:i" }}
+
+                            </span>
+
+
+
+
+
+                            {% if msg.sender == request.user %}
+
+
+
+                                {% if msg.is_read %}
+
+
+                                    <span class="text-xs">
+
+                                        ✓✓
+
+                                    </span>
+
+
+                                {% else %}
+
+
+                                    <span class="text-xs">
+
+                                        ✓
+
+                                    </span>
+
+
+                                {% endif %}
+
+
+
+                            {% endif %}
+
+
+
+
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- Delete -->
+
+
+                    {% if msg.sender == request.user %}
+
+
+                    <form method="POST"
+
+                          action="{% url 'delete_chat_message' msg.id %}"
+
+                          class="absolute right-0 -top-3 hidden delete-btn">
+
+
+                        {% csrf_token %}
+
+
+                        <button type="submit"
+
+                                onclick="return confirm('Delete message?');"
+
+                                class="bg-red-600
+
+                                       text-white
+
+                                       rounded-full
+
+                                       w-7 h-7">
+
+                            ×
+
+                        </button>
+
+
+                    </form>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        {% empty %}
+
+
+
+        <div class="text-center py-20">
+
+
+            <div class="text-5xl mb-4">
+
+                👋
+
+            </div>
+
+
+            <p class="text-zinc-400">
+
+                Start your conversation on Aniva.
+
+            </p>
+
+
+        </div>
+
+
+
+
+        {% endfor %}
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- Message Input -->
+
+
+    <form method="POST"
+
+          enctype="multipart/form-data"
+
+          class="mt-4 flex gap-3
+
+                 sticky bottom-0
+
+                 bg-zinc-950
+
+                 py-3">
+
+
+        {% csrf_token %}
+
+
+
+
+
+
+        <input type="text"
+
+               name="content"
+
+               placeholder="Message {{ other_user.username }}..."
+
+               class="flex-1
+
+                      rounded-full
+
+                      px-5 py-3
+
+                      bg-zinc-900
+
+                      border border-zinc-700
+
+                      text-white
+
+                      focus:outline-none
+
+                      focus:ring-2
+
+                      focus:ring-violet-500">
+
+
+
+
+
+
+
+
+        <label class="cursor-pointer
+
+                      bg-zinc-800
+
+                      rounded-full
+
+                      px-4 py-3">
+
+
+            📷
+
+
+            <input type="file"
+
+                   name="image"
+
+                   accept="image/*"
+
+                   class="hidden">
+
+
+        </label>
+
+
+
+
+
+
+
+        <button type="submit"
+
+                class="rounded-full
+
+                       px-6
+
+                       bg-gradient-to-r
+
+                       from-violet-600
+
+                       to-purple-600
+
+                       text-white
+
+                       font-bold">
+
+
+            ➤
+
+
+        </button>
+
+
+
+
+    </form>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+window.addEventListener(
+'load',
+()=>{
+
+const container =
+document.getElementById(
+'chat-container'
+);
+
+
+container.scrollTop =
+container.scrollHeight;
+
+
+});
+
+
+
+
+
+function toggleDelete(message){
+
+
+const btn =
+message.parentElement.querySelector(
+'.delete-btn'
+);
+
+
+if(btn){
+
+btn.classList.toggle(
+'hidden'
+);
+
+}
+
+
+}
+
+
+</script>
+
+
+
+{% endblock %}

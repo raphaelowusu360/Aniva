@@ -1,0 +1,286 @@
+{% extends 'users/base.html' %}
+
+{% block title %}My Profile | Aniva{% endblock %}
+
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto px-6 py-10 space-y-10">
+
+
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between">
+
+        <div>
+            <h1 class="text-4xl font-extrabold text-white">
+                Your Aniva Profile
+            </h1>
+
+            <p class="text-zinc-400 mt-2">
+                Build your identity and connect with your communities.
+            </p>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- PROFILE CARD -->
+
+
+    <div class="bg-gradient-to-br from-violet-900/40 to-zinc-900
+                border border-zinc-800 rounded-3xl p-8 shadow-xl">
+
+
+        <div class="flex flex-col md:flex-row items-center gap-8">
+
+
+
+            <!-- Profile Picture -->
+
+
+            <div>
+
+
+                {% if profile.profile_picture %}
+
+                <img src="{{ profile.profile_picture.url }}"
+                     alt="Profile Picture"
+                     class="w-40 h-40 object-cover rounded-full 
+                            border-4 border-violet-500 shadow-lg">
+
+
+                {% else %}
+
+
+                <div class="w-40 h-40 rounded-full 
+                            bg-gradient-to-br from-violet-600 to-purple-800
+                            flex items-center justify-center
+                            text-5xl font-bold">
+
+                    {{ user.username|first|upper }}
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+
+
+
+
+
+            <!-- User Info -->
+
+
+            <div class="text-center md:text-left">
+
+
+                <h2 class="text-3xl font-bold text-white">
+
+                    {{ user.username }}
+
+                </h2>
+
+
+                <p class="text-violet-300 mt-1">
+                    Aniva Member
+                </p>
+
+
+
+                <div class="mt-5 space-y-2 text-zinc-300">
+
+
+                    <p>
+                        🌍 
+                        <strong>Country:</strong>
+                        {{ profile.country|default:"Not added yet" }}
+                    </p>
+
+
+
+                    <p>
+                        🎌
+                        <strong>Favourite Anime:</strong>
+                        {{ profile.favourite_anime|default:"Not selected" }}
+                    </p>
+
+
+
+                    <p>
+                        📅
+                        <strong>Joined:</strong>
+                        {{ user.date_joined|date:"F j, Y" }}
+                    </p>
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Bio -->
+
+
+        <div class="mt-8 bg-zinc-950/50 rounded-2xl p-5">
+
+
+            <h3 class="font-semibold text-white mb-2">
+                About Me
+            </h3>
+
+
+            <p class="text-zinc-300">
+
+                {{ profile.bio|default:"This member has not added a bio yet." }}
+
+            </p>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- EDIT PROFILE -->
+
+
+    <div class="bg-zinc-900/80 border border-zinc-800 
+                p-8 rounded-3xl shadow-lg">
+
+
+        <h3 class="text-2xl font-bold text-white mb-6">
+
+            Edit Your Identity
+
+        </h3>
+
+
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              class="space-y-5
+
+              [&_input]:bg-zinc-950
+              [&_input]:text-white
+              [&_input]:border
+              [&_input]:border-zinc-700
+              [&_input]:rounded-xl
+              [&_input]:p-3
+
+              [&_textarea]:bg-zinc-950
+              [&_textarea]:text-white
+              [&_textarea]:border
+              [&_textarea]:border-zinc-700
+              [&_textarea]:rounded-xl
+              [&_textarea]:p-3
+
+              [&_select]:bg-zinc-950
+              [&_select]:text-white
+              [&_select]:border
+              [&_select]:border-zinc-700
+              [&_select]:rounded-xl
+              [&_select]:p-3">
+
+
+            {% csrf_token %}
+
+
+
+            {% for field in form %}
+
+
+            <div>
+
+
+                <label class="block text-sm font-medium text-zinc-300 mb-2">
+
+                    {{ field.label }}
+
+                </label>
+
+
+                {{ field }}
+
+
+
+                {% if field.errors %}
+
+                <p class="text-red-400 text-sm mt-1">
+
+                    {{ field.errors }}
+
+                </p>
+
+                {% endif %}
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+
+
+
+
+            <button type="submit"
+
+                class="bg-gradient-to-r from-violet-600 to-purple-600
+                       px-6 py-3 rounded-xl text-white font-semibold
+                       hover:from-violet-500 hover:to-purple-500
+                       transition shadow-lg">
+
+
+                Save Profile
+
+            </button>
+
+
+
+        </form>
+
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

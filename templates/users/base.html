@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Aniva - Connect, create, and discover communities around your passions.">
+
+    <title>
+        {% block title %}Aniva | Connect. Create. Belong.{% endblock %}
+    </title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aniva: {
+                            purple: '#8b5cf6',
+                            dark: '#09090b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+
+<body class="bg-zinc-950 text-zinc-100 font-sans">
+
+
+    <!-- Navbar -->
+    <nav class="bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 shadow-lg px-6 py-4">
+
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+
+
+            <!-- Left Section -->
+            <div class="flex items-center gap-8">
+
+
+                <!-- Brand -->
+                <a href="{% url 'home' %}" 
+                   class="flex items-center gap-2 text-2xl font-extrabold transition">
+
+                    <span class="bg-gradient-to-r from-violet-400 to-purple-600 bg-clip-text text-transparent">
+                        Aniva
+                    </span>
+
+                </a>
+
+
+                <!-- Navigation -->
+                <div class="flex flex-wrap gap-4 text-sm lg:text-base">
+
+                    <a href="{% url 'anime_list' %}"
+                       class="hover:text-violet-400 transition">
+                        Explore
+                    </a>
+
+
+                    <a href="{% url 'favorites' %}"
+                       class="hover:text-violet-400 transition">
+                        Favorites
+                    </a>
+
+
+                    <a href="{% url 'group_list' %}"
+                       class="hover:text-violet-400 transition">
+                        Communities
+                    </a>
+
+
+                    <a href="{% url 'browse_users' %}"
+                       class="hover:text-violet-400 transition">
+                        People
+                    </a>
+
+
+                    <a href="{% url 'chat_list' %}"
+                       class="hover:text-violet-400 transition">
+                        Messages
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+
+
+            <!-- Right Section -->
+
+            {% if user.is_authenticated %}
+
+            <div class="flex items-center flex-wrap gap-4 text-sm lg:text-base">
+
+
+                <a href="{% url 'profile' %}"
+                   class="hover:text-violet-400 transition">
+                    Profile
+                </a>
+
+
+                <a href="{% url 'friends_list' %}"
+                   class="hover:text-violet-400 transition">
+                    Friends
+                </a>
+
+
+                <a href="{% url 'friend_requests_list' %}"
+                   class="hover:text-violet-400 transition">
+                    Requests
+                </a>
+
+
+                <a href="{% url 'feature_feedback' %}"
+                   class="hover:text-violet-400 transition">
+                    Feedback
+                </a>
+
+
+
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+
+                    <button type="submit"
+                        class="bg-gradient-to-r from-violet-600 to-purple-600 
+                               px-4 py-2 rounded-xl text-white font-medium
+                               hover:from-violet-500 hover:to-purple-500
+                               transition shadow-lg">
+
+                        Logout
+
+                    </button>
+
+                </form>
+
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="flex gap-4">
+
+
+                <a href="{% url 'login' %}"
+                   class="hover:text-violet-400 transition">
+                    Login
+                </a>
+
+
+                <a href="{% url 'register' %}"
+                   class="bg-gradient-to-r from-violet-600 to-purple-600
+                          px-4 py-2 rounded-xl font-medium
+                          hover:from-violet-500 hover:to-purple-500 transition">
+
+                    Join Aniva
+
+                </a>
+
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </nav>
+
+
+
+
+
+    <!-- Messages -->
+
+    {% if "/chats/" not in request.path and messages %}
+
+    <div id="message-container"
+         class="max-w-7xl mx-auto mt-5 px-4 space-y-3">
+
+
+        {% for message in messages %}
+
+
+        <div class="alert-message p-4 rounded-xl border text-sm transition-opacity duration-500
+
+            {% if message.tags == 'success' %}
+                bg-green-900/40 text-green-300 border-green-700
+
+            {% elif message.tags == 'error' %}
+                bg-red-900/40 text-red-300 border-red-700
+
+            {% elif message.tags == 'warning' %}
+                bg-yellow-900/40 text-yellow-300 border-yellow-700
+
+            {% else %}
+                bg-zinc-800 text-zinc-200 border-zinc-700
+
+            {% endif %}">
+
+
+            {{ message }}
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <script>
+
+        setTimeout(() => {
+
+            document.querySelectorAll('.alert-message').forEach(msg => {
+
+                msg.classList.add('opacity-0');
+
+                setTimeout(() => msg.remove(), 500);
+
+            });
+
+        }, 3000);
+
+
+    </script>
+
+
+    {% endif %}
+
+
+
+
+
+    <!-- Main Content -->
+
+    <main class="max-w-7xl mx-auto mt-8 px-4">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+
+</body>
+
+</html>

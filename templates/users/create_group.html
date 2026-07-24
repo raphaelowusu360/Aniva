@@ -1,0 +1,319 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Create Community | Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-3xl mx-auto px-6 py-12">
+
+
+
+    <!-- Header -->
+
+    <div class="text-center mb-10">
+
+
+        <h1 class="text-4xl font-extrabold text-white mb-3">
+
+            Create Your Community
+
+        </h1>
+
+
+
+        <p class="text-zinc-400 text-lg">
+
+            Bring people together around shared interests, ideas, and passions.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Creation Card -->
+
+
+    <div class="bg-gradient-to-br from-violet-900/40
+                via-zinc-900 to-zinc-950
+
+                border border-zinc-800
+                rounded-3xl
+                shadow-2xl
+                p-8">
+
+
+
+
+
+        <div class="flex items-center gap-4 mb-8">
+
+
+            <div class="w-14 h-14 rounded-2xl
+                        bg-gradient-to-br
+                        from-violet-600
+                        to-purple-700
+                        flex items-center justify-center
+                        text-3xl">
+
+                🌎
+
+            </div>
+
+
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-white">
+
+                    New Aniva Community
+
+                </h2>
+
+
+                <p class="text-zinc-400">
+
+                    Create a space where people can connect.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+        <form method="POST" class="space-y-6">
+
+
+            {% csrf_token %}
+
+
+
+
+
+            <!-- Name -->
+
+
+            <div>
+
+
+                <label for="name"
+
+                    class="block text-sm font-medium
+                           text-zinc-300 mb-2">
+
+                    Community Name
+
+                </label>
+
+
+
+                <input
+
+                    type="text"
+
+                    name="name"
+
+                    id="name"
+
+                    required
+
+                    placeholder="Example: Anime Legends, Gaming Hub..."
+
+                    class="w-full rounded-xl
+                           bg-zinc-950
+                           border border-zinc-800
+                           px-4 py-3
+                           text-white
+                           placeholder-zinc-500
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-violet-500
+                           focus:border-violet-500
+                           transition"
+
+                >
+
+
+            </div>
+
+
+
+
+
+
+
+            <!-- Description -->
+
+
+            <div>
+
+
+                <label for="description"
+
+                    class="block text-sm font-medium
+                           text-zinc-300 mb-2">
+
+
+                    Community Description
+
+
+                </label>
+
+
+
+
+                <textarea
+
+                    name="description"
+
+                    id="description"
+
+                    rows="5"
+
+                    placeholder="What is this community about?"
+
+                    class="w-full rounded-xl
+                           bg-zinc-950
+                           border border-zinc-800
+                           px-4 py-3
+                           text-white
+                           placeholder-zinc-500
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-violet-500
+                           transition">
+
+
+                </textarea>
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <!-- Future Features Preview -->
+
+
+            <div class="bg-zinc-950/60
+                        border border-zinc-800
+                        rounded-2xl
+                        p-5">
+
+
+                <h3 class="text-white font-semibold mb-3">
+
+                    Coming Soon
+
+                </h3>
+
+
+
+                <div class="grid grid-cols-2 gap-3 text-sm text-zinc-400">
+
+
+                    <span>
+                        🖼 Community Banner
+                    </span>
+
+
+                    <span>
+                        🎨 Categories
+                    </span>
+
+
+                    <span>
+                        👥 Roles
+                    </span>
+
+
+                    <span>
+                        ⭐ Community Badges
+                    </span>
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <!-- Submit -->
+
+
+            <button
+
+                type="submit"
+
+                class="w-full
+                       bg-gradient-to-r
+                       from-violet-600
+                       to-purple-600
+
+                       text-white
+                       font-bold
+
+                       py-3
+
+                       rounded-xl
+
+                       hover:from-violet-500
+                       hover:to-purple-500
+
+                       transition
+
+                       shadow-lg">
+
+
+                Create Community
+
+
+            </button>
+
+
+
+
+        </form>
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+{% endblock %}

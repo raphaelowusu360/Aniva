@@ -1,0 +1,391 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Messages | Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-5xl mx-auto px-6 py-10">
+
+
+
+
+
+    <!-- Header -->
+
+
+    <div class="mb-10">
+
+
+        <h1 class="text-4xl font-extrabold text-white mb-3">
+
+            Messages
+
+        </h1>
+
+
+
+        <p class="text-zinc-400 text-lg">
+
+            Stay connected with your Aniva friends.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    {% if chats %}
+
+
+
+    <div class="space-y-4">
+
+
+
+
+
+        {% for chat in chats %}
+
+
+
+
+
+            {% for u in chat.users.all %}
+
+
+
+                {% if u != request.user %}
+
+
+
+
+
+                <a href="{% url 'chat_detail' u.id %}"
+
+                   class="flex items-center gap-5
+
+                          bg-gradient-to-br
+
+                          from-zinc-900
+
+                          to-zinc-950
+
+                          border border-zinc-800
+
+                          rounded-2xl
+
+                          p-5
+
+                          shadow-lg
+
+                          hover:border-violet-600
+
+                          hover:-translate-y-1
+
+                          transition duration-300">
+
+
+
+
+
+
+
+                    <!-- Avatar -->
+
+
+                    <div class="w-16 h-16 rounded-full
+
+                                bg-gradient-to-br
+
+                                from-violet-600
+
+                                to-purple-700
+
+                                flex items-center justify-center
+
+                                text-2xl
+
+                                font-bold
+
+                                text-white
+
+                                flex-shrink-0">
+
+
+                        {{ u.username|first|upper }}
+
+
+                    </div>
+
+
+
+
+
+
+
+
+                    <!-- Chat Information -->
+
+
+                    <div class="flex-1 min-w-0">
+
+
+
+                        <div class="flex justify-between items-center mb-1">
+
+
+                            <h2 class="text-lg font-bold text-white">
+
+                                {{ u.username }}
+
+                            </h2>
+
+
+
+
+
+                            <span class="text-xs text-zinc-500">
+
+
+                                {% with chat.messages.last as last_msg %}
+
+                                    {% if last_msg %}
+
+                                        {{ last_msg.timestamp|date:"M d, H:i" }}
+
+                                    {% endif %}
+
+
+                                {% endwith %}
+
+
+                            </span>
+
+
+
+                        </div>
+
+
+
+
+
+
+
+                        {% with chat.messages.last as last_msg %}
+
+
+
+                            {% if last_msg %}
+
+
+
+                            <p class="text-sm text-zinc-400 truncate">
+
+
+                                {% if last_msg.sender == request.user %}
+
+                                    <span class="text-violet-400">
+
+                                        You:
+
+                                    </span>
+
+                                {% endif %}
+
+
+
+                                {{ last_msg.content }}
+
+
+
+                            </p>
+
+
+
+
+
+                            {% else %}
+
+
+
+                            <p class="text-sm text-zinc-500">
+
+                                Start a conversation
+
+                            </p>
+
+
+
+                            {% endif %}
+
+
+
+
+
+                        {% endwith %}
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+                    <!-- Arrow -->
+
+
+                    <div class="text-zinc-500 text-xl">
+
+
+                        →
+
+                    </div>
+
+
+
+
+
+
+                </a>
+
+
+
+
+
+
+                {% endif %}
+
+
+
+
+            {% endfor %}
+
+
+
+        {% endfor %}
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    {% else %}
+
+
+
+
+
+    <!-- Empty State -->
+
+
+    <div class="bg-zinc-900
+
+                border border-zinc-800
+
+                rounded-3xl
+
+                p-12
+
+                text-center">
+
+
+
+        <div class="text-6xl mb-5">
+
+            💬
+
+        </div>
+
+
+
+
+        <h2 class="text-2xl font-bold text-white mb-3">
+
+            No Conversations Yet
+
+        </h2>
+
+
+
+
+        <p class="text-zinc-400 mb-6">
+
+            Connect with people and start your first conversation.
+
+        </p>
+
+
+
+
+        <a href="{% url 'browse_users' %}"
+
+           class="inline-block
+
+                  bg-gradient-to-r
+
+                  from-violet-600
+
+                  to-purple-600
+
+                  text-white
+
+                  px-6
+
+                  py-3
+
+                  rounded-xl
+
+                  font-semibold">
+
+
+            Find People
+
+
+        </a>
+
+
+
+
+    </div>
+
+
+
+
+
+    {% endif %}
+
+
+
+
+</div>
+
+
+
+{% endblock %}

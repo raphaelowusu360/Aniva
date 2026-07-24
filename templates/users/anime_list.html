@@ -1,0 +1,388 @@
+{% extends "users/base.html" %}
+
+
+{% block title %}Anime Discovery | Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+
+
+
+
+
+<!-- Header -->
+
+
+<section class="mb-12
+
+                bg-gradient-to-r
+
+                from-violet-700
+
+                via-purple-700
+
+                to-indigo-700
+
+                rounded-3xl
+
+                p-8
+
+                shadow-xl
+
+                overflow-hidden
+
+                relative">
+
+
+
+
+
+    <div class="relative z-10">
+
+
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
+
+            Discover Anime
+
+        </h1>
+
+
+
+        <p class="text-purple-100 text-lg max-w-2xl">
+
+            Explore worlds, characters, and stories loved by the Aniva community.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <!-- Background glow -->
+
+
+    <div class="absolute
+
+                -right-20
+
+                -top-20
+
+                w-72
+
+                h-72
+
+                bg-white/10
+
+                rounded-full">
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- Anime Grid -->
+
+
+<div class="grid
+
+            grid-cols-1
+
+            sm:grid-cols-2
+
+            md:grid-cols-3
+
+            lg:grid-cols-4
+
+            gap-7">
+
+
+
+
+
+
+
+{% for anime in animes %}
+
+
+
+
+
+<div class="group
+
+            bg-zinc-900
+
+            border border-zinc-800
+
+            rounded-3xl
+
+            overflow-hidden
+
+            shadow-xl
+
+            hover:border-violet-500
+
+            hover:-translate-y-2
+
+            transition
+
+            duration-300">
+
+
+
+
+
+
+
+
+    <!-- Image -->
+
+
+    <div class="relative overflow-hidden">
+
+
+
+        <img
+
+        src="{{ anime.image_url }}"
+
+        alt="{{ anime.title }}"
+
+        class="w-full
+
+               h-64
+
+               object-cover
+
+               group-hover:scale-110
+
+               transition
+
+               duration-500">
+
+
+
+
+
+        <!-- Overlay -->
+
+
+        <div class="absolute inset-0
+
+                    bg-gradient-to-t
+
+                    from-black/70
+
+                    via-transparent
+
+                    opacity-0
+
+                    group-hover:opacity-100
+
+                    transition">
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- Details -->
+
+
+    <div class="p-5">
+
+
+
+
+
+        <h2 class="text-xl
+
+                   font-bold
+
+                   text-white
+
+                   mb-2
+
+                   truncate">
+
+
+            {{ anime.title }}
+
+
+        </h2>
+
+
+
+
+
+
+        <p class="text-sm
+
+                  text-zinc-400
+
+                  mb-5
+
+                  leading-relaxed">
+
+
+            {{ anime.description|truncatewords:18 }}
+
+
+        </p>
+
+
+
+
+
+
+
+
+        <a href="{% url 'anime_detail' anime.id %}"
+
+           class="inline-flex
+
+                  items-center
+
+                  gap-2
+
+                  text-violet-400
+
+                  font-semibold
+
+                  hover:text-violet-300
+
+                  transition">
+
+
+            Explore Anime
+
+            <span>
+
+                →
+
+            </span>
+
+
+        </a>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+{% empty %}
+
+
+
+
+
+<!-- Empty -->
+
+
+<div class="col-span-full
+
+            bg-zinc-900
+
+            border border-zinc-800
+
+            rounded-3xl
+
+            p-12
+
+            text-center">
+
+
+
+    <div class="text-6xl mb-5">
+
+        🎌
+
+    </div>
+
+
+
+    <h2 class="text-2xl font-bold text-white mb-3">
+
+        No Anime Yet
+
+    </h2>
+
+
+
+    <p class="text-zinc-400">
+
+        Anime will appear here once added.
+
+    </p>
+
+
+
+</div>
+
+
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}

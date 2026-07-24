@@ -1,0 +1,246 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Edit Post - Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-3xl mx-auto px-6 py-10">
+
+
+
+
+
+
+<div class="bg-zinc-900/90
+
+            backdrop-blur-xl
+
+            border border-zinc-800
+
+            rounded-3xl
+
+            shadow-2xl
+
+            p-8">
+
+
+
+
+
+
+
+<!-- Header -->
+
+<div class="mb-6">
+
+
+<h1 class="text-3xl font-bold text-zinc-100">
+
+Edit Post ✏️
+
+</h1>
+
+
+<p class="text-zinc-400 mt-2">
+
+Update your thoughts and keep the conversation going.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<form method="POST" class="space-y-5">
+
+
+{% csrf_token %}
+
+
+
+
+
+<div>
+
+
+<label class="block
+
+              text-sm
+
+              font-medium
+
+              text-zinc-300
+
+              mb-2">
+
+
+Post Content
+
+
+</label>
+
+
+
+
+
+
+<textarea
+
+name="content"
+
+rows="5"
+
+class="w-full
+
+       bg-zinc-950
+
+       border border-zinc-700
+
+       rounded-2xl
+
+       p-4
+
+       text-zinc-100
+
+       placeholder-zinc-500
+
+       resize-none
+
+       focus:outline-none
+
+       focus:ring-2
+
+       focus:ring-violet-500/50
+
+       focus:border-violet-500
+
+       transition"
+
+>{{ post.content }}</textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="flex items-center gap-3">
+
+
+
+
+
+<button type="submit"
+
+class="bg-gradient-to-r
+
+       from-violet-600
+
+       to-purple-600
+
+       text-white
+
+       px-6
+
+       py-2.5
+
+       rounded-xl
+
+       font-medium
+
+       hover:from-violet-500
+
+       hover:to-purple-500
+
+       transition
+
+       shadow-lg
+
+       shadow-violet-500/20">
+
+
+Save Changes
+
+
+</button>
+
+
+
+
+
+
+
+<a href="{% url 'group_detail' post.group.id %}"
+
+class="px-6
+
+       py-2.5
+
+       rounded-xl
+
+       border border-zinc-700
+
+       text-zinc-300
+
+       hover:bg-zinc-800
+
+       transition">
+
+
+Cancel
+
+
+</a>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

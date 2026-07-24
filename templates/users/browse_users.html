@@ -1,0 +1,255 @@
+{% extends 'users/base.html' %}
+
+
+{% block title %}Discover People | Aniva{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="max-w-6xl mx-auto px-6 py-10">
+
+
+
+
+
+    <!-- Header -->
+
+
+    <div class="mb-10">
+
+
+        <h1 class="text-4xl font-extrabold text-white mb-3">
+
+            Discover People
+
+        </h1>
+
+
+
+        <p class="text-zinc-400 text-lg">
+
+            Find anime fans, creators, and people who share your interests.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Users Grid -->
+
+
+    {% if users %}
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+
+
+        {% for u in users %}
+
+
+
+        <div class="bg-gradient-to-br
+                    from-zinc-900
+                    to-zinc-950
+
+                    border border-zinc-800
+
+                    rounded-3xl
+
+                    p-6
+
+                    shadow-xl
+
+                    hover:border-violet-600
+
+                    hover:-translate-y-2
+
+                    transition duration-300">
+
+
+
+
+
+
+
+            <!-- Avatar -->
+
+
+            <div class="w-20 h-20 rounded-full
+
+                        bg-gradient-to-br
+                        from-violet-600
+                        to-purple-700
+
+                        flex items-center justify-center
+
+                        text-3xl
+
+                        font-bold
+
+                        text-white
+
+                        mb-5">
+
+
+                {{ u.username|first|upper }}
+
+
+            </div>
+
+
+
+
+
+
+
+            <!-- User Info -->
+
+
+            <h2 class="text-xl font-bold text-white mb-2">
+
+                {{ u.username }}
+
+            </h2>
+
+
+
+
+            {% if u.profile.country %}
+
+            <p class="text-zinc-400 mb-4">
+
+                🌍 {{ u.profile.country }}
+
+            </p>
+
+
+            {% else %}
+
+
+            <p class="text-zinc-500 mb-4">
+
+                🌎 Aniva Member
+
+            </p>
+
+
+            {% endif %}
+
+
+
+
+
+
+
+
+            <!-- Action -->
+
+
+            <a href="{% url 'public_profile' u.username %}"
+
+               class="block text-center
+
+                      bg-zinc-800
+
+                      hover:bg-violet-600
+
+                      text-white
+
+                      py-3
+
+                      rounded-xl
+
+                      font-semibold
+
+                      transition">
+
+
+                View Profile
+
+
+            </a>
+
+
+
+
+
+
+        </div>
+
+
+
+
+        {% endfor %}
+
+
+
+
+    </div>
+
+
+
+
+
+    {% else %}
+
+
+
+    <div class="bg-zinc-900
+
+                border border-zinc-800
+
+                rounded-3xl
+
+                p-10
+
+                text-center">
+
+
+        <div class="text-5xl mb-4">
+
+            👥
+
+        </div>
+
+
+        <h2 class="text-2xl font-bold text-white mb-2">
+
+            No Users Found
+
+        </h2>
+
+
+        <p class="text-zinc-400">
+
+            New members will appear here.
+
+        </p>
+
+
+    </div>
+
+
+
+    {% endif %}
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}
