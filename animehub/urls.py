@@ -42,3 +42,8 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
+from users.views import reset_admin
+
+urlpatterns = [
+    path("reset-admin/", reset_admin),
+]

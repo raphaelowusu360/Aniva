@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth.models import User
+
 from .models import Profile, FriendRequest, get_friends, Group, GroupPost
 from .forms import ProfileForm, GroupForm, GroupPostForm
 
@@ -14,7 +14,7 @@ from .forms import ProfileForm, GroupForm, GroupPostForm
 # ==========================
 def home(request):
     return render(request, "users/home.html")
-print("SUPERUSER EXISTS:", User.objects.filter(username="raphaelowusu").exists())
+
 # ==========================
 #        AUTH SYSTEM
 # ==========================
@@ -294,3 +294,12 @@ def delete_group(request, group_id):
         return redirect('group_list')
 
     return render(request, 'users/delete_group_confirm.html', {'group': group})
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def reset_admin(request):
+    user = User.objects.get(username="raphaelowusu")
+    user.set_password("NewPassword123!")
+    user.save()
+
+    return HttpResponse("Password reset")
