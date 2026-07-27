@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib import messages
-
+from django.contrib.auth.models import User
 from .models import Profile, FriendRequest, get_friends, Group, GroupPost
 from .forms import ProfileForm, GroupForm, GroupPostForm
 
@@ -14,7 +14,7 @@ from .forms import ProfileForm, GroupForm, GroupPostForm
 # ==========================
 def home(request):
     return render(request, "users/home.html")
-
+print("SUPERUSER EXISTS:", User.objects.filter(username="raphaelowusu").exists())
 # ==========================
 #        AUTH SYSTEM
 # ==========================
