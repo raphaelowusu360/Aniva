@@ -7,7 +7,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from users.views import reset_admin  # Temporary - remove after admin login works
+
 
 urlpatterns = [
     # Django admin
@@ -28,12 +28,6 @@ urlpatterns = [
         include("chats.urls"),
     ),
 
-    # Temporary password reset endpoint
-    path(
-        "reset-admin/",
-        reset_admin,
-    ),
-]
 
 # Serve uploaded files during development
 if settings.DEBUG:
