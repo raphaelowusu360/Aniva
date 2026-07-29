@@ -8,8 +8,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-
 urlpatterns = [
+
     # Django admin
     path(
         "admin/",
@@ -27,6 +27,8 @@ urlpatterns = [
         "chats/",
         include("chats.urls"),
     ),
+
+]
 
 
 # Serve uploaded files during development
