@@ -8,6 +8,9 @@ from .models import Chat, Message
 
 
 
+# -----------------------------
+# Chat List
+# -----------------------------
 @login_required
 def chat_list(request):
     """
@@ -18,26 +21,30 @@ def chat_list(request):
         Chat.objects
         .filter(users=request.user)
         .prefetch_related(
-            'messages',
-            'users'
+            "messages",
+            "users"
         )
         .distinct()
     )
 
+
     return render(
         request,
-        'chat/chat_list.html',
+        "chat/chat_list.html",
         {
-            'chats': chats
+            "chats": chats
         }
     )
 
 
 
+# -----------------------------
+# Chat Detail
+# -----------------------------
 @login_required
 def chat_detail(request, user_id):
     """
-    Open a conversation with another user and send messages.
+    Open a conversation with another user.
     """
 
     other_user = get_object_or_404(
@@ -46,7 +53,7 @@ def chat_detail(request, user_id):
     )
 
 
-    # Find existing chat between the two users
+    # Find existing conversation
     chat = (
         Chat.objects
         .filter(users=request.user)
@@ -55,7 +62,7 @@ def chat_detail(request, user_id):
     )
 
 
-    # Create chat if it does not exist
+    # Create new conversation
     if not chat:
 
         chat = Chat.objects.create()
@@ -67,17 +74,19 @@ def chat_detail(request, user_id):
 
 
 
-    # Send message
+    # -----------------------------
+    # Send Message
+    # -----------------------------
     if request.method == "POST":
 
         content = request.POST.get(
-            'content',
-            ''
+            "content",
+            ""
         ).strip()
 
 
         image = request.FILES.get(
-            'image'
+            "image"
         )
 
 
@@ -92,13 +101,15 @@ def chat_detail(request, user_id):
 
 
         return redirect(
-            'chat_detail',
+            "chat_detail",
             user_id=other_user.id
         )
 
 
 
-    # Mark messages from the other user as read
+    # -----------------------------
+    # Mark Messages As Read
+    # -----------------------------
     chat.messages.filter(
         sender=other_user,
         is_read=False
@@ -108,35 +119,40 @@ def chat_detail(request, user_id):
 
 
 
-    # Load messages
+    # -----------------------------
+    # Get Messages
+    # -----------------------------
     messages = (
         chat.messages
         .select_related(
-            'sender'
+            "sender"
         )
         .order_by(
-            'timestamp'
+            "timestamp"
         )
     )
 
 
+
     return render(
         request,
-        'chat/chat_detail.html',
+        "chat/chat_detail.html",
         {
-            'chat': chat,
-            'other_user': other_user,
-            'messages': messages
+            "chat": chat,
+            "other_user": other_user,
+            "messages": messages
         }
     )
 
 
 
-
+# -----------------------------
+# Delete Message
+# -----------------------------
 @login_required
 def delete_chat_message(request, message_id):
     """
-    Delete only messages sent by the logged-in user.
+    Delete only messages owned by the logged-in user.
     """
 
     message = get_object_or_404(
@@ -158,7 +174,17 @@ def delete_chat_message(request, message_id):
     message.delete()
 
 
+
+    # If conversation still has another user,
+    # return to chat
+    if other_user:
+
+        return redirect(
+            "chat_detail",
+            user_id=other_user.id
+        )
+
+
     return redirect(
-        'chat_detail',
-        user_id=other_user.id
+        "chat_list"
     )

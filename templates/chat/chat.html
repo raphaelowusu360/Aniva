@@ -1,38 +1,221 @@
 {% extends 'users/base.html' %}
 
-{% block title %}Chat with {{ friend.username }}{% endblock %}
+{% block title %}
+Chat with {{ other_user.username }}
+{% endblock %}
+
 
 {% block content %}
+
 <div class="max-w-3xl mx-auto px-6 py-8">
 
-    <h1 class="text-2xl font-bold text-zinc-100 mb-6">
-        Chat with {{ friend.username }}
-    </h1>
 
-    <!-- Chat Messages -->
-    <div class="mb-4 space-y-2 h-80 overflow-y-auto border border-zinc-700 p-4 rounded-2xl bg-zinc-900/80">
-        {% for msg in messages %}
-            <div class="mb-2 flex {% if msg.sender == request.user %}justify-end{% else %}justify-start{% endif %}">
-                <span class="inline-block px-3 py-2 rounded-lg 
-                             {% if msg.sender == request.user %}bg-gradient-to-r from-violet-600 to-purple-600 text-white{% else %}bg-zinc-700 text-zinc-100{% endif %}">
-                    <strong>{{ msg.sender.username }}</strong>: {{ msg.content }}
-                    <small class="block text-zinc-400 text-xs mt-1">{{ msg.timestamp|date:"M d, H:i" }}</small>
-                </span>
-            </div>
-        {% empty %}
-            <p class="text-zinc-400 text-center">No messages yet. Start chatting!</p>
-        {% endfor %}
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-6">
+
+        {% if other_user.profile.profile_picture %}
+            <img 
+                src="{{ other_user.profile.profile_picture.url }}"
+                class="w-12 h-12 rounded-full object-cover border border-zinc-700"
+            >
+        {% endif %}
+
+
+        <div>
+
+            <h1 class="text-2xl font-bold text-zinc-100">
+                {{ other_user.username }}
+            </h1>
+
+
+            {% if other_user.profile.is_online %}
+
+                <p class="text-green-400 text-sm">
+                    🟢 Online
+                </p>
+
+            {% else %}
+
+                <p class="text-zinc-400 text-sm">
+                    ⚪ Last seen 
+                    {{ other_user.profile.last_seen|date:"M d, H:i" }}
+                </p>
+
+            {% endif %}
+
+        </div>
+
     </div>
 
-    <!-- Input Form -->
-    <form method="post" class="flex space-x-2">
+
+
+
+    <!-- Messages -->
+    <div 
+        id="chat-box"
+        class="mb-4 space-y-3 h-96 overflow-y-auto border border-zinc-700 p-4 rounded-2xl bg-zinc-900/80"
+    >
+
+
+        {% for msg in messages %}
+
+
+            <div class="flex 
+                {% if msg.sender == request.user %}
+                    justify-end
+                {% else %}
+                    justify-start
+                {% endif %}
+            ">
+
+
+                <div class="max-w-xs px-4 py-3 rounded-2xl
+
+                {% if msg.sender == request.user %}
+
+                    bg-gradient-to-r from-violet-600 to-purple-600 text-white
+
+                {% else %}
+
+                    bg-zinc-700 text-zinc-100
+
+                {% endif %}
+                ">
+
+
+                    <p class="text-xs opacity-70 mb-1">
+                        {{ msg.sender.username }}
+                    </p>
+
+
+
+                    {% if msg.content %}
+
+                        <p>
+                            {{ msg.content }}
+                        </p>
+
+                    {% endif %}
+
+
+
+                    {% if msg.image %}
+
+                        <img
+                            src="{{ msg.image.url }}"
+                            class="rounded-lg mt-2 max-w-full"
+                        >
+
+                    {% endif %}
+
+
+
+                    <div class="flex justify-between items-center mt-2">
+
+                        <small class="text-xs text-zinc-300">
+                            {{ msg.timestamp|date:"M d, H:i" }}
+                        </small>
+
+
+
+                        {% if msg.sender == request.user %}
+
+                        <a
+                            href="{% url 'delete_chat_message' msg.id %}"
+                            class="text-xs text-red-300 hover:text-red-500 ml-3"
+                        >
+                            Delete
+                        </a>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        {% empty %}
+
+
+            <p class="text-zinc-400 text-center">
+                No messages yet. Start chatting!
+            </p>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+
+
+    <!-- Send Message -->
+    <form 
+        method="post"
+        enctype="multipart/form-data"
+        class="space-y-3"
+    >
+
         {% csrf_token %}
-        <textarea name="content" rows="3" placeholder="Type your message..."
-                  class="flex-1 p-2 border border-zinc-700 rounded-lg bg-zinc-800 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
-        <button type="submit" class="bg-gradient-to-r from-violet-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 transition shadow-sm shadow-violet-500/20">
-            Send
-        </button>
+
+
+
+        <textarea
+            name="content"
+            rows="3"
+            placeholder="Type your message..."
+            class="w-full p-3 border border-zinc-700 rounded-xl bg-zinc-800 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+        ></textarea>
+
+
+
+        <div class="flex gap-3 items-center">
+
+
+            <input
+                type="file"
+                name="image"
+                accept="image/*"
+                class="text-zinc-300"
+            >
+
+
+
+            <button
+                type="submit"
+                class="bg-gradient-to-r from-violet-600 to-purple-600 text-white px-5 py-2 rounded-xl font-medium hover:from-violet-500 hover:to-purple-500 transition"
+            >
+                Send
+            </button>
+
+
+        </div>
+
+
     </form>
 
+
+
 </div>
+
+
+
+<script>
+
+const chatBox = document.getElementById("chat-box");
+
+if(chatBox){
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+</script>
+
+
 {% endblock %}
