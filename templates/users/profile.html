@@ -8,7 +8,6 @@
 <div class="max-w-5xl mx-auto px-6 py-10 space-y-10">
 
 
-
     <!-- Header -->
 
     <div class="flex items-center justify-between">
@@ -23,16 +22,11 @@
             </p>
         </div>
 
-
     </div>
 
 
 
-
-
-
     <!-- PROFILE CARD -->
-
 
     <div class="bg-gradient-to-br from-violet-900/40 to-zinc-900
                 border border-zinc-800 rounded-3xl p-8 shadow-xl">
@@ -47,7 +41,6 @@
 
             <div>
 
-
                 {% if profile.profile_picture %}
 
                 <img src="{{ profile.profile_picture.url }}"
@@ -58,7 +51,6 @@
 
                 {% else %}
 
-
                 <div class="w-40 h-40 rounded-full 
                             bg-gradient-to-br from-violet-600 to-purple-800
                             flex items-center justify-center
@@ -68,14 +60,10 @@
 
                 </div>
 
-
                 {% endif %}
 
 
             </div>
-
-
-
 
 
 
@@ -87,9 +75,7 @@
 
 
                 <h2 class="text-3xl font-bold text-white">
-
                     {{ user.username }}
-
                 </h2>
 
 
@@ -99,11 +85,35 @@
 
 
 
+                <!-- ONLINE STATUS -->
+
+                <div class="mt-3">
+
+                    {% if profile.is_online %}
+
+                        <p class="text-green-400 font-semibold">
+                            🟢 Online
+                        </p>
+
+                    {% else %}
+
+                        <p class="text-zinc-400">
+                            ⚪ Last seen:
+                            {{ profile.last_seen|timesince }} ago
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+
+
                 <div class="mt-5 space-y-2 text-zinc-300">
 
 
                     <p>
-                        🌍 
+                        🌍
                         <strong>Country:</strong>
                         {{ profile.country|default:"Not added yet" }}
                     </p>
@@ -132,9 +142,7 @@
             </div>
 
 
-
         </div>
-
 
 
 
@@ -164,7 +172,6 @@
 
 
     </div>
-
 
 
 
@@ -252,13 +259,11 @@
 
 
 
-
-
             <button type="submit"
 
                 class="bg-gradient-to-r from-violet-600 to-purple-600
                        px-6 py-3 rounded-xl text-white font-semibold
-                       hover:from-violet-500 hover:to-purple-500
+                       hover:from-violet-500 to-purple-500
                        transition shadow-lg">
 
 
@@ -276,11 +281,7 @@
 
 
 
-
-
-
 </div>
-
 
 
 {% endblock %}

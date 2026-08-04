@@ -2,79 +2,88 @@
 
 {% block title %}{{ profile_user.username }} | Aniva{% endblock %}
 
-
 {% block content %}
 
 <div class="max-w-4xl mx-auto px-6 py-10">
-
-
-    <!-- Profile Card -->
 
     <div class="bg-gradient-to-br from-violet-900/40 via-zinc-900 to-zinc-950
                 border border-zinc-800 rounded-3xl p-8 shadow-2xl">
 
 
-        <!-- Header -->
-
+        <!-- HEADER -->
 
         <div class="flex flex-col md:flex-row items-center gap-8">
-
 
 
             <!-- Avatar -->
 
             <div>
 
-
                 {% if profile and profile.profile_picture %}
 
-
-                <img src="{{ profile.profile_picture.url }}"
-                     class="w-40 h-40 rounded-full object-cover
-                            border-4 border-violet-500 shadow-xl">
-
+                    <img src="{{ profile.profile_picture.url }}"
+                         class="w-40 h-40 rounded-full object-cover
+                                border-4 border-violet-500 shadow-xl">
 
                 {% else %}
 
+                    <div class="w-40 h-40 rounded-full
+                                bg-gradient-to-br from-violet-600 to-purple-800
+                                flex items-center justify-center
+                                text-5xl font-bold shadow-xl">
 
-                <div class="w-40 h-40 rounded-full
-                            bg-gradient-to-br from-violet-600 to-purple-800
-                            flex items-center justify-center
-                            text-5xl font-bold shadow-xl">
+                        {{ profile_user.username|first|upper }}
 
-                    {{ profile_user.username|first|upper }}
-
-                </div>
-
+                    </div>
 
                 {% endif %}
-
 
             </div>
 
 
 
-
-
-
-            <!-- Identity -->
-
+            <!-- USER INFO -->
 
             <div class="text-center md:text-left">
 
 
                 <h1 class="text-4xl font-extrabold text-white">
-
                     {{ profile_user.username }}
-
                 </h1>
 
 
                 <p class="text-violet-400 mt-2 font-medium">
-
                     ✨ Aniva Member
-
                 </p>
+
+
+
+                <!-- ONLINE STATUS -->
+
+                <div class="mt-3">
+
+                    {% if is_online %}
+
+                        <p class="text-green-400 font-semibold">
+                            🟢 Online
+                        </p>
+
+                    {% elif profile and profile.last_seen %}
+
+                        <p class="text-zinc-400">
+                            ⚪ Last seen {{ profile.last_seen|timesince }} ago
+                        </p>
+
+                    {% else %}
+
+                        <p class="text-zinc-500">
+                            ⚪ No activity yet
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
 
 
 
@@ -87,16 +96,14 @@
                     </p>
 
 
-
                     <p>
                         🎌
                         {{ profile.favourite_anime|default:"No favourite anime yet" }}
                     </p>
 
 
-
                     <p>
-                        📅 Joined 
+                        📅 Joined
                         {{ profile_user.date_joined|date:"F Y" }}
                     </p>
 
@@ -104,9 +111,7 @@
                 </div>
 
 
-
             </div>
-
 
 
         </div>
@@ -115,17 +120,13 @@
 
 
 
-
-
-        <!-- Bio -->
+        <!-- BIO -->
 
         <div class="mt-8 bg-zinc-950/60 rounded-2xl p-5">
 
 
             <h3 class="text-lg font-semibold text-white mb-2">
-
                 About
-
             </h3>
 
 
@@ -153,21 +154,17 @@
         <div class="mt-8">
 
 
-
             {% if is_friend %}
-
 
 
                 <div class="flex flex-col sm:flex-row gap-3">
 
 
-                    <div class="flex items-center gap-2 
-                                text-green-400 font-semibold">
+                    <div class="flex items-center gap-2 text-green-400 font-semibold">
 
                         ✓ Friends
 
                     </div>
-
 
 
 
@@ -177,7 +174,6 @@
                               px-5 py-2 rounded-xl text-white text-center
                               font-semibold hover:from-violet-500
                               hover:to-purple-500 transition">
-
 
                         Message
 
@@ -189,7 +185,6 @@
                           action="{% url 'remove_friend' profile_user.id %}">
 
                         {% csrf_token %}
-
 
                         <button type="submit"
 
@@ -206,7 +201,6 @@
                     </form>
 
 
-
                 </div>
 
 
@@ -214,7 +208,6 @@
 
 
             {% elif request_sent %}
-
 
 
                 <button disabled
@@ -231,7 +224,6 @@
 
 
             {% elif request_received %}
-
 
 
 
@@ -258,10 +250,7 @@
 
 
 
-
-
             {% else %}
-
 
 
 
@@ -283,6 +272,7 @@
 
                         + Add Friend
 
+
                     </button>
 
 
@@ -294,7 +284,6 @@
             {% endif %}
 
 
-
         </div>
 
 
@@ -302,10 +291,7 @@
 
 
 
-
-
     </div>
-
 
 
 </div>
