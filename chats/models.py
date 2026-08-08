@@ -54,21 +54,15 @@ class Message(models.Model):
         default=False
     )
 
-
     class Meta:
         ordering = ['timestamp']
-
 
     def __str__(self):
         if self.content:
             return f"{self.sender.username}: {self.content[:20]}"
         return f"{self.sender.username}: Image"
 
-
     def mark_as_read(self):
-        """
-        Mark message as read
-        """
         if not self.is_read:
             self.is_read = True
             self.save(update_fields=['is_read'])

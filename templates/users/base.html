@@ -85,9 +85,25 @@
 
 
                     <a href="{% url 'chat_list' %}"
-                       class="hover:text-violet-400 transition">
-                        Messages
-                    </a>
+   class="relative hover:text-violet-400 transition flex items-center gap-1">
+
+    🔔
+
+    {% if unread_messages %}
+        <span class="absolute -top-3 -right-3
+                     bg-red-600 text-white
+                     text-xs font-bold
+                     rounded-full
+                     min-w-[20px] h-[20px]
+                     flex items-center justify-center
+                     px-1">
+
+            {{ unread_messages }}
+
+        </span>
+    {% endif %}
+
+</a>
 
 
                 </div>

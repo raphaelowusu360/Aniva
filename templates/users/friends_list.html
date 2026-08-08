@@ -1,6 +1,5 @@
 {% extends 'users/base.html' %}
 
-
 {% block title %}My Network | Aniva{% endblock %}
 
 
@@ -8,263 +7,162 @@
 {% block content %}
 
 
-<div class="max-w-6xl mx-auto px-6 py-10">
 
 
+<!-- Header -->
 
 
+<div class="mb-10">
 
-    <!-- Header -->
 
+    <h1 class="text-4xl font-extrabold text-white mb-3">
 
-    <div class="mb-10">
+        Your Network
 
+    </h1>
 
-        <h1 class="text-4xl font-extrabold text-white mb-3">
 
-            Your Network
 
-        </h1>
+    <p class="text-zinc-400 text-lg">
 
+        Connect with friends and continue your conversations.
 
+    </p>
 
-        <p class="text-zinc-400 text-lg">
 
-            Connect with friends and continue your conversations.
 
-        </p>
+</div>
 
 
 
-    </div>
 
 
 
 
 
+{% if friends %}
 
 
 
-    {% if friends %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
 
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
 
+    {% for friend in friends %}
 
 
 
-        {% for friend in friends %}
-
-
-
-        <div class="bg-gradient-to-br
-                    from-zinc-900
-                    to-zinc-950
-
-                    border border-zinc-800
-
-                    rounded-3xl
-
-                    p-6
-
-                    shadow-xl
-
-                    hover:border-violet-600
-
-                    hover:-translate-y-2
-
-                    transition duration-300">
-
-
-
-
-
-
-
-            <!-- Avatar -->
-
-
-            <div class="w-20 h-20 rounded-full
-
-                        bg-gradient-to-br
-                        from-violet-600
-                        to-purple-700
-
-                        flex items-center justify-center
-
-                        text-3xl
-
-                        font-bold
-
-                        text-white
-
-                        mb-5">
-
-
-                {{ friend.username|first|upper }}
-
-
-            </div>
-
-
-
-
-
-
-
-            <!-- Name -->
-
-
-            <h2 class="text-xl font-bold text-white mb-5">
-
-
-                {{ friend.username }}
-
-
-            </h2>
-
-
-
-
-
-
-
-            <!-- Actions -->
-
-
-            <div class="flex gap-3">
-
-
-
-                <a href="{% url 'chat_detail' friend.id %}"
-
-                   class="flex-1 text-center
-
-                          bg-gradient-to-r
-                          from-violet-600
-                          to-purple-600
-
-                          text-white
-
-                          py-3
-
-                          rounded-xl
-
-                          font-semibold
-
-                          hover:from-violet-500
-
-                          hover:to-purple-500
-
-                          transition">
-
-
-                    Message
-
-
-                </a>
-
-
-
-            </div>
-
-
-
-
-
-        </div>
-
-
-
-
-
-        {% endfor %}
-
-
-
-
-
-    </div>
-
-
-
-
-
-
-
-    {% else %}
-
-
-
-
-
-    <!-- Empty State -->
-
-
-    <div class="bg-zinc-900
+    <div class="bg-gradient-to-br
+                from-zinc-900
+                to-zinc-950
 
                 border border-zinc-800
 
                 rounded-3xl
 
-                p-12
+                p-6
 
-                text-center">
+                shadow-xl
 
+                hover:border-violet-600
 
+                hover:-translate-y-2
 
-        <div class="text-6xl mb-5">
-
-            🤝
-
-        </div>
+                transition duration-300">
 
 
 
 
-        <h2 class="text-2xl font-bold text-white mb-3">
 
-            No Friends Yet
+
+
+        <!-- AVATAR -->
+
+<div class="w-20 h-20 rounded-full overflow-hidden
+            bg-gradient-to-br from-violet-600 to-purple-700
+            flex items-center justify-center
+            text-3xl font-bold text-white mb-5">
+
+
+{% if friend.profile.profile_picture %}
+
+    <img
+        src="{{ friend.profile.profile_picture.url }}"
+        alt="{{ friend.username }}"
+        class="w-full h-full object-cover"
+    >
+
+{% else %}
+
+    {{ friend.username|first|upper }}
+
+{% endif %}
+
+
+</div>
+
+
+
+
+
+        <!-- Name -->
+
+
+        <h2 class="text-xl font-bold text-white mb-5">
+
+
+            {{ friend.username }}
+
 
         </h2>
 
 
 
 
-        <p class="text-zinc-400 mb-6">
-
-            Discover people on Aniva and start building your network.
-
-        </p>
 
 
 
-
-        <a href="{% url 'browse_users' %}"
-
-           class="inline-block
-
-                  bg-gradient-to-r
-                  from-violet-600
-                  to-purple-600
-
-                  text-white
-
-                  px-6
-
-                  py-3
-
-                  rounded-xl
-
-                  font-semibold">
+        <!-- Actions -->
 
 
-            Discover People
+        <div class="flex gap-3">
 
 
-        </a>
+
+            <a href="{% url 'chat_detail' friend.id %}"
+
+               class="flex-1 text-center
+
+                      bg-gradient-to-r
+                      from-violet-600
+                      to-purple-600
+
+                      text-white
+
+                      py-3
+
+                      rounded-xl
+
+                      font-semibold
+
+                      hover:from-violet-500
+
+                      hover:to-purple-500
+
+                      transition">
+
+
+                Message
+
+
+            </a>
+
+
+
+        </div>
+
 
 
 
@@ -274,13 +172,103 @@
 
 
 
-    {% endif %}
+
+    {% endfor %}
 
 
 
 
 
 </div>
+
+
+
+
+
+
+
+{% else %}
+
+
+
+
+
+<!-- Empty State -->
+
+
+<div class="bg-zinc-900
+
+            border border-zinc-800
+
+            rounded-3xl
+
+            p-12
+
+            text-center">
+
+
+
+    <div class="text-6xl mb-5">
+
+        🤝
+
+    </div>
+
+
+
+
+    <h2 class="text-2xl font-bold text-white mb-3">
+
+        No Friends Yet
+
+    </h2>
+
+
+
+
+    <p class="text-zinc-400 mb-6">
+
+        Discover people on Aniva and start building your network.
+
+    </p>
+
+
+
+
+    <a href="{% url 'browse_users' %}"
+
+       class="inline-block
+
+              bg-gradient-to-r
+              from-violet-600
+              to-purple-600
+
+              text-white
+
+              px-6
+
+              py-3
+
+              rounded-xl
+
+              font-semibold">
+
+
+        Discover People
+
+
+    </a>
+
+
+
+
+</div>
+
+
+
+
+{% endif %}
+
 
 
 

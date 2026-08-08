@@ -54,7 +54,6 @@ class Profile(models.Model):
         auto_now=True
     )
 
-
     @property
     def is_online(self):
 
@@ -63,10 +62,8 @@ class Profile(models.Model):
 
         return False
 
-
     def __str__(self):
         return f"{self.user.username}'s Profile"
-
 
 
 # -----------------------------
@@ -91,7 +88,6 @@ def save_user_profile(sender, instance, **kwargs):
         Profile.objects.create(
             user=instance
         )
-
 
 
 # -----------------------------
@@ -119,34 +115,72 @@ class FriendRequest(models.Model):
         auto_now_add=True
     )
 
-
     def __str__(self):
         return f"{self.sender.username} -> {self.receiver.username}"
 
 
+# -----------------------------
+# Followers System
+# -----------------------------
+class Follow(models.Model):
+
+    follower = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="following"
+    )
+
+    following = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="followers"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+
+        unique_together = (
+            "follower",
+            "following",
+        )
+
+    def __str__(self):
+
+        return (
+            f"{self.follower.username} "
+            f"follows {self.following.username}"
+        )
+
 
 # -----------------------------
-# Get Friends Utility
+# Get Mutual Friends
 # -----------------------------
 def get_friends(user):
 
-    accepted_requests = FriendRequest.objects.filter(
-        Q(sender=user, accepted=True) |
-        Q(receiver=user, accepted=True)
+    following_ids = Follow.objects.filter(
+        follower=user
+    ).values_list(
+        "following_id",
+        flat=True
     )
 
-    friends = []
+    followers_ids = Follow.objects.filter(
+        following=user
+    ).values_list(
+        "follower_id",
+        flat=True
+    )
 
-    for request in accepted_requests:
+    mutual_friend_ids = set(following_ids).intersection(
+        set(followers_ids)
+    )
 
-        if request.sender == user:
-            friends.append(request.receiver)
-
-        else:
-            friends.append(request.sender)
-
-    return friends
-
+    return User.objects.filter(
+        id__in=mutual_friend_ids
+    )
 
 
 # -----------------------------
@@ -180,10 +214,8 @@ class Group(models.Model):
         default=timezone.now
     )
 
-
     def __str__(self):
         return self.name
-
 
 
 # -----------------------------
@@ -204,15 +236,12 @@ class GroupPost(models.Model):
 
     content = models.TextField()
 
-
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
-
     def __str__(self):
         return f"Post by {self.author.username} in {self.group.name}"
-
 
 
 # -----------------------------
@@ -236,12 +265,10 @@ class FeatureFeedback(models.Model):
         auto_now_add=True
     )
 
-
     class Meta:
         ordering = [
             "-created_at"
         ]
-
 
     def __str__(self):
         return (

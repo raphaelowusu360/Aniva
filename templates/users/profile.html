@@ -2,234 +2,519 @@
 
 {% block title %}My Profile | Aniva{% endblock %}
 
-
 {% block content %}
 
-<div class="max-w-5xl mx-auto px-6 py-10 space-y-10">
+<!-- ================================================= -->
+
+<!-- PROFILE PAGE -->
+
+<!-- ================================================= -->
+
+<div
+    class="space-y-8"
+>
 
 
-    <!-- Header -->
+<!-- ================================================= -->
+<!-- PROFILE HEADER -->
+<!-- ================================================= -->
 
-    <div class="flex items-center justify-between">
+<div
+    class="bg-gradient-to-br
+           from-black
+           via-zinc-950
+           to-violet-950/60
+           border
+           border-violet-900/40
+           rounded-3xl
+           p-8
+           shadow-2xl
+           shadow-violet-950/20"
+>
+
+    <div
+        class="flex
+               flex-col
+               md:flex-row
+               items-center
+               gap-8"
+    >
+
+
+        <!-- ================================================= -->
+        <!-- PROFILE PICTURE -->
+        <!-- ================================================= -->
 
         <div>
-            <h1 class="text-4xl font-extrabold text-white">
-                Your Aniva Profile
-            </h1>
 
-            <p class="text-zinc-400 mt-2">
-                Build your identity and connect with your communities.
-            </p>
-        </div>
+            {% if profile.profile_picture %}
 
-    </div>
+                <img
+                    src="{{ profile.profile_picture.url }}"
+                    alt="Profile Picture"
+                    class="w-40 h-40
+                           object-cover
+                           rounded-full
+                           border-4
+                           border-violet-500
+                           shadow-lg
+                           shadow-violet-950/50"
+                >
 
+            {% else %}
 
-
-    <!-- PROFILE CARD -->
-
-    <div class="bg-gradient-to-br from-violet-900/40 to-zinc-900
-                border border-zinc-800 rounded-3xl p-8 shadow-xl">
-
-
-        <div class="flex flex-col md:flex-row items-center gap-8">
-
-
-
-            <!-- Profile Picture -->
-
-
-            <div>
-
-                {% if profile.profile_picture %}
-
-                <img src="{{ profile.profile_picture.url }}"
-                     alt="Profile Picture"
-                     class="w-40 h-40 object-cover rounded-full 
-                            border-4 border-violet-500 shadow-lg">
-
-
-                {% else %}
-
-                <div class="w-40 h-40 rounded-full 
-                            bg-gradient-to-br from-violet-600 to-purple-800
-                            flex items-center justify-center
-                            text-5xl font-bold">
+                <div
+                    class="w-40 h-40
+                           rounded-full
+                           bg-gradient-to-br
+                           from-violet-600
+                           via-purple-700
+                           to-black
+                           flex
+                           items-center
+                           justify-center
+                           text-5xl
+                           font-bold
+                           text-white
+                           border-4
+                           border-violet-500
+                           shadow-lg
+                           shadow-violet-950/50"
+                >
 
                     {{ user.username|first|upper }}
 
                 </div>
 
-                {% endif %}
-
-
-            </div>
-
-
-
-
-            <!-- User Info -->
-
-
-            <div class="text-center md:text-left">
-
-
-                <h2 class="text-3xl font-bold text-white">
-                    {{ user.username }}
-                </h2>
-
-
-                <p class="text-violet-300 mt-1">
-                    Aniva Member
-                </p>
-
-
-
-                <!-- ONLINE STATUS -->
-
-                <div class="mt-3">
-
-                    {% if profile.is_online %}
-
-                        <p class="text-green-400 font-semibold">
-                            🟢 Online
-                        </p>
-
-                    {% else %}
-
-                        <p class="text-zinc-400">
-                            ⚪ Last seen:
-                            {{ profile.last_seen|timesince }} ago
-                        </p>
-
-                    {% endif %}
-
-                </div>
-
-
-
-
-                <div class="mt-5 space-y-2 text-zinc-300">
-
-
-                    <p>
-                        🌍
-                        <strong>Country:</strong>
-                        {{ profile.country|default:"Not added yet" }}
-                    </p>
-
-
-
-                    <p>
-                        🎌
-                        <strong>Favourite Anime:</strong>
-                        {{ profile.favourite_anime|default:"Not selected" }}
-                    </p>
-
-
-
-                    <p>
-                        📅
-                        <strong>Joined:</strong>
-                        {{ user.date_joined|date:"F j, Y" }}
-                    </p>
-
-
-
-                </div>
-
-
-            </div>
-
+            {% endif %}
 
         </div>
 
 
+        <!-- ================================================= -->
+        <!-- USER INFORMATION -->
+        <!-- ================================================= -->
+
+        <div class="text-center md:text-left">
+
+            <h2
+                class="text-3xl
+                       font-bold
+                       text-white"
+            >
+
+                {{ user.username }}
+
+            </h2>
 
 
+            <p
+                class="text-violet-300
+                       mt-1"
+            >
 
-
-        <!-- Bio -->
-
-
-        <div class="mt-8 bg-zinc-950/50 rounded-2xl p-5">
-
-
-            <h3 class="font-semibold text-white mb-2">
-                About Me
-            </h3>
-
-
-            <p class="text-zinc-300">
-
-                {{ profile.bio|default:"This member has not added a bio yet." }}
+                Aniva Member
 
             </p>
 
 
+            <!-- ONLINE STATUS -->
+
+            <div class="mt-3">
+
+                {% if profile.is_online %}
+
+                    <p
+                        class="text-green-400
+                               font-semibold"
+                    >
+
+                        🟢 Online
+
+                    </p>
+
+                {% else %}
+
+                    <p class="text-zinc-400">
+
+                        ⚪ Last seen:
+                        {{ profile.last_seen|timesince }} ago
+
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- PROFILE DETAILS -->
+
+            <div
+                class="mt-5
+                       space-y-2
+                       text-zinc-300"
+            >
+
+                <p>
+
+                    🌍
+
+                    <strong class="text-white">
+                        Country:
+                    </strong>
+
+                    {{ profile.country|default:"Not added yet" }}
+
+                </p>
+
+
+                <p>
+
+                    🎌
+
+                    <strong class="text-white">
+                        Favourite Anime:
+                    </strong>
+
+                    {{ profile.favourite_anime|default:"Not selected" }}
+
+                </p>
+
+
+                <p>
+
+                    📅
+
+                    <strong class="text-white">
+                        Joined:
+                    </strong>
+
+                    {{ user.date_joined|date:"F j, Y" }}
+
+                </p>
+
+            </div>
+
         </div>
-
-
 
     </div>
 
+</div>
 
 
+<!-- ================================================= -->
+<!-- FOLLOWERS / FOLLOWING / FRIENDS -->
+<!-- ================================================= -->
+
+<div
+    class="flex
+           flex-wrap
+           items-center
+           justify-center
+           md:justify-start
+           gap-4"
+>
 
 
+    <!-- ================================================= -->
+    <!-- FOLLOWERS -->
+    <!-- ================================================= -->
 
-    <!-- EDIT PROFILE -->
+    <a
+        href="{% url 'followers_list' request.user.username %}"
+        class="group
+               px-6
+               py-4
+               rounded-2xl
+               bg-gradient-to-br
+               from-zinc-950
+               to-black
+               border
+               border-zinc-800
+               hover:border-violet-500
+               hover:bg-gradient-to-br
+               hover:from-violet-950
+               hover:via-purple-950
+               hover:to-black
+               hover:shadow-lg
+               hover:shadow-violet-950/40
+               hover:-translate-y-1
+               transition-all
+               duration-300"
+    >
+
+        <div class="text-center">
+
+            <div
+                class="text-2xl
+                       font-bold
+                       text-white
+                       group-hover:text-violet-300
+                       transition"
+            >
+
+                {{ followers_count }}
+
+            </div>
+
+            <div
+                class="text-sm
+                       text-zinc-400
+                       group-hover:text-violet-300
+                       transition"
+            >
+
+                Followers
+
+            </div>
+
+        </div>
+
+    </a>
 
 
-    <div class="bg-zinc-900/80 border border-zinc-800 
-                p-8 rounded-3xl shadow-lg">
+    <!-- ================================================= -->
+    <!-- FOLLOWING -->
+    <!-- ================================================= -->
+
+    <a
+        href="{% url 'following_list' request.user.username %}"
+        class="group
+               px-6
+               py-4
+               rounded-2xl
+               bg-gradient-to-br
+               from-zinc-950
+               to-black
+               border
+               border-zinc-800
+               hover:border-violet-500
+               hover:bg-gradient-to-br
+               hover:from-violet-950
+               hover:via-purple-950
+               hover:to-black
+               hover:shadow-lg
+               hover:shadow-violet-950/40
+               hover:-translate-y-1
+               transition-all
+               duration-300"
+    >
+
+        <div class="text-center">
+
+            <div
+                class="text-2xl
+                       font-bold
+                       text-white
+                       group-hover:text-violet-300
+                       transition"
+            >
+
+                {{ following_count }}
+
+            </div>
+
+            <div
+                class="text-sm
+                       text-zinc-400
+                       group-hover:text-violet-300
+                       transition"
+            >
+
+                Following
+
+            </div>
+
+        </div>
+
+    </a>
 
 
-        <h3 class="text-2xl font-bold text-white mb-6">
+    <!-- ================================================= -->
+    <!-- FRIENDS -->
+    <!-- ================================================= -->
 
-            Edit Your Identity
+    <a
+        href="{% url 'friends_list' %}"
+        class="group
+               px-6
+               py-4
+               rounded-2xl
+               bg-gradient-to-br
+               from-zinc-950
+               to-black
+               border
+               border-zinc-800
+               hover:border-violet-500
+               hover:bg-gradient-to-br
+               hover:from-violet-950
+               hover:via-purple-950
+               hover:to-black
+               hover:shadow-lg
+               hover:shadow-violet-950/40
+               hover:-translate-y-1
+               transition-all
+               duration-300"
+    >
 
-        </h3>
+        <div class="text-center">
+
+            <div
+                class="text-2xl
+                       font-bold
+                       text-white
+                       group-hover:text-violet-300
+                       transition"
+            >
+
+                {{ friends|length }}
+
+            </div>
+
+            <div
+                class="text-sm
+                       text-zinc-400
+                       group-hover:text-violet-300
+                       transition"
+            >
+
+                Friends
+
+            </div>
+
+        </div>
+
+    </a>
+
+</div>
 
 
+<!-- ================================================= -->
+<!-- ABOUT ME -->
+<!-- ================================================= -->
 
-        <form method="POST"
-              enctype="multipart/form-data"
-              class="space-y-5
+<div
+    class="bg-gradient-to-br
+           from-black
+           via-zinc-950
+           to-purple-950/40
+           border
+           border-zinc-800
+           rounded-2xl
+           p-6
+           shadow-xl"
+>
 
-              [&_input]:bg-zinc-950
-              [&_input]:text-white
-              [&_input]:border
-              [&_input]:border-zinc-700
-              [&_input]:rounded-xl
-              [&_input]:p-3
+    <h3
+        class="text-lg
+               font-semibold
+               text-white
+               mb-2"
+    >
 
-              [&_textarea]:bg-zinc-950
-              [&_textarea]:text-white
-              [&_textarea]:border
-              [&_textarea]:border-zinc-700
-              [&_textarea]:rounded-xl
-              [&_textarea]:p-3
+        About Me
 
-              [&_select]:bg-zinc-950
-              [&_select]:text-white
-              [&_select]:border
-              [&_select]:border-zinc-700
-              [&_select]:rounded-xl
-              [&_select]:p-3">
-
-
-            {% csrf_token %}
+    </h3>
 
 
+    <p
+        class="text-zinc-300
+               leading-relaxed"
+    >
 
-            {% for field in form %}
+        {{ profile.bio|default:"This member has not added a bio yet." }}
 
+    </p>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- EDIT PROFILE -->
+<!-- ================================================= -->
+
+<div
+    class="bg-gradient-to-br
+           from-black
+           via-zinc-950
+           to-violet-950/40
+           border
+           border-zinc-800
+           rounded-2xl
+           p-6
+           shadow-xl"
+>
+
+
+    <!-- ================================================= -->
+    <!-- FORM -->
+    <!-- ================================================= -->
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-6
+
+               [&_input]:w-full
+               [&_input]:bg-zinc-950
+               [&_input]:text-white
+               [&_input]:border
+               [&_input]:border-zinc-700
+               [&_input]:rounded-xl
+               [&_input]:p-3
+               [&_input]:outline-none
+               [&_input]:transition
+
+               [&_input]:focus:border-violet-500
+               [&_input]:focus:ring-2
+               [&_input]:focus:ring-violet-500/20
+
+               [&_textarea]:w-full
+               [&_textarea]:bg-zinc-950
+               [&_textarea]:text-white
+               [&_textarea]:border
+               [&_textarea]:border-zinc-700
+               [&_textarea]:rounded-xl
+               [&_textarea]:p-3
+               [&_textarea]:outline-none
+               [&_textarea]:transition
+
+               [&_textarea]:focus:border-violet-500
+               [&_textarea]:focus:ring-2
+               [&_textarea]:focus:ring-violet-500/20
+
+               [&_select]:w-full
+               [&_select]:bg-zinc-950
+               [&_select]:text-white
+               [&_select]:border
+               [&_select]:border-zinc-700
+               [&_select]:rounded-xl
+               [&_select]:p-3
+               [&_select]:outline-none
+               [&_select]:transition
+
+               [&_select]:focus:border-violet-500
+               [&_select]:focus:ring-2
+               [&_select]:focus:ring-violet-500/20
+
+               [&_input[type=file]]:cursor-pointer
+               [&_input[type=file]]:text-zinc-400"
+    >
+
+        {% csrf_token %}
+
+
+        {% for field in form %}
 
             <div>
 
-
-                <label class="block text-sm font-medium text-zinc-300 mb-2">
+                <label
+                    class="block
+                           text-sm
+                           font-medium
+                           text-zinc-300
+                           mb-2"
+                >
 
                     {{ field.label }}
 
@@ -239,49 +524,57 @@
                 {{ field }}
 
 
-
                 {% if field.errors %}
 
-                <p class="text-red-400 text-sm mt-1">
+                    <p
+                        class="text-red-400
+                               text-sm
+                               mt-1"
+                    >
 
-                    {{ field.errors }}
+                        {{ field.errors }}
 
-                </p>
+                    </p>
 
                 {% endif %}
 
-
             </div>
 
-
-            {% endfor %}
-
+        {% endfor %}
 
 
+        <!-- ================================================= -->
+        <!-- SAVE BUTTON -->
+        <!-- ================================================= -->
 
-            <button type="submit"
+        <button
+            type="submit"
+            class="bg-gradient-to-r
+                   from-violet-600
+                   via-purple-600
+                   to-violet-700
+                   px-6
+                   py-3
+                   rounded-xl
+                   text-white
+                   font-semibold
+                   hover:from-violet-500
+                   hover:via-purple-500
+                   hover:to-violet-600
+                   transition
+                   shadow-lg
+                   shadow-violet-950/40"
+        >
 
-                class="bg-gradient-to-r from-violet-600 to-purple-600
-                       px-6 py-3 rounded-xl text-white font-semibold
-                       hover:from-violet-500 to-purple-500
-                       transition shadow-lg">
+            Save Profile
 
+        </button>
 
-                Save Profile
-
-            </button>
-
-
-
-        </form>
-
-
-    </div>
-
-
-
+    </form>
 
 </div>
 
+
+</div>
 
 {% endblock %}
