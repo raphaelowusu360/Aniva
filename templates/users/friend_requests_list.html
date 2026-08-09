@@ -4,391 +4,186 @@
 
 {% block content %}
 
+<div class="max-w-4xl mx-auto">
 
-<!-- ========================== -->
-<!-- PAGE HEADER -->
-<!-- ========================== -->
+   
 
-<div class="mb-10">
+    <!-- ====================================================== -->
+    <!-- FOLLOW BACK -->
+    <!-- ====================================================== -->
 
-    <h1 class="text-4xl font-extrabold text-white mb-3">
-        Friend Requests
-    </h1>
+    {% if follow_requests %}
 
-    <p class="text-zinc-400 text-lg">
-        Manage people who want to connect with you.
-    </p>
+        <div>
 
-</div>
+            <!-- SECTION HEADER -->
 
+            <div class="mb-6">
 
+                <h2 class="text-3xl font-extrabold text-white mb-2">
+                    Follow Back
+                </h2>
 
-<!-- ===================================================== -->
-<!-- NORMAL FRIEND REQUESTS -->
-<!-- ===================================================== -->
-
-{% if requests %}
-
-    <div class="space-y-5">
-
-        {% for fr in requests %}
-
-            <div
-                class="bg-gradient-to-br
-                       from-zinc-900
-                       to-zinc-950
-                       border border-zinc-800
-                       rounded-3xl
-                       p-6
-                       shadow-xl
-                       hover:border-violet-500
-                       transition"
-            >
-
-
-                <!-- USER SECTION -->
-
-                <div class="flex items-center gap-4 mb-6">
-
-
-                    <!-- PROFILE PICTURE -->
-
-                    {% if fr.sender.profile.profile_picture %}
-
-                        <img
-                            src="{{ fr.sender.profile.profile_picture.url }}"
-                            alt="{{ fr.sender.username }}"
-                            class="w-16 h-16
-                                   rounded-full
-                                   object-cover
-                                   border-2
-                                   border-violet-500/50"
-                        >
-
-                    {% else %}
-
-                        <!-- FALLBACK AVATAR -->
-
-                        <div
-                            class="w-16 h-16
-                                   rounded-full
-                                   bg-gradient-to-br
-                                   from-violet-600
-                                   to-purple-700
-                                   flex items-center
-                                   justify-center
-                                   text-2xl
-                                   font-bold
-                                   text-white"
-                        >
-                            {{ fr.sender.username|first|upper }}
-                        </div>
-
-                    {% endif %}
-
-
-                    <!-- USER INFO -->
-
-                    <div>
-
-                        <h2 class="text-xl font-bold text-white">
-                            {{ fr.sender.username }}
-                        </h2>
-
-                        <p class="text-zinc-400 text-sm">
-                            Wants to connect with you
-                        </p>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- BUTTONS -->
-
-                <div class="flex gap-3">
-
-
-                    <!-- ACCEPT -->
-
-                    <form
-                        method="POST"
-                        action="{% url 'accept_friend_request' fr.id %}"
-                        class="flex-1"
-                    >
-
-                        {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            class="w-full
-                                   bg-gradient-to-r
-                                   from-violet-600
-                                   to-purple-600
-                                   text-white
-                                   py-3
-                                   rounded-xl
-                                   font-semibold
-                                   hover:from-violet-500
-                                   hover:to-purple-500
-                                   transition"
-                        >
-                            Accept
-                        </button>
-
-                    </form>
-
-
-
-                    <!-- DECLINE -->
-
-                    <form
-                        method="POST"
-                        action="{% url 'decline_friend_request' fr.id %}"
-                        class="flex-1"
-                    >
-
-                        {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            class="w-full
-                                   bg-zinc-800
-                                   text-red-400
-                                   py-3
-                                   rounded-xl
-                                   font-semibold
-                                   hover:bg-red-600
-                                   hover:text-white
-                                   transition"
-                        >
-                            Decline
-                        </button>
-
-                    </form>
-
-
-                </div>
-
+                <p class="text-zinc-400">
+                    People who follow you that you haven't followed back.
+                </p>
 
             </div>
 
-        {% endfor %}
 
-    </div>
+            <!-- FOLLOW BACK LIST -->
 
+            <div class="space-y-4">
 
-{% else %}
+                {% for follow_request in follow_requests %}
 
+                    <div
+                        class="flex items-center gap-4
+                               bg-gradient-to-br
+                               from-zinc-900
+                               to-zinc-950
+                               border border-zinc-800
+                               rounded-3xl
+                               p-5
+                               shadow-xl
+                               hover:border-violet-500
+                               transition"
+                    >
 
-    <!-- NO FRIEND REQUESTS -->
+                        <!-- PROFILE PICTURE -->
 
-    <div
-        class="bg-zinc-900
-               border border-zinc-800
-               rounded-3xl
-               p-10
-               text-center"
-    >
+                        {% if follow_request.follower.profile.profile_picture %}
 
-        <div class="text-5xl mb-4">
-            🤝
-        </div>
+                            <img
+                                src="{{ follow_request.follower.profile.profile_picture.url }}"
+                                alt="{{ follow_request.follower.username }}"
+                                class="w-16 h-16
+                                       rounded-full
+                                       object-cover
+                                       border-2
+                                       border-violet-500/50
+                                       flex-shrink-0"
+                            >
 
-        <h2 class="text-2xl font-bold text-white mb-3">
-            No Friend Requests
-        </h2>
+                        {% else %}
 
-        <p class="text-zinc-400">
-            You don't have any friend requests right now.
-        </p>
+                            <!-- FALLBACK AVATAR -->
 
-    </div>
+                            <div
+                                class="w-16 h-16
+                                       rounded-full
+                                       bg-gradient-to-br
+                                       from-violet-600
+                                       to-purple-700
+                                       flex items-center
+                                       justify-center
+                                       text-2xl
+                                       font-bold
+                                       text-white
+                                       flex-shrink-0"
+                            >
+                                {{ follow_request.follower.username|first|upper }}
+                            </div>
 
-
-{% endif %}
-
-
-
-<!-- ===================================================== -->
-<!-- FOLLOW REQUESTS -->
-<!-- ===================================================== -->
-
-{% if follow_requests %}
-
-    <div class="mt-12">
-
-
-        <!-- SECTION HEADER -->
-
-        <div class="mb-6">
-
-            <h2 class="text-3xl font-extrabold text-white mb-2">
-                Follow Requests
-            </h2>
-
-            <p class="text-zinc-400">
-                People who follow you that you haven't followed back.
-            </p>
-
-        </div>
+                        {% endif %}
 
 
+                        <!-- USER INFORMATION -->
 
-        <!-- FOLLOW REQUEST LIST -->
+                        <div class="flex-1 min-w-0">
 
-        <div class="space-y-4">
+                            <h3
+                                class="text-xl
+                                       font-bold
+                                       text-white
+                                       truncate"
+                            >
+                                {{ follow_request.follower.username }}
+                            </h3>
 
+                            <p class="text-zinc-400 text-sm">
+                                Started following you
+                            </p>
 
-            {% for follow_request in follow_requests %}
-
-
-                <div
-                    class="flex items-center gap-4
-                           bg-gradient-to-br
-                           from-zinc-900
-                           to-zinc-950
-                           border border-zinc-800
-                           rounded-3xl
-                           p-5
-                           shadow-xl
-                           hover:border-violet-500
-                           transition"
-                >
-
-
-                    <!-- PROFILE PICTURE -->
-
-                    {% if follow_request.follower.profile.profile_picture %}
-
-                        <img
-                            src="{{ follow_request.follower.profile.profile_picture.url }}"
-                            alt="{{ follow_request.follower.username }}"
-                            class="w-16 h-16
-                                   rounded-full
-                                   object-cover
-                                   border-2
-                                   border-violet-500/50
-                                   flex-shrink-0"
-                        >
-
-                    {% else %}
-
-                        <!-- FALLBACK AVATAR -->
-
-                        <div
-                            class="w-16 h-16
-                                   rounded-full
-                                   bg-gradient-to-br
-                                   from-violet-600
-                                   to-purple-700
-                                   flex items-center
-                                   justify-center
-                                   text-2xl
-                                   font-bold
-                                   text-white
-                                   flex-shrink-0"
-                        >
-                            {{ follow_request.follower.username|first|upper }}
                         </div>
 
-                    {% endif %}
+
+                        <!-- VIEW PROFILE -->
+
+                        <a
+                            href="{% url 'public_profile' follow_request.follower.username %}"
+                            class="hidden sm:block
+                                   px-4
+                                   py-2
+                                   rounded-xl
+                                   bg-zinc-800
+                                   text-zinc-300
+                                   font-semibold
+                                   hover:bg-zinc-700
+                                   transition"
+                        >
+                            Profile
+                        </a>
 
 
+                        <!-- FOLLOW BACK -->
 
-                    <!-- USER INFORMATION -->
+                        <form
+                            method="POST"
+                            action="{% url 'follow_back_user' follow_request.follower.id %}"
+                        >
 
-                    <div class="flex-1 min-w-0">
+                            {% csrf_token %}
 
-                        <h3 class="text-xl font-bold text-white">
-                            {{ follow_request.follower.username }}
-                        </h3>
+                            <button
+                                type="submit"
+                                class="px-5
+                                       py-3
+                                       rounded-xl
+                                       bg-gradient-to-r
+                                       from-violet-600
+                                       to-purple-600
+                                       text-white
+                                       font-semibold
+                                       shadow-lg
+                                       shadow-violet-500/20
+                                       hover:from-violet-500
+                                       hover:to-purple-500
+                                       hover:-translate-y-0.5
+                                       transition-all
+                                       duration-200"
+                            >
+                                Follow Back
+                            </button>
 
-                        <p class="text-zinc-400 text-sm">
-                            Started following you
-                        </p>
+                        </form>
 
                     </div>
 
+                {% endfor %}
 
-
-                    <!-- VIEW PROFILE -->
-
-                    <a
-                        href="{% url 'public_profile' follow_request.follower.username %}"
-                        class="hidden sm:block
-                               px-4
-                               py-2
-                               rounded-xl
-                               bg-zinc-800
-                               text-zinc-300
-                               font-semibold
-                               hover:bg-zinc-700
-                               transition"
-                    >
-                        Profile
-                    </a>
-
-
-
-                    <!-- FOLLOW BACK -->
-
-                    <a
-                        href="{% url 'follow_back_user' follow_request.follower.id %}"
-                        class="px-5
-                               py-3
-                               rounded-xl
-                               bg-gradient-to-r
-                               from-violet-600
-                               to-purple-600
-                               text-white
-                               font-semibold
-                               shadow-lg
-                               shadow-violet-500/20
-                               hover:from-violet-500
-                               hover:to-purple-500
-                               hover:-translate-y-0.5
-                               transition-all
-                               duration-200"
-                    >
-                        Follow Back
-                    </a>
-
-
-                </div>
-
-
-            {% endfor %}
-
+            </div>
 
         </div>
 
+    {% endif %}
+
+
+    <!-- BACK HOME -->
+
+    <div class="mt-10">
+
+        <a
+            href="{% url 'home' %}"
+            class="text-violet-400
+                   hover:text-violet-300
+                   transition"
+        >
+            ← Back Home
+        </a>
 
     </div>
 
-{% endif %}
-
-
-
-<!-- ========================== -->
-<!-- BACK HOME -->
-<!-- ========================== -->
-
-<div class="mt-10">
-
-    <a
-        href="{% url 'home' %}"
-        class="text-violet-400
-               hover:text-violet-300
-               transition"
-    >
-        ← Back Home
-    </a>
-
 </div>
 
-
 {% endblock %}
-

@@ -232,28 +232,14 @@ def friends_list(request):
         }
     )
 
-
 @login_required
 def friend_requests_list(request):
-    requests = FriendRequest.objects.filter(
-        receiver=request.user,
-        accepted=False
-    ).select_related(
-        "sender",
-        "sender__profile"
-    )
 
-    following_ids = Follow.objects.filter(
-        follower=request.user
-    ).values_list(
-        "following_id",
-        flat=True
-    )
-
-    follow_requests = Follow.objects.filter(
+    # People who follow the current user
+    incoming_follows = Follow.objects.filter(
         following=request.user
     ).exclude(
-        follower_id__in=following_ids
+        follower=request.user
     ).select_related(
         "follower",
         "follower__profile"
@@ -261,16 +247,30 @@ def friend_requests_list(request):
         "-created_at"
     )
 
+
+    # People the current user already follows
+    following_ids = Follow.objects.filter(
+        follower=request.user
+    ).values_list(
+        "following_id",
+        flat=True
+    )
+
+
+    # Only show people who follow the user
+    # but whom the user does NOT follow back
+    follow_requests = incoming_follows.exclude(
+        follower_id__in=following_ids
+    )
+
+
     return render(
         request,
         "users/friend_requests_list.html",
         {
-            "requests": requests,
             "follow_requests": follow_requests,
         }
     )
-
-
 @login_required
 def send_friend_request(request, user_id):
     receiver = get_object_or_404(
