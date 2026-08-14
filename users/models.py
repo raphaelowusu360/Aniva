@@ -247,6 +247,7 @@ class GroupPost(models.Model):
 # -----------------------------
 # Feature Feedback
 # -----------------------------
+
 class FeatureFeedback(models.Model):
 
     user = models.ForeignKey(
@@ -274,4 +275,54 @@ class FeatureFeedback(models.Model):
         return (
             f"Feedback from {self.user.username} "
             f"on {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+        )
+
+
+# -----------------------------
+# Feedback Reactions
+# -----------------------------
+
+class FeedbackReaction(models.Model):
+
+    LIKE = "like"
+    DISLIKE = "dislike"
+
+    REACTION_CHOICES = [
+        (LIKE, "Like"),
+        (DISLIKE, "Dislike"),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    feedback = models.ForeignKey(
+        FeatureFeedback,
+        on_delete=models.CASCADE,
+        related_name="reactions"
+    )
+
+    reaction = models.CharField(
+        max_length=10,
+        choices=REACTION_CHOICES
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "feedback"],
+                name="unique_feedback_reaction"
+            )
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.user.username} - "
+            f"{self.reaction} - "
+            f"{self.feedback.id}"
         )

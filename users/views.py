@@ -16,7 +16,8 @@ from .models import (
     get_friends,
     Group,
     GroupPost,
-    FeatureFeedback
+    FeatureFeedback,
+    FeedbackReaction,
 )
 
 from .forms import (
@@ -549,11 +550,15 @@ def browse_users(request):
     )
 
 
-# FEATURE FEEDBACK
+# -----------------------------
+# Feature Feedback
+# -----------------------------
 
 @login_required
 def feature_feedback(request):
+
     if request.method == "POST":
+
         feature = request.POST.get(
             "feature"
         )
@@ -563,6 +568,7 @@ def feature_feedback(request):
         )
 
         if feature and likes:
+
             FeatureFeedback.objects.create(
                 user=request.user,
                 feature_request=feature,
@@ -582,12 +588,79 @@ def feature_feedback(request):
         "-created_at"
     )
 
+    # Add separate reaction counts to each feedback
+    for feedback in feedbacks:
+
+        feedback.like_count = feedback.reactions.filter(
+            reaction=FeedbackReaction.LIKE
+        ).count()
+
+        feedback.dislike_count = feedback.reactions.filter(
+            reaction=FeedbackReaction.DISLIKE
+        ).count()
+
     return render(
         request,
         "users/feature_feedback.html",
         {
             "feedbacks": feedbacks
         }
+    )
+
+# -----------------------------
+# Feedback Reaction
+# -----------------------------
+
+@login_required
+def react_to_feedback(request, feedback_id):
+
+    if request.method == "POST":
+
+        feedback = get_object_or_404(
+            FeatureFeedback,
+            id=feedback_id
+        )
+
+        reaction_type = request.POST.get(
+            "reaction"
+        )
+
+        if reaction_type not in [
+            FeedbackReaction.LIKE,
+            FeedbackReaction.DISLIKE
+        ]:
+            return redirect(
+                "feature_feedback"
+            )
+
+        existing_reaction = FeedbackReaction.objects.filter(
+            user=request.user,
+            feedback=feedback
+        ).first()
+
+        if existing_reaction:
+
+            # Clicking the same reaction removes it
+            if existing_reaction.reaction == reaction_type:
+
+                existing_reaction.delete()
+
+            # Clicking the opposite reaction switches it
+            else:
+
+                existing_reaction.reaction = reaction_type
+                existing_reaction.save()
+
+        else:
+
+            FeedbackReaction.objects.create(
+                user=request.user,
+                feedback=feedback,
+                reaction=reaction_type
+            )
+
+    return redirect(
+        "feature_feedback"
     )
 
 

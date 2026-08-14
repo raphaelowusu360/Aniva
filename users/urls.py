@@ -213,6 +213,12 @@ urlpatterns = [
     ),
 
     path(
+    'feedback/<int:feedback_id>/react/',
+    views.react_to_feedback,
+    name='react_to_feedback'
+    ),
+    
+    path(
         'groups/posts/<int:post_id>/delete/',
         views.delete_group_post,
         name='delete_group_post'

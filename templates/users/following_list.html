@@ -14,34 +14,7 @@
         Following
     </h1>
 
-    <p class="text-zinc-400 mt-2">
-        People {{ profile_user.username }} follows
-    </p>
-
 </div>
-
-
-<!-- BACK BUTTON -->
-
-<a
-    href="{% url 'public_profile' profile_user.username %}"
-    class="inline-flex items-center justify-center
-           bg-gradient-to-r
-           from-violet-600
-           to-purple-600
-           text-white
-           px-6
-           py-3
-           rounded-xl
-           font-semibold
-           shadow-lg
-           shadow-violet-500/20
-           hover:from-violet-500
-           hover:to-purple-500
-           transition"
->
-    ← Back
-</a>
 
 
 {% if following %}
@@ -178,5 +151,32 @@
 
 {% endif %}
 
-{% endblock %}
 
+<!-- BACK BUTTON -->
+
+<div class="mt-8">
+
+    <a
+        href="{% url 'profile' %}"
+        class="inline-flex items-center justify-center
+               bg-gradient-to-r
+               from-violet-600
+               to-purple-600
+               text-white
+               px-6
+               py-3
+               rounded-xl
+               font-semibold
+               shadow-lg
+               shadow-violet-500/20
+               hover:from-violet-500
+               hover:to-purple-500
+               transition"
+    >
+        ← Back
+    </a>
+
+</div>
+
+
+{% endblock %}
