@@ -1,600 +1,843 @@
 {% extends 'users/base.html' %}
 
-
 {% block title %}{{ other_user.username }} | Messages{% endblock %}
-
-
 
 {% block content %}
 
-
 <div class="max-w-4xl mx-auto px-4 py-6">
 
+    <!-- CHAT HEADER -->
+    <div class="flex items-center gap-4
+                bg-zinc-900/90
+                border border-zinc-800
+                rounded-2xl
+                px-5 py-4
+                mb-4
+                shadow-lg">
 
+        {% if other_user.profile.profile_picture %}
 
-<!-- Chat Header -->
+            <img
+                src="{{ other_user.profile.profile_picture.url }}"
+                alt="{{ other_user.username }}"
+                class="w-14 h-14 rounded-full object-cover
+                       border-2 border-violet-500/50"
+            >
 
-<div class="flex items-center gap-4
-            bg-zinc-900/90
-            border border-zinc-800
-            rounded-2xl
-            px-5 py-4
-            mb-4
-            shadow-lg">
+        {% else %}
 
+            <div class="w-14 h-14 rounded-full
+                        bg-gradient-to-br from-violet-600 to-purple-700
+                        flex items-center justify-center
+                        text-xl font-bold text-white">
 
-    <!-- PROFILE PICTURE -->
-
-    {% if other_user.profile.profile_picture %}
-
-        <img
-            src="{{ other_user.profile.profile_picture.url }}"
-            alt="{{ other_user.username }}"
-            class="w-14 h-14
-                   rounded-full
-                   object-cover
-                   border-2
-                   border-violet-500/50"
-        >
-
-    {% else %}
-
-        <!-- FALLBACK LETTER -->
-
-        <div class="w-14 h-14
-                    rounded-full
-                    bg-gradient-to-br
-                    from-violet-600
-                    to-purple-700
-                    flex items-center
-                    justify-center
-                    text-xl
-                    font-bold
-                    text-white">
-
-            {{ other_user.username|first|upper }}
-
-        </div>
-
-    {% endif %}
-
-
-    <!-- USER INFO -->
-
-    <div>
-
-        <h1 class="text-xl font-bold text-white">
-            {{ other_user.username }}
-        </h1>
-
-        <p class="text-sm text-green-400">
-            ● Connected on Aniva
-        </p>
-
-    </div>
-
-
-</div>
-
-
-
-
-
-<!-- Messages Container -->
-
-
-<div id="chat-container"
-
-     class="h-[32rem]
-            overflow-y-auto
-            space-y-5
-            p-5
-            rounded-3xl
-            bg-gradient-to-b
-            from-zinc-900
-            to-zinc-950
-            border border-zinc-800">
-
-
-    {% for msg in messages %}
-
-
-        {% ifchanged msg.timestamp.date %}
-
-            <div class="flex justify-center">
-
-                <span class="text-xs
-                             bg-zinc-800
-                             text-zinc-400
-                             px-4 py-1
-                             rounded-full">
-
-                    {{ msg.timestamp|date:"M d, Y" }}
-
-                </span>
+                {{ other_user.username|first|upper }}
 
             </div>
 
-        {% endifchanged %}
+        {% endif %}
 
+        <div>
 
+            <h1 class="text-xl font-bold text-white">
+                {{ other_user.username }}
+            </h1>
 
-        <!-- Message Wrapper -->
-
-        <div class="flex
-
-            {% if msg.sender == request.user %}
-
-                justify-end
-
-            {% else %}
-
-                justify-start
-
-            {% endif %}">
-
-
-            <div class="max-w-xs md:max-w-md relative">
-
-
-                <!-- Bubble -->
-
-                <div onclick="toggleDelete(this)"
-
-                     class="px-5 py-3
-                     cursor-pointer
-                     shadow-lg
-                     rounded-3xl
-
-                     {% if msg.sender == request.user %}
-
-                     bg-gradient-to-r
-                     from-violet-600
-                     to-purple-600
-                     text-white
-                     rounded-br-md
-
-                     {% else %}
-
-                     bg-zinc-800
-                     text-zinc-100
-                     rounded-bl-md
-
-                     {% endif %}">
-
-
-                    {% if msg.content %}
-
-                        <p class="break-words leading-relaxed">
-                            {{ msg.content }}
-                        </p>
-
-                    {% endif %}
-
-
-
-                    {% if msg.image %}
-
-                        <img
-                            src="{{ msg.image.url }}"
-                            class="mt-3
-                                   rounded-2xl
-                                   max-h-72
-                                   object-cover"
-                        >
-
-                    {% endif %}
-
-
-
-                    <!-- Time + Read -->
-
-                    <div class="flex justify-end
-                                items-center
-                                gap-2
-                                mt-2">
-
-                        <span class="text-xs opacity-70">
-
-                            {{ msg.timestamp|date:"H:i" }}
-
-                        </span>
-
-
-                        {% if msg.sender == request.user %}
-
-                            {% if msg.is_read %}
-
-                                <span class="text-xs">
-                                    ✓✓
-                                </span>
-
-                            {% else %}
-
-                                <span class="text-xs">
-                                    ✓
-                                </span>
-
-                            {% endif %}
-
-                        {% endif %}
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- Delete -->
-
-                {% if msg.sender == request.user %}
-
-                    <form
-                        method="POST"
-                        action="{% url 'delete_chat_message' msg.id %}"
-                        class="absolute right-0 -top-3 hidden delete-btn"
-                    >
-
-                        {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            onclick="return confirm('Delete message?');"
-                            class="bg-red-600
-                                   text-white
-                                   rounded-full
-                                   w-7 h-7"
-                        >
-                            ×
-                        </button>
-
-                    </form>
-
-                {% endif %}
-
-
-            </div>
-
-
-        </div>
-
-
-    {% empty %}
-
-
-        <div class="text-center py-20">
-
-            <div class="text-5xl mb-4">
-                👋
-            </div>
-
-            <p class="text-zinc-400">
-                Start your conversation on Aniva.
+            <p class="text-sm text-green-400">
+                ● Connected on Aniva
             </p>
 
         </div>
 
-
-    {% endfor %}
-
-
-</div>
+    </div>
 
 
-
-
-
-<!-- MESSAGE FORM -->
-
-<form
-    method="POST"
-    enctype="multipart/form-data"
-    class="mt-4 sticky bottom-0 bg-zinc-950 py-3"
->
-
-    {% csrf_token %}
-
-
-    <!-- IMAGE PREVIEW -->
+    <!-- MESSAGES -->
 
     <div
-        id="image-preview-container"
-        class="hidden mb-3 relative w-fit"
+        id="chat-container"
+        class="h-[32rem]
+               overflow-y-auto
+               space-y-5
+               p-5
+               rounded-3xl
+               bg-gradient-to-b
+               from-zinc-900
+               to-zinc-950
+               border border-zinc-800"
     >
 
-        <img
-            id="image-preview"
-            src=""
-            alt="Image preview"
-            class="max-w-xs
-                   max-h-48
-                   rounded-2xl
-                   object-cover
-                   border
-                   border-zinc-700
-                   shadow-lg"
-        >
+        {% for msg in messages %}
+
+            {% ifchanged msg.timestamp.date %}
+
+                <div class="flex justify-center">
+
+                    <span class="text-xs
+                                 bg-zinc-800
+                                 text-zinc-400
+                                 px-4 py-1
+                                 rounded-full">
+
+                        {{ msg.timestamp|date:"M d, Y" }}
+
+                    </span>
+
+                </div>
+
+            {% endifchanged %}
 
 
-        <!-- REMOVE IMAGE -->
-
-        <button
-            type="button"
-            id="remove-image"
-            class="absolute
-                   -top-2
-                   -right-2
-                   w-7
-                   h-7
-                   rounded-full
-                   bg-red-600
-                   text-white
-                   font-bold
-                   flex
-                   items-center
-                   justify-center
-                   hover:bg-red-500
-                   transition"
-        >
-            ×
-        </button>
-
-    </div>
-
-
-
-    <!-- INPUT ROW -->
-
-    <div class="flex gap-3">
-
-
-        <!-- MESSAGE INPUT -->
-
-        <input
-            type="text"
-            name="content"
-            placeholder="Message..."
-            class="flex-1
-                   rounded-full
-                   px-5 py-3
-                   bg-zinc-900
-                   border border-zinc-700
-                   text-white
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-violet-500"
-        >
-
-
-
-        <!-- IMAGE BUTTON -->
-
-        <label
-            class="cursor-pointer
-                   bg-zinc-800
-                   rounded-full
-                   px-4 py-3
-                   hover:bg-zinc-700
-                   transition"
-        >
-
-            📷
-
-            <input
-                type="file"
-                name="image"
-                id="image-input"
-                accept="image/*"
-                class="hidden"
+            <div
+                class="flex
+                {% if msg.sender == request.user %}
+                    justify-end
+                {% else %}
+                    justify-start
+                {% endif %}"
             >
 
-        </label>
+                <div class="max-w-xs md:max-w-md relative">
+
+                    <div
+                        onclick="toggleDelete(this)"
+                        class="px-5 py-3
+                               cursor-pointer
+                               shadow-lg
+                               rounded-3xl
+                               {% if msg.sender == request.user %}
+                                   bg-gradient-to-r
+                                   from-violet-600
+                                   to-purple-600
+                                   text-white
+                                   rounded-br-md
+                               {% else %}
+                                   bg-zinc-800
+                                   text-zinc-100
+                                   rounded-bl-md
+                               {% endif %}"
+                    >
+
+                        {% if msg.content %}
+
+                            <p class="break-words leading-relaxed">
+                                {{ msg.content }}
+                            </p>
+
+                        {% endif %}
 
 
+                        {% if msg.image %}
 
-        <!-- SEND BUTTON -->
+                            <img
+                                src="{{ msg.image.url }}"
+                                class="mt-3
+                                       rounded-2xl
+                                       max-h-72
+                                       object-cover"
+                            >
 
-        <button
-            type="submit"
-            class="rounded-full
-                   px-6
-                   bg-gradient-to-r
-                   from-violet-600
-                   to-purple-600
-                   text-white
-                   font-bold"
-        >
+                        {% endif %}
 
-            ➤
 
-        </button>
+                        <div class="flex justify-end
+                                    items-center
+                                    gap-2
+                                    mt-2">
 
+                            <span class="text-xs opacity-70">
+                                {{ msg.timestamp|date:"H:i" }}
+                            </span>
+
+                            {% if msg.sender == request.user %}
+
+                                {% if msg.is_read %}
+
+                                    <span class="text-xs">
+                                        ✓✓
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="text-xs">
+                                        ✓
+                                    </span>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DELETE BUTTON -->
+
+                    {% if msg.sender == request.user %}
+
+                        <form
+                            method="POST"
+                            action="{% url 'delete_chat_message' msg.id %}"
+                            class="absolute
+                                   right-0
+                                   -top-3
+                                   hidden
+                                   delete-btn"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                onclick="return confirm('Delete message?');"
+                                class="bg-red-600
+                                       text-white
+                                       rounded-full
+                                       w-7 h-7"
+                            >
+                                ×
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        {% empty %}
+
+            <div
+                id="empty-chat-message"
+                class="text-center py-20"
+            >
+
+                <div class="text-5xl mb-4">
+                    👋
+                </div>
+
+                <p class="text-zinc-400">
+                    Start your conversation on Aniva.
+                </p>
+
+            </div>
+
+        {% endfor %}
 
     </div>
 
 
-</form>
+    <!-- MESSAGE FORM -->
 
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="mt-4 sticky bottom-0 bg-zinc-950 py-3"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- IMAGE PREVIEW -->
+
+        <div
+            id="image-preview-container"
+            class="hidden mb-3 relative w-fit"
+        >
+
+            <img
+                id="image-preview"
+                src=""
+                alt="Image preview"
+                class="max-w-xs
+                       max-h-48
+                       rounded-2xl
+                       object-cover
+                       border
+                       border-zinc-700
+                       shadow-lg"
+            >
+
+            <button
+                type="button"
+                id="remove-image"
+                class="absolute
+                       -top-2
+                       -right-2
+                       w-7
+                       h-7
+                       rounded-full
+                       bg-red-600
+                       text-white
+                       font-bold
+                       flex items-center
+                       justify-center"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <div class="flex gap-3">
+
+            <input
+                type="text"
+                name="content"
+                id="message-input"
+                placeholder="Message..."
+                class="flex-1
+                       rounded-full
+                       px-5 py-3
+                       bg-zinc-900
+                       border border-zinc-700
+                       text-white
+                       focus:outline-none
+                       focus:ring-2
+                       focus:ring-violet-500"
+            >
+
+
+            <!-- IMAGE -->
+
+            <label
+                class="cursor-pointer
+                       bg-zinc-800
+                       rounded-full
+                       px-4 py-3
+                       hover:bg-zinc-700"
+            >
+
+                📷
+
+                <input
+                    type="file"
+                    name="image"
+                    id="image-input"
+                    accept="image/*"
+                    class="hidden"
+                >
+
+            </label>
+
+
+            <!-- SEND -->
+
+            <button
+                type="submit"
+                class="rounded-full
+                       px-6
+                       bg-gradient-to-r
+                       from-violet-600
+                       to-purple-600
+                       text-white
+                       font-bold"
+            >
+                ➤
+            </button>
+
+        </div>
+
+    </form>
 
 </div>
-
-
-
 
 
 <script>
 
+/* ========================================= */
+/* AUTO SCROLL */
+/* ========================================= */
 
-/* ============================= */
-/* AUTO SCROLL TO BOTTOM */
-/* ============================= */
+function scrollToBottom() {
 
-window.addEventListener(
-    'load',
-    () => {
+    const container =
+        document.getElementById("chat-container");
 
-        const container =
-            document.getElementById(
-                'chat-container'
-            );
+    if (container) {
 
         container.scrollTop =
             container.scrollHeight;
-
-    }
-);
-
-
-
-
-
-/* ============================= */
-/* DELETE MESSAGE */
-/* ============================= */
-
-function toggleDelete(message) {
-
-    const btn =
-        message.parentElement.querySelector(
-            '.delete-btn'
-        );
-
-    if (btn) {
-
-        btn.classList.toggle(
-            'hidden'
-        );
 
     }
 
 }
 
 
+window.addEventListener(
+    "load",
+    function() {
+
+        scrollToBottom();
+
+    }
+);
 
 
+/* ========================================= */
+/* DELETE MESSAGE */
+/* ========================================= */
 
-/* ============================= */
+function toggleDelete(message) {
+
+    const btn =
+        message.parentElement.querySelector(
+            ".delete-btn"
+        );
+
+    if (btn) {
+
+        btn.classList.toggle("hidden");
+
+    }
+
+}
+
+
+/* ========================================= */
 /* IMAGE PREVIEW */
-/* ============================= */
+/* ========================================= */
 
 const imageInput =
-    document.getElementById(
-        'image-input'
-    );
-
+    document.getElementById("image-input");
 
 const previewContainer =
     document.getElementById(
-        'image-preview-container'
+        "image-preview-container"
     );
-
 
 const imagePreview =
-    document.getElementById(
-        'image-preview'
-    );
-
+    document.getElementById("image-preview");
 
 const removeImage =
-    document.getElementById(
-        'remove-image'
+    document.getElementById("remove-image");
+
+
+if (imageInput) {
+
+    imageInput.addEventListener(
+        "change",
+        function() {
+
+            const file =
+                this.files[0];
+
+            if (!file) {
+
+                previewContainer.classList.add(
+                    "hidden"
+                );
+
+                imagePreview.src = "";
+
+                return;
+
+            }
+
+
+            if (!file.type.startsWith("image/")) {
+
+                this.value = "";
+
+                previewContainer.classList.add(
+                    "hidden"
+                );
+
+                imagePreview.src = "";
+
+                alert(
+                    "Please select an image file."
+                );
+
+                return;
+
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(event) {
+
+                    imagePreview.src =
+                        event.target.result;
+
+                    previewContainer.classList.remove(
+                        "hidden"
+                    );
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+
+if (removeImage) {
+
+    removeImage.addEventListener(
+        "click",
+        function() {
+
+            imageInput.value = "";
+
+            imagePreview.src = "";
+
+            previewContainer.classList.add(
+                "hidden"
+            );
+
+        }
+    );
+
+}
+
+
+/* ========================================= */
+/* REAL-TIME CHAT / WEBSOCKET */
+/* ========================================= */
+
+const chatId =
+    "{{ chat.id }}";
+
+
+const currentUsername =
+    "{{ request.user.username|escapejs }}";
+
+
+const protocol =
+    window.location.protocol === "https:"
+        ? "wss:"
+        : "ws:";
+
+
+const chatSocket =
+    new WebSocket(
+        protocol +
+        "//" +
+        window.location.host +
+        "/ws/chat/" +
+        chatId +
+        "/"
     );
 
 
+/* ========================================= */
+/* WEBSOCKET CONNECTED */
+/* ========================================= */
 
-/* When an image is selected */
+chatSocket.onopen =
+    function() {
 
-imageInput.addEventListener(
-    'change',
-    function () {
+        console.log(
+            "WebSocket connected."
+        );
 
-        const file =
-            this.files[0];
+    };
 
 
-        if (!file) {
+/* ========================================= */
+/* RECEIVE MESSAGE */
+/* ========================================= */
 
-            previewContainer.classList.add(
-                'hidden'
+chatSocket.onmessage =
+    function(event) {
+
+        const data =
+            JSON.parse(event.data);
+
+
+        console.log(
+            "New real-time message:",
+            data
+        );
+
+
+        const container =
+            document.getElementById(
+                "chat-container"
             );
 
-            imagePreview.src = "";
+
+        if (!container) {
 
             return;
 
         }
 
 
-        /* Make sure it is actually an image */
+        /* Is this our own message? */
 
-        if (!file.type.startsWith('image/')) {
+        const isMine =
+            data.sender === currentUsername;
 
-            this.value = "";
 
-            previewContainer.classList.add(
-                'hidden'
+        /* Remove empty message */
+
+        const emptyMessage =
+            document.getElementById(
+                "empty-chat-message"
             );
 
-            imagePreview.src = "";
 
-            return;
+        if (emptyMessage) {
+
+            emptyMessage.remove();
 
         }
 
 
-        /* Create temporary preview */
+        /* MESSAGE WRAPPER */
 
-        const reader =
-            new FileReader();
+        const wrapper =
+            document.createElement("div");
 
 
-        reader.onload =
-            function (event) {
+        wrapper.className =
+            isMine
+                ? "flex justify-end"
+                : "flex justify-start";
 
-                imagePreview.src =
-                    event.target.result;
 
-                previewContainer.classList.remove(
-                    'hidden'
-                );
+        /* MESSAGE CONTAINER */
+
+        const messageContainer =
+            document.createElement("div");
+
+
+        messageContainer.className =
+            "max-w-xs md:max-w-md relative";
+
+
+        /* BUBBLE */
+
+        const bubble =
+            document.createElement("div");
+
+
+        bubble.className =
+            "px-5 py-3 shadow-lg rounded-3xl";
+
+
+        if (isMine) {
+
+            bubble.className +=
+                " bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-br-md";
+
+        } else {
+
+            bubble.className +=
+                " bg-zinc-800 text-zinc-100 rounded-bl-md";
+
+        }
+
+
+        /* TEXT */
+
+        if (data.message) {
+
+            const text =
+                document.createElement("p");
+
+
+            text.className =
+                "break-words leading-relaxed";
+
+
+            text.textContent =
+                data.message;
+
+
+            bubble.appendChild(text);
+
+        }
+
+
+        /* IMAGE */
+
+        if (data.image) {
+
+            const image =
+                document.createElement("img");
+
+
+            image.src =
+                data.image;
+
+
+            image.className =
+                "mt-3 rounded-2xl max-h-72 object-cover";
+
+
+            bubble.appendChild(image);
+
+        }
+
+
+        /* TIME */
+
+        const timeRow =
+            document.createElement("div");
+
+
+        timeRow.className =
+            "flex justify-end items-center gap-2 mt-2";
+
+
+        const time =
+            document.createElement("span");
+
+
+        time.className =
+            "text-xs opacity-70";
+
+
+        time.textContent =
+            data.timestamp;
+
+
+        timeRow.appendChild(time);
+
+
+        /* READ RECEIPT */
+
+        if (isMine) {
+
+            const read =
+                document.createElement("span");
+
+
+            read.className =
+                "text-xs";
+
+
+            read.textContent =
+                "✓";
+
+
+            timeRow.appendChild(read);
+
+        }
+
+
+        bubble.appendChild(timeRow);
+
+
+        /* DELETE TOGGLE */
+
+        bubble.onclick =
+            function() {
+
+                toggleDelete(bubble);
 
             };
 
 
-        reader.readAsDataURL(
-            file
+        messageContainer.appendChild(
+            bubble
         );
 
-    }
-);
+
+        /* DELETE BUTTON */
+
+        if (isMine) {
+
+            const deleteForm =
+                document.createElement("form");
 
 
+            deleteForm.method =
+                "POST";
 
 
+            deleteForm.className =
+                "absolute right-0 -top-3 hidden delete-btn";
 
-/* ============================= */
-/* REMOVE SELECTED IMAGE */
-/* ============================= */
 
-removeImage.addEventListener(
-    'click',
-    function () {
+            deleteForm.action =
+                "{% url 'chat_list' %}";
 
-        imageInput.value = "";
 
-        imagePreview.src = "";
+            deleteForm.innerHTML = `
 
-        previewContainer.classList.add(
-            'hidden'
+                <button
+                    type="submit"
+                    class="bg-red-600
+                           text-white
+                           rounded-full
+                           w-7 h-7"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            messageContainer.appendChild(
+                deleteForm
+            );
+
+        }
+
+
+        /* ADD MESSAGE */
+
+        wrapper.appendChild(
+            messageContainer
         );
 
-    }
-);
 
+        container.appendChild(
+            wrapper
+        );
+
+
+        /* SCROLL */
+
+        scrollToBottom();
+
+    };
+
+
+/* ========================================= */
+/* WEBSOCKET ERROR */
+/* ========================================= */
+
+chatSocket.onerror =
+    function(error) {
+
+        console.error(
+            "WebSocket error:",
+            error
+        );
+
+    };
+
+
+/* ========================================= */
+/* WEBSOCKET CLOSED */
+/* ========================================= */
+
+chatSocket.onclose =
+    function() {
+
+        console.log(
+            "WebSocket disconnected."
+        );
+
+    };
 
 </script>
-
-
 
 {% endblock %}

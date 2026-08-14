@@ -1,11 +1,11 @@
-# chats/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from .models import Chat, Message
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
+from .models import Chat, Message
 
 
 # -----------------------------
@@ -27,7 +27,6 @@ def chat_list(request):
         .distinct()
     )
 
-
     return render(
         request,
         "chat/chat_list.html",
@@ -35,7 +34,6 @@ def chat_list(request):
             "chats": chats
         }
     )
-
 
 
 # -----------------------------
@@ -52,7 +50,6 @@ def chat_detail(request, user_id):
         id=user_id
     )
 
-
     # Find existing conversation
     chat = (
         Chat.objects
@@ -60,7 +57,6 @@ def chat_detail(request, user_id):
         .filter(users=other_user)
         .first()
     )
-
 
     # Create new conversation
     if not chat:
@@ -72,8 +68,6 @@ def chat_detail(request, user_id):
             other_user
         )
 
-
-
     # -----------------------------
     # Send Message
     # -----------------------------
@@ -84,28 +78,45 @@ def chat_detail(request, user_id):
             ""
         ).strip()
 
-
         image = request.FILES.get(
             "image"
         )
 
-
         if content or image:
 
-            Message.objects.create(
+            message = Message.objects.create(
                 chat=chat,
                 sender=request.user,
                 content=content,
                 image=image
             )
 
+            # Send message through WebSocket
+            channel_layer = get_channel_layer()
+
+            async_to_sync(
+                channel_layer.group_send
+            )(
+                f"chat_{chat.id}",
+                {
+                    "type": "chat_message",
+                    "message": message.content or "",
+                    "sender": request.user.username,
+                    "image": (
+                        message.image.url
+                        if message.image
+                        else ""
+                    ),
+                    "timestamp": message.timestamp.strftime(
+                        "%H:%M"
+                    ),
+                }
+            )
 
         return redirect(
             "chat_detail",
             user_id=other_user.id
         )
-
-
 
     # -----------------------------
     # Mark Messages As Read
@@ -116,8 +127,6 @@ def chat_detail(request, user_id):
     ).update(
         is_read=True
     )
-
-
 
     # -----------------------------
     # Get Messages
@@ -132,8 +141,6 @@ def chat_detail(request, user_id):
         )
     )
 
-
-
     return render(
         request,
         "chat/chat_detail.html",
@@ -143,7 +150,6 @@ def chat_detail(request, user_id):
             "messages": messages
         }
     )
-
 
 
 # -----------------------------
@@ -161,7 +167,6 @@ def delete_chat_message(request, message_id):
         sender=request.user
     )
 
-
     other_user = (
         message.chat.users
         .exclude(
@@ -170,10 +175,7 @@ def delete_chat_message(request, message_id):
         .first()
     )
 
-
     message.delete()
-
-
 
     # If conversation still has another user,
     # return to chat
@@ -183,7 +185,6 @@ def delete_chat_message(request, message_id):
             "chat_detail",
             user_id=other_user.id
         )
-
 
     return redirect(
         "chat_list"

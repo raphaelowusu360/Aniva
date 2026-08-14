@@ -23,11 +23,17 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "https://aniva.onrender.com",
+]
 
 # -----------------------------
 # INSTALLED APPS
 # -----------------------------
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +44,7 @@ INSTALLED_APPS = [
     # Custom apps
     'users.apps.UsersConfig',
     'chats',
+    'channels',
 ]
 
 # -----------------------------
@@ -90,6 +97,7 @@ TEMPLATES = [
 # WSGI
 # -----------------------------
 WSGI_APPLICATION = 'animehub.wsgi.application'
+ASGI_APPLICATION = 'animehub.asgi.application'
 
 
 # -----------------------------
@@ -163,4 +171,14 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
+}
+
+# -----------------------------
+# CHANNEL LAYERS
+# -----------------------------
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
 }
