@@ -5,851 +5,484 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="description"
+          content="Aniva - Connect, create, and discover communities around your passions.">
 
-<meta charset="UTF-8">
+    <title>
+        {% block title %}Aniva | Connect. Create. Belong.{% endblock %}
+    </title>
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<meta name="description"
-      content="Aniva - Connect, create, and discover communities around your passions.">
-
-<title>
-    {% block title %}Aniva | Connect. Create. Belong.{% endblock %}
-</title>
-
-
-<!-- ===================================================== -->
-<!-- TAILWIND CSS -->
-<!-- ===================================================== -->
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-
-<!-- ===================================================== -->
-<!-- CUSTOM TAILWIND CONFIG -->
-<!-- ===================================================== -->
-
-<script>
-
-    tailwind.config = {
-
-        theme: {
-
-            extend: {
-
-                colors: {
-
-                    aniva: {
-
-                        purple: '#8b5cf6',
-                        dark: '#09090b'
-
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zinc: {
+                            950: '#09090b'
+                        }
                     }
-
                 }
-
             }
-
         }
-
-    }
-
-</script>
-
-
+    </script>
 </head>
 
-<body class="bg-zinc-950 text-zinc-100 font-sans">
+
+<body class="bg-zinc-950 text-white min-h-screen">
+
 
 <!-- ========================================================= -->
-
 <!-- NAVBAR -->
-
 <!-- ========================================================= -->
 
-<nav class="bg-zinc-900/80
-           backdrop-blur-xl
-           border-b border-zinc-800
-           shadow-lg
-           px-4 sm:px-6
-           py-3">
+<nav class="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur sticky top-0 z-50">
 
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-<div class="max-w-7xl mx-auto">
-
-
-    <!-- ================================================= -->
-    <!-- MAIN NAVBAR ROW -->
-    <!-- ================================================= -->
-
-    <div class="flex items-center gap-3">
-
-
-        <!-- ================================================= -->
-        <!-- ANIVA LOGO -->
-        <!-- ================================================= -->
-
-        <a href="{% url 'home' %}"
-           class="flex items-center
-                  text-2xl
-                  font-extrabold
-                  flex-shrink-0
-                  mr-auto">
-
-            <span class="bg-gradient-to-r
-                         from-violet-400
-                         to-purple-600
-                         bg-clip-text
-                         text-transparent">
-
-                Aniva
-
-            </span>
-
-        </a>
-
-
-        <!-- ================================================= -->
-        <!-- DESKTOP NAVIGATION -->
-        <!-- ================================================= -->
-
-        <div class="hidden lg:flex
-                    items-center
-                    gap-6
-                    text-base">
-
-
-            <!-- Explore -->
-
-            <a href="{% url 'anime_list' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
-
-                Explore
-
-            </a>
-
-
-            <!-- Favorites -->
-
-            <a href="{% url 'favorites' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
-
-                Favorites
-
-            </a>
-
-
-            <!-- Communities -->
-
-            <a href="{% url 'group_list' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
-
-                Communities
-
-            </a>
-
-
-            <!-- People -->
-
-            <a href="{% url 'browse_users' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
-
-                People
-
-            </a>
-
-
-            {% if user.is_authenticated %}
+        <div class="flex items-center justify-between min-h-[72px]">
 
 
             <!-- ================================================= -->
-            <!-- MESSAGES -->
+            <!-- DESKTOP NAVIGATION -->
             <!-- ================================================= -->
 
-            <a href="{% url 'chat_list' %}"
-               class="relative
-                      hover:text-violet-400
-                      transition
-                      flex
-                      items-center"
-               aria-label="Messages">
+            <div class="hidden lg:flex items-center justify-between w-full">
 
-                🔔
 
-                {% if unread_messages %}
+                <!-- ================================================= -->
+                <!-- LEFT SIDE -->
+                <!-- ================================================= -->
 
-                <span class="absolute
-                             -top-2
-                             -right-3
-                             bg-red-600
-                             text-white
-                             text-xs
-                             font-bold
-                             rounded-full
-                             min-w-[20px]
-                             h-[20px]
-                             flex
-                             items-center
-                             justify-center
-                             px-1">
+                <div class="flex items-center gap-6 text-base">
 
-                    {{ unread_messages }}
 
-                </span>
+                    <!-- LOGO -->
 
-                {% endif %}
+                    <a href="{% url 'home' %}"
+                       class="text-2xl font-extrabold bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent mr-2">
 
-            </a>
+                        Aniva
 
+                    </a>
 
-            <!-- Profile -->
 
-            <a href="{% url 'profile' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
+                    <!-- EXPLORE -->
 
-                Profile
+                    <a href="{% url 'anime_list' %}"
+                       class="text-zinc-300 hover:text-white transition">
 
-            </a>
+                        Explore
 
+                    </a>
 
-            <!-- Friends -->
 
-            <a href="{% url 'friends_list' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
+                    <!-- FAVORITES -->
 
-                Friends
+                    <a href="{% url 'favorites' %}"
+                       class="text-zinc-300 hover:text-white transition">
 
-            </a>
+                        Favorites
 
+                    </a>
 
-            <!-- Requests -->
 
-            <a href="{% url 'friend_requests_list' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
+                    <!-- COMMUNITIES -->
 
-                Requests
+                    <a href="{% url 'group_list' %}"
+                       class="text-zinc-300 hover:text-white transition">
 
-            </a>
+                        Communities
 
+                    </a>
 
-            <!-- Feedback -->
 
-            <a href="{% url 'feature_feedback' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
+                    <!-- MESSAGES -->
 
-                Feedback
+                    {% if user.is_authenticated %}
 
-            </a>
+                    <a href="{% url 'chat_list' %}"
+                       aria-label="Messages"
+                       class="text-xl text-zinc-300 hover:text-white transition">
 
+                        🔔
 
-            <!-- Logout -->
+                    </a>
 
-            <form method="POST"
-                  action="{% url 'logout' %}">
+                    {% endif %}
 
-                {% csrf_token %}
+                </div>
 
-                <button type="submit"
-                        class="bg-gradient-to-r
-                               from-violet-600
-                               to-purple-600
-                               px-4
-                               py-2
-                               rounded-xl
-                               text-white
-                               font-medium
-                               hover:from-violet-500
-                               hover:to-purple-500
-                               transition
-                               shadow-lg
-                               whitespace-nowrap">
 
-                    Logout
+                <!-- ================================================= -->
+                <!-- RIGHT SIDE -->
+                <!-- ================================================= -->
 
-                </button>
+                <div class="flex items-center gap-6 text-base">
 
-            </form>
 
+                    <!-- PEOPLE -->
 
-            {% else %}
+                    <a href="{% url 'browse_users' %}"
+                       class="text-zinc-300 hover:text-white transition">
 
+                        People
 
-            <!-- Login -->
+                    </a>
 
-            <a href="{% url 'login' %}"
-               class="hover:text-violet-400
-                      transition
-                      whitespace-nowrap">
 
-                Login
+                    {% if user.is_authenticated %}
 
-            </a>
 
+                        <!-- PROFILE -->
 
-            <!-- Join Aniva -->
+                        <a href="{% url 'profile' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
-            <a href="{% url 'register' %}"
-               class="bg-gradient-to-r
-                      from-violet-600
-                      to-purple-600
-                      px-4
-                      py-2
-                      rounded-xl
-                      font-medium
-                      hover:from-violet-500
-                      hover:to-purple-500
-                      transition
-                      whitespace-nowrap">
+                            Profile
 
-                Join Aniva
+                        </a>
 
-            </a>
 
+                        <!-- FRIENDS -->
 
-            {% endif %}
+                        <a href="{% url 'friends_list' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
-        </div>
+                            Friends
 
+                        </a>
 
-        <!-- ================================================= -->
-        <!-- MOBILE / SMALL SCREEN QUICK TABS -->
-        <!-- ================================================= -->
 
-        <div class="flex lg:hidden
-                    items-center
-                    gap-3
-                    sm:gap-4">
+                        <!-- REQUESTS -->
 
+                        <a href="{% url 'friend_requests_list' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
-            {% if user.is_authenticated %}
+                            🤝 Requests
 
+                        </a>
 
-            <!-- ================================================= -->
-            <!-- MESSAGES -->
-            <!-- ================================================= -->
 
-            <a href="{% url 'chat_list' %}"
-               class="relative
-                      flex
-                      items-center
-                      justify-center
-                      text-lg
-                      sm:text-xl
-                      hover:text-violet-400
-                      transition"
-               aria-label="Messages">
+                        <!-- FEEDBACK -->
 
-                🔔
+                        <a href="{% url 'feature_feedback' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
+                            💡 Feedback
 
-                {% if unread_messages %}
+                        </a>
 
-                <span class="absolute
-                             -top-2
-                             -right-2
-                             bg-red-600
-                             text-white
-                             text-[10px]
-                             font-bold
-                             rounded-full
-                             min-w-[17px]
-                             h-[17px]
-                             flex
-                             items-center
-                             justify-center
-                             px-1">
 
-                    {{ unread_messages }}
+                        <!-- LOGOUT -->
 
-                </span>
+                        <form method="POST"
+                              action="{% url 'logout' %}"
+                              class="inline">
 
-                {% endif %}
+                            {% csrf_token %}
 
-            </a>
+                            <button type="submit"
+                                    class="text-zinc-300 hover:text-red-400 transition">
 
+                                Logout
 
-            <!-- ================================================= -->
-            <!-- PEOPLE -->
-            <!-- ================================================= -->
+                            </button>
 
-            <a href="{% url 'browse_users' %}"
-               class="flex
-                      items-center
-                      justify-center
-                      text-lg
-                      sm:text-xl
-                      hover:text-violet-400
-                      transition"
-               aria-label="People">
+                        </form>
 
-                <span class="sm:hidden">
-                    👤People
-                </span>
 
-                <span class="hidden sm:inline text-sm">
-                    People
-                </span>
+                    {% else %}
 
-            </a>
 
+                        <!-- LOGIN -->
 
-            <!-- ================================================= -->
-            <!-- PROFILE -->
-            <!-- ================================================= -->
+                        <a href="{% url 'login' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
-            <a href="{% url 'profile' %}"
-               class="flex
-                      items-center
-                      justify-center
-                      text-lg
-                      sm:text-xl
-                      hover:text-violet-400
-                      transition"
-               aria-label="Profile">
+                            Login
 
-                <span class="sm:hidden">
-                    👤Profile
-                </span>
+                        </a>
 
-                <span class="hidden sm:inline text-sm">
-                    Profile
-                </span>
 
-            </a>
+                        <!-- JOIN ANIVA -->
 
+                        <a href="{% url 'register' %}"
+                           class="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 transition font-semibold">
 
-            {% endif %}
+                            Join Aniva
 
+                        </a>
 
-            <!-- ================================================= -->
-            <!-- HAMBURGER -->
-            <!-- ================================================= -->
 
-            <button id="mobile-menu-button"
-                    type="button"
-                    class="p-2
-                           rounded-xl
-                           bg-zinc-800
-                           hover:bg-zinc-700
-                           transition
-                           text-xl
-                           flex
-                           items-center
-                           justify-center"
-                    aria-label="Open menu"
-                    aria-expanded="false">
+                    {% endif %}
 
-                ☰
+                </div>
 
-            </button>
-
-        </div>
-
-
-    </div>
-
-
-    <!-- ========================================================= -->
-    <!-- MOBILE MENU -->
-    <!-- ========================================================= -->
-
-    <div id="mobile-menu"
-         class="hidden
-                mt-4
-                pt-4
-                border-t
-                border-zinc-800">
-
-
-        <div class="flex
-                    flex-col
-                    gap-2">
-
-
-            <!-- ================================================= -->
-            <!-- EXPLORE -->
-            <!-- ================================================= -->
-
-            <a href="{% url 'anime_list' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
-
-                🔎 Explore
-
-            </a>
-
-
-            <!-- ================================================= -->
-            <!-- FAVORITES -->
-            <!-- ================================================= -->
-
-            <a href="{% url 'favorites' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
-
-                ❤️ Favorites
-
-            </a>
-
-
-            <!-- ================================================= -->
-            <!-- COMMUNITIES -->
-            <!-- ================================================= -->
-
-            <a href="{% url 'group_list' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
-
-                👥 Communities
-
-            </a>
-
-
-            {% if user.is_authenticated %}
-
-
-            <!-- ================================================= -->
-            <!-- DIVIDER -->
-            <!-- ================================================= -->
-
-            <div class="border-t
-                        border-zinc-800
-                        my-2">
             </div>
 
 
             <!-- ================================================= -->
-            <!-- FRIENDS -->
+            <!-- MOBILE NAVIGATION -->
             <!-- ================================================= -->
 
-            <a href="{% url 'friends_list' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
-
-                👥 Friends
-
-            </a>
+            <div class="flex lg:hidden items-center gap-3 sm:gap-4 w-full">
 
 
-            <!-- ================================================= -->
-            <!-- REQUESTS -->
-            <!-- ================================================= -->
+                <!-- MOBILE MESSAGES -->
 
-            <a href="{% url 'friend_requests_list' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
+                {% if user.is_authenticated %}
 
-                🤝 Requests
+                <a href="{% url 'chat_list' %}"
+                   aria-label="Messages"
+                   class="text-xl text-zinc-300 hover:text-white transition">
 
-            </a>
+                    🔔
+
+                </a>
+
+                {% endif %}
 
 
-            <!-- ================================================= -->
-            <!-- FEEDBACK -->
-            <!-- ================================================= -->
+                <!-- MOBILE PEOPLE -->
 
-            <a href="{% url 'feature_feedback' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
+                <a href="{% url 'browse_users' %}"
+                   class="text-zinc-300 hover:text-white transition">
 
-                💡 Feedback
+                    <span class="sm:hidden">
+                        👤
+                    </span>
 
-            </a>
+                    <span class="hidden sm:inline">
+                        People
+                    </span>
+
+                </a>
 
 
-            <!-- ================================================= -->
-            <!-- LOGOUT -->
-            <!-- ================================================= -->
+                <!-- MOBILE PROFILE -->
 
-            <form method="POST"
-                  action="{% url 'logout' %}"
-                  class="mt-1">
+                {% if user.is_authenticated %}
 
-                {% csrf_token %}
+                <a href="{% url 'profile' %}"
+                   class="text-zinc-300 hover:text-white transition">
 
-                <button type="submit"
-                        class="w-full
-                               bg-gradient-to-r
-                               from-violet-600
-                               to-purple-600
-                               px-4
-                               py-3
-                               rounded-xl
-                               text-white
-                               font-medium
-                               hover:from-violet-500
-                               hover:to-purple-500
-                               transition
-                               shadow-lg">
+                    <span class="sm:hidden">
+                        👤
+                    </span>
 
-                    Logout
+                    <span class="hidden sm:inline">
+                        Profile
+                    </span>
+
+                </a>
+
+                {% endif %}
+
+
+                <!-- MOBILE HAMBURGER -->
+
+                <button id="mobile-menu-button"
+                        type="button"
+                        class="ml-auto text-2xl text-zinc-300 hover:text-white transition">
+
+                    ☰
 
                 </button>
 
-            </form>
-
-
-            {% else %}
-
-
-            <!-- ================================================= -->
-            <!-- DIVIDER -->
-            <!-- ================================================= -->
-
-            <div class="border-t
-                        border-zinc-800
-                        my-2">
             </div>
 
-
-            <!-- ================================================= -->
-            <!-- LOGIN -->
-            <!-- ================================================= -->
-
-            <a href="{% url 'login' %}"
-               class="px-4
-                      py-3
-                      rounded-xl
-                      hover:bg-zinc-800
-                      hover:text-violet-400
-                      transition">
-
-                Login
-
-            </a>
+        </div>
 
 
-            <!-- ================================================= -->
-            <!-- JOIN ANIVA -->
-            <!-- ================================================= -->
+        <!-- ================================================= -->
+        <!-- MOBILE MENU -->
+        <!-- ================================================= -->
 
-            <a href="{% url 'register' %}"
-               class="text-center
-                      bg-gradient-to-r
-                      from-violet-600
-                      to-purple-600
-                      px-4
-                      py-3
-                      rounded-xl
-                      font-medium
-                      hover:from-violet-500
-                      hover:to-purple-500
-                      transition">
-
-                Join Aniva
-
-            </a>
+        <div id="mobile-menu"
+             class="hidden lg:hidden border-t border-zinc-800 py-4">
 
 
-            {% endif %}
+            <div class="flex flex-col gap-4 text-base">
 
+
+                <!-- EXPLORE -->
+
+                <a href="{% url 'anime_list' %}"
+                   class="text-zinc-300 hover:text-white transition">
+
+                    Explore
+
+                </a>
+
+
+                <!-- FAVORITES -->
+
+                <a href="{% url 'favorites' %}"
+                   class="text-zinc-300 hover:text-white transition">
+
+                    Favorites
+
+                </a>
+
+
+                <!-- COMMUNITIES -->
+
+                <a href="{% url 'group_list' %}"
+                   class="text-zinc-300 hover:text-white transition">
+
+                    Communities
+
+                </a>
+
+
+                {% if user.is_authenticated %}
+
+
+                    <!-- FRIENDS -->
+
+                    <a href="{% url 'friends_list' %}"
+                       class="text-zinc-300 hover:text-white transition">
+
+                        Friends
+
+                    </a>
+
+
+                    <!-- REQUESTS -->
+
+                    <a href="{% url 'friend_requests_list' %}"
+                       class="text-zinc-300 hover:text-white transition">
+
+                        🤝 Requests
+
+                    </a>
+
+
+                    <!-- FEEDBACK -->
+
+                    <a href="{% url 'feature_feedback' %}"
+                       class="text-zinc-300 hover:text-white transition">
+
+                        💡 Feedback
+
+                    </a>
+
+
+                    <!-- LOGOUT -->
+
+                    <form method="POST"
+                          action="{% url 'logout' %}">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="text-zinc-300 hover:text-red-400 transition">
+
+                            Logout
+
+                        </button>
+
+                    </form>
+
+
+                {% else %}
+
+
+                    <!-- LOGIN -->
+
+                    <a href="{% url 'login' %}"
+                       class="text-zinc-300 hover:text-white transition">
+
+                        Login
+
+                    </a>
+
+
+                    <!-- JOIN ANIVA -->
+
+                    <a href="{% url 'register' %}"
+                       class="text-zinc-300 hover:text-white transition">
+
+                        Join Aniva
+
+                    </a>
+
+
+                {% endif %}
+
+            </div>
 
         </div>
 
     </div>
-
-
-</div>
-
 
 </nav>
 
-<!-- ========================================================= -->
-
-<!-- MOBILE MENU JAVASCRIPT -->
 
 <!-- ========================================================= -->
-
-<script>
-
-    const mobileMenuButton =
-        document.getElementById("mobile-menu-button");
-
-    const mobileMenu =
-        document.getElementById("mobile-menu");
-
-
-    if (mobileMenuButton && mobileMenu) {
-
-        mobileMenuButton.addEventListener(
-            "click",
-            function () {
-
-                mobileMenu.classList.toggle("hidden");
-
-
-                const isOpen =
-                    !mobileMenu.classList.contains("hidden");
-
-
-                mobileMenuButton.setAttribute(
-                    "aria-expanded",
-                    isOpen
-                );
-
-
-                mobileMenuButton.innerHTML =
-                    isOpen ? "✕" : "☰";
-
-            }
-        );
-
-    }
-
-</script>
-
-<!-- ========================================================= -->
-
-<!-- DJANGO MESSAGES -->
-
+<!-- MESSAGE ALERTS -->
 <!-- ========================================================= -->
 
 {% if "/chats/" not in request.path and messages %}
 
-<div id="message-container"
-     class="max-w-7xl
-            mx-auto
-            mt-5
-            px-4
-            space-y-3">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
 
+    {% for message in messages %}
 
-{% for message in messages %}
+        <div class="mb-3 px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-900 text-zinc-200">
 
+            {{ message }}
 
-<div class="alert-message
-            p-4
-            rounded-xl
-            border
-            text-sm
-            transition-opacity
-            duration-500
+        </div>
 
-    {% if message.tags == 'success' %}
-
-        bg-green-900/40
-        text-green-300
-        border-green-700
-
-    {% elif message.tags == 'error' %}
-
-        bg-red-900/40
-        text-red-300
-        border-red-700
-
-    {% elif message.tags == 'warning' %}
-
-        bg-yellow-900/40
-        text-yellow-300
-        border-yellow-700
-
-    {% else %}
-
-        bg-zinc-800
-        text-zinc-200
-        border-zinc-700
-
-    {% endif %}">
-
-
-    {{ message }}
-
+    {% endfor %}
 
 </div>
-
-
-{% endfor %}
-
-
-</div>
-
-<script>
-
-    setTimeout(() => {
-
-        document
-            .querySelectorAll('.alert-message')
-            .forEach(msg => {
-
-                msg.classList.add('opacity-0');
-
-
-                setTimeout(() => {
-
-                    msg.remove();
-
-                }, 500);
-
-            });
-
-    }, 3000);
-
-</script>
 
 {% endif %}
 
-<!-- ========================================================= -->
 
+<!-- ========================================================= -->
 <!-- MAIN CONTENT -->
-
 <!-- ========================================================= -->
 
-<main class="max-w-7xl
-             mx-auto
-             mt-6
-             sm:mt-8
-             px-3
-             sm:px-4">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-
-{% block content %}
-
-{% endblock %}
-
+    {% block content %}
+    {% endblock %}
 
 </main>
+
+
+<!-- ========================================================= -->
+<!-- MOBILE MENU SCRIPT -->
+<!-- ========================================================= -->
+
+<script>
+
+    const menuButton = document.getElementById("mobile-menu-button");
+
+    const mobileMenu = document.getElementById("mobile-menu");
+
+
+    if (menuButton && mobileMenu) {
+
+        menuButton.addEventListener("click", function () {
+
+            mobileMenu.classList.toggle("hidden");
+
+        });
+
+    }
+
+</script>
+
 
 </body>
 
