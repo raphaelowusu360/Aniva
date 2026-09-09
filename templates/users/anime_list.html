@@ -1,218 +1,733 @@
 {% extends "users/base.html" %}
 
-{% block title %}Anime Discovery | Aniva{% endblock %}
+{% block title %}Explore | Aniva{% endblock %}
 
 {% block content %}
 
 <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-6 sm:py-10">
 
 
-    <!-- Header -->
+    <!-- ========================================================= -->
+    <!-- EXPLORE HERO -->
+    <!-- ========================================================= -->
 
-    <section class="mb-8 sm:mb-12
-                    bg-gradient-to-r
+    <section class="relative overflow-hidden
+                    bg-gradient-to-br
                     from-violet-700
                     via-purple-700
-                    to-indigo-700
+                    to-indigo-800
                     rounded-2xl sm:rounded-3xl
-                    p-5 sm:p-8
-                    shadow-xl
-                    overflow-hidden
-                    relative">
+                    p-6 sm:p-10 lg:p-14
+                    shadow-2xl
+                    mb-8 sm:mb-12">
+
+        <!-- Background decorations -->
+
+        <div class="absolute -right-20 -top-20
+                    w-64 h-64 sm:w-96 sm:h-96
+                    bg-white/10
+                    rounded-full">
+        </div>
+
+        <div class="absolute -left-24 -bottom-32
+                    w-72 h-72
+                    bg-indigo-500/20
+                    rounded-full">
+        </div>
+
+        <div class="absolute right-10 bottom-5
+                    text-6xl sm:text-8xl
+                    opacity-10
+                    rotate-12">
+            🎌
+        </div>
 
 
-        <div class="relative z-10">
+        <div class="relative z-10 max-w-3xl">
 
-            <h1 class="text-3xl sm:text-4xl md:text-5xl
-                       font-extrabold text-white mb-3 sm:mb-4">
+            <div class="inline-flex items-center gap-2
+                        px-3 py-1.5
+                        rounded-full
+                        bg-white/10
+                        border border-white/20
+                        text-purple-100
+                        text-xs sm:text-sm
+                        font-semibold
+                        mb-4">
 
-                Discover Anime
+                ✨ THE ANIVA UNIVERSE
+
+            </div>
+
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl
+                       font-extrabold
+                       text-white
+                       tracking-tight
+                       mb-4">
+
+                Explore Aniva
 
             </h1>
 
 
             <p class="text-purple-100
-                      text-sm sm:text-lg
-                      max-w-2xl
-                      leading-relaxed">
+                      text-sm sm:text-lg lg:text-xl
+                      leading-relaxed
+                      max-w-2xl">
 
-                Explore worlds, characters, and stories loved by the Aniva community.
+                Discover anime, games, creators, events, community projects,
+                and everything coming next to the Aniva universe.
 
             </p>
 
         </div>
-
-
-        <!-- Background glow -->
-
-        <div class="absolute
-                    -right-16 sm:-right-20
-                    -top-16 sm:-top-20
-                    w-48 h-48 sm:w-72 sm:h-72
-                    bg-white/10
-                    rounded-full">
-        </div>
-
 
     </section>
 
 
 
-    <!-- Anime Grid -->
+    <!-- ========================================================= -->
+    <!-- EXPLORE CATEGORIES -->
+    <!-- ========================================================= -->
 
-    <div class="grid
-                grid-cols-2
-                sm:grid-cols-2
-                md:grid-cols-3
-                lg:grid-cols-4
-                gap-3 sm:gap-6 lg:gap-7">
+    <section class="mb-10 sm:mb-14">
 
+        <div class="flex items-center justify-between mb-5 sm:mb-7">
 
-        {% for anime in animes %}
+            <div>
 
+                <p class="text-violet-400
+                          text-sm
+                          font-semibold
+                          uppercase
+                          tracking-wider
+                          mb-1">
 
-        <!-- Anime Card -->
+                    Discover
 
-        <div class="group
-                    bg-zinc-900
-                    border border-zinc-800
-                    rounded-2xl sm:rounded-3xl
-                    overflow-hidden
-                    shadow-xl
-                    hover:border-violet-500
-                    hover:-translate-y-2
-                    transition
-                    duration-300">
+                </p>
 
+                <h2 class="text-2xl sm:text-3xl
+                           font-extrabold
+                           text-white">
 
-            <!-- Image -->
+                    What's on Aniva?
 
-            <div class="relative overflow-hidden">
+                </h2>
 
+            </div>
 
-                <img
-                    src="{{ anime.image_url }}"
-                    alt="{{ anime.title }}"
-                    class="w-full
-                           h-52 sm:h-64
-                           object-cover
-                           group-hover:scale-110
-                           transition
-                           duration-500">
+        </div>
 
 
-                <!-- Overlay -->
+        <div class="grid
+                    grid-cols-2
+                    md:grid-cols-3
+                    gap-3 sm:gap-5">
 
-                <div class="absolute inset-0
-                            bg-gradient-to-t
-                            from-black/70
-                            via-transparent
-                            opacity-0
-                            group-hover:opacity-100
-                            transition">
+
+            <!-- ANIME -->
+
+            <a href="#anime"
+               class="group relative overflow-hidden
+                      bg-zinc-900
+                      border border-zinc-800
+                      hover:border-violet-500
+                      rounded-2xl
+                      p-5 sm:p-7
+                      transition
+                      duration-300
+                      hover:-translate-y-1">
+
+                <div class="text-4xl sm:text-5xl mb-4
+                            group-hover:scale-110
+                            transition
+                            duration-300">
+
+                    🎌
+
+                </div>
+
+                <h3 class="text-lg sm:text-xl
+                           font-bold
+                           text-white
+                           mb-1">
+
+                    Anime
+
+                </h3>
+
+                <p class="text-xs sm:text-sm
+                          text-zinc-400">
+
+                    Discover your next obsession.
+
+                </p>
+
+                <span class="absolute
+                             right-4 bottom-4
+                             text-violet-400
+                             opacity-0
+                             group-hover:opacity-100
+                             transition">
+
+                    →
+
+                </span>
+
+            </a>
+
+
+
+            <!-- GAMES -->
+
+            <div class="group relative overflow-hidden
+                        bg-zinc-900
+                        border border-zinc-800
+                        hover:border-violet-500
+                        rounded-2xl
+                        p-5 sm:p-7
+                        transition
+                        duration-300
+                        hover:-translate-y-1">
+
+                <div class="text-4xl sm:text-5xl mb-4
+                            group-hover:scale-110
+                            transition
+                            duration-300">
+
+                    🎮
+
+                </div>
+
+                <h3 class="text-lg sm:text-xl
+                           font-bold
+                           text-white
+                           mb-1">
+
+                    Aniva Games
+
+                </h3>
+
+                <p class="text-xs sm:text-sm
+                          text-zinc-400">
+
+                    Play. Compete. Have fun.
+
+                </p>
+
+                <span class="inline-block
+                             mt-3
+                             text-xs
+                             font-semibold
+                             text-violet-400">
+
+                    Coming soon
+
+                </span>
+
+            </div>
+
+
+
+            <!-- CREATORS -->
+
+            <div class="group relative overflow-hidden
+                        bg-zinc-900
+                        border border-zinc-800
+                        hover:border-violet-500
+                        rounded-2xl
+                        p-5 sm:p-7
+                        transition
+                        duration-300
+                        hover:-translate-y-1">
+
+                <div class="text-4xl sm:text-5xl mb-4
+                            group-hover:scale-110
+                            transition
+                            duration-300">
+
+                    🎨
+
+                </div>
+
+                <h3 class="text-lg sm:text-xl
+                           font-bold
+                           text-white
+                           mb-1">
+
+                    Creators
+
+                </h3>
+
+                <p class="text-xs sm:text-sm
+                          text-zinc-400">
+
+                    Meet Africa's creative minds.
+
+                </p>
+
+                <span class="inline-block
+                             mt-3
+                             text-xs
+                             font-semibold
+                             text-violet-400">
+
+                    Coming soon
+
+                </span>
+
+            </div>
+
+
+
+            <!-- EVENTS -->
+
+            <div class="group relative overflow-hidden
+                        bg-zinc-900
+                        border border-zinc-800
+                        hover:border-violet-500
+                        rounded-2xl
+                        p-5 sm:p-7
+                        transition
+                        duration-300
+                        hover:-translate-y-1">
+
+                <div class="text-4xl sm:text-5xl mb-4
+                            group-hover:scale-110
+                            transition
+                            duration-300">
+
+                    🏆
+
+                </div>
+
+                <h3 class="text-lg sm:text-xl
+                           font-bold
+                           text-white
+                           mb-1">
+
+                    Events
+
+                </h3>
+
+                <p class="text-xs sm:text-sm
+                          text-zinc-400">
+
+                    Tournaments, meetups and challenges.
+
+                </p>
+
+                <span class="inline-block
+                             mt-3
+                             text-xs
+                             font-semibold
+                             text-violet-400">
+
+                    Coming soon
+
+                </span>
+
+            </div>
+
+
+
+            <!-- COMMUNITY PROJECTS -->
+
+            <div class="group relative overflow-hidden
+                        bg-zinc-900
+                        border border-zinc-800
+                        hover:border-violet-500
+                        rounded-2xl
+                        p-5 sm:p-7
+                        transition
+                        duration-300
+                        hover:-translate-y-1">
+
+                <div class="text-4xl sm:text-5xl mb-4
+                            group-hover:scale-110
+                            transition
+                            duration-300">
+
+                    🌍
+
+                </div>
+
+                <h3 class="text-lg sm:text-xl
+                           font-bold
+                           text-white
+                           mb-1">
+
+                    Community Projects
+
+                </h3>
+
+                <p class="text-xs sm:text-sm
+                          text-zinc-400">
+
+                    Build something meaningful together.
+
+                </p>
+
+                <span class="inline-block
+                             mt-3
+                             text-xs
+                             font-semibold
+                             text-violet-400">
+
+                    Coming soon
+
+                </span>
+
+            </div>
+
+
+
+            <!-- UPCOMING -->
+
+            <div class="group relative overflow-hidden
+                        bg-gradient-to-br
+                        from-violet-900/60
+                        to-indigo-900/60
+                        border border-violet-800/60
+                        hover:border-violet-500
+                        rounded-2xl
+                        p-5 sm:p-7
+                        transition
+                        duration-300
+                        hover:-translate-y-1">
+
+                <div class="text-4xl sm:text-5xl mb-4
+                            group-hover:scale-110
+                            transition
+                            duration-300">
+
+                    🚀
+
+                </div>
+
+                <h3 class="text-lg sm:text-xl
+                           font-bold
+                           text-white
+                           mb-1">
+
+                    Upcoming Features
+
+                </h3>
+
+                <p class="text-xs sm:text-sm
+                          text-purple-200">
+
+                    See what's coming next.
+
+                </p>
+
+                <span class="inline-block
+                             mt-3
+                             text-xs
+                             font-semibold
+                             text-purple-300">
+
+                    Aniva is growing
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- ANIME SECTION -->
+    <!-- ========================================================= -->
+
+    <section id="anime" class="scroll-mt-24">
+
+
+        <!-- Section Header -->
+
+        <div class="flex flex-col sm:flex-row
+                    sm:items-end
+                    justify-between
+                    gap-3
+                    mb-6 sm:mb-8">
+
+            <div>
+
+                <p class="text-violet-400
+                          text-sm
+                          font-semibold
+                          uppercase
+                          tracking-wider
+                          mb-1">
+
+                    🎌 Discover
+
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl
+                           font-extrabold
+                           text-white">
+
+                    Anime
+
+                </h2>
+
+                <p class="text-zinc-400
+                          text-sm sm:text-base
+                          mt-1">
+
+                    Explore worlds, characters, and stories loved by the Aniva community.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================================================= -->
+        <!-- ANIME GRID -->
+        <!-- ========================================================= -->
+
+        <div class="grid
+                    grid-cols-2
+                    sm:grid-cols-2
+                    md:grid-cols-3
+                    lg:grid-cols-4
+                    gap-3 sm:gap-6 lg:gap-7">
+
+
+            {% for anime in animes %}
+
+
+            <!-- Anime Card -->
+
+            <div class="group
+                        bg-zinc-900
+                        border border-zinc-800
+                        rounded-2xl sm:rounded-3xl
+                        overflow-hidden
+                        shadow-xl
+                        hover:border-violet-500
+                        hover:-translate-y-2
+                        transition
+                        duration-300">
+
+
+                <!-- Image -->
+
+                <div class="relative overflow-hidden">
+
+                    <img
+                        src="{{ anime.image_url }}"
+                        alt="{{ anime.title }}"
+                        class="w-full
+                               h-52 sm:h-64
+                               object-cover
+                               group-hover:scale-110
+                               transition
+                               duration-500">
+
+
+                    <!-- Overlay -->
+
+                    <div class="absolute inset-0
+                                bg-gradient-to-t
+                                from-black/70
+                                via-transparent
+                                opacity-0
+                                group-hover:opacity-100
+                                transition">
+
+                    </div>
 
                 </div>
 
 
+
+                <!-- Details -->
+
+                <div class="p-3 sm:p-5">
+
+
+                    <h2 class="text-base sm:text-xl
+                               font-bold
+                               text-white
+                               mb-2
+                               truncate">
+
+                        {{ anime.title }}
+
+                    </h2>
+
+
+                    <p class="text-xs sm:text-sm
+                              text-zinc-400
+                              mb-4 sm:mb-5
+                              leading-relaxed">
+
+                        {{ anime.description|truncatewords:12 }}
+
+                    </p>
+
+
+                    <a href="{% url 'anime_detail' anime.id %}"
+                       class="inline-flex
+                              items-center
+                              gap-1 sm:gap-2
+                              text-violet-400
+                              text-sm sm:text-base
+                              font-semibold
+                              hover:text-violet-300
+                              transition">
+
+                        Explore
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
             </div>
 
 
-
-            <!-- Details -->
-
-            <div class="p-3 sm:p-5">
+            {% empty %}
 
 
-                <h2 class="text-base sm:text-xl
+            <!-- Empty -->
+
+            <div class="col-span-full
+                        bg-zinc-900
+                        border border-zinc-800
+                        rounded-2xl sm:rounded-3xl
+                        p-8 sm:p-12
+                        text-center">
+
+
+                <div class="text-5xl sm:text-6xl mb-5">
+
+                    🎌
+
+                </div>
+
+
+                <h2 class="text-xl sm:text-2xl
                            font-bold
                            text-white
-                           mb-2
-                           truncate">
+                           mb-3">
 
-                    {{ anime.title }}
+                    No Anime Yet
 
                 </h2>
 
 
-                <p class="text-xs sm:text-sm
-                          text-zinc-400
-                          mb-4 sm:mb-5
-                          leading-relaxed">
+                <p class="text-sm sm:text-base
+                          text-zinc-400">
 
-                    {{ anime.description|truncatewords:12 }}
+                    Anime will appear here once added.
 
                 </p>
 
-
-                <a href="{% url 'anime_detail' anime.id %}"
-                   class="inline-flex
-                          items-center
-                          gap-1 sm:gap-2
-                          text-violet-400
-                          text-sm sm:text-base
-                          font-semibold
-                          hover:text-violet-300
-                          transition">
-
-                    Explore
-
-                    <span>
-                        →
-                    </span>
-
-                </a>
-
-
             </div>
 
 
+            {% endfor %}
+
         </div>
 
+    </section>
 
-        {% empty %}
 
 
-        <!-- Empty -->
+    <!-- ========================================================= -->
+    <!-- ANIVA VISION -->
+    <!-- ========================================================= -->
 
-        <div class="col-span-full
-                    bg-zinc-900
-                    border border-zinc-800
+    <section class="mt-12 sm:mt-16
+                    relative overflow-hidden
                     rounded-2xl sm:rounded-3xl
-                    p-8 sm:p-12
-                    text-center">
+                    border border-zinc-800
+                    bg-zinc-900
+                    p-6 sm:p-10">
 
-
-            <div class="text-5xl sm:text-6xl mb-5">
-                🎌
-            </div>
-
-
-            <h2 class="text-xl sm:text-2xl
-                       font-bold
-                       text-white
-                       mb-3">
-
-                No Anime Yet
-
-            </h2>
-
-
-            <p class="text-sm sm:text-base text-zinc-400">
-
-                Anime will appear here once added.
-
-            </p>
-
-
+        <div class="absolute
+                    -right-16
+                    -top-16
+                    w-48 h-48
+                    bg-violet-600/10
+                    rounded-full">
         </div>
 
 
-        {% endfor %}
+        <div class="relative z-10
+                    flex flex-col
+                    md:flex-row
+                    md:items-center
+                    md:justify-between
+                    gap-6">
+
+            <div class="max-w-2xl">
+
+                <div class="text-3xl mb-3">
+
+                    🌍✨
+
+                </div>
+
+                <h2 class="text-2xl sm:text-3xl
+                           font-extrabold
+                           text-white
+                           mb-3">
+
+                    More than an anime platform.
+
+                </h2>
+
+                <p class="text-zinc-400
+                          text-sm sm:text-base
+                          leading-relaxed">
+
+                    Aniva is being built as a place where anime fans,
+                    gamers, creators, and communities can connect,
+                    create, compete, and belong.
+
+                </p>
+
+            </div>
 
 
-    </div>
+            <div class="flex-shrink-0">
+
+                <div class="inline-flex items-center
+                            gap-2
+                            px-5 py-3
+                            rounded-xl
+                            bg-violet-600/10
+                            border border-violet-500/20
+                            text-violet-300
+                            font-semibold">
+
+                    🚀 More coming soon
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
 </div>
 
 {% endblock %}
+

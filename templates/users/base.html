@@ -16,6 +16,7 @@
     </title>
 
     <!-- Tailwind CSS CDN -->
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -31,11 +32,10 @@
             }
         }
     </script>
+
 </head>
 
-
 <body class="bg-zinc-950 text-white min-h-screen">
-
 
 <!-- ========================================================= -->
 <!-- NAVBAR -->
@@ -72,47 +72,63 @@
                     </a>
 
 
-                    <!-- EXPLORE -->
+                    <!-- ================================================= -->
+                    <!-- LOGIN PAGE -->
+                    <!-- ================================================= -->
 
-                    <a href="{% url 'anime_list' %}"
-                       class="text-zinc-300 hover:text-white transition">
+                    {% if "/login/" in request.path %}
 
-                        Explore
+                        <!-- Nothing else on the left -->
 
-                    </a>
+                    {% elif "/register/" in request.path %}
 
+                        <!-- Nothing else on the left -->
 
-                    <!-- FAVORITES -->
+                    {% else %}
 
-                    <a href="{% url 'favorites' %}"
-                       class="text-zinc-300 hover:text-white transition">
+                        <!-- EXPLORE -->
 
-                        Favorites
+                        <a href="{% url 'anime_list' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
-                    </a>
+                            🔍 Explore
 
-
-                    <!-- COMMUNITIES -->
-
-                    <a href="{% url 'group_list' %}"
-                       class="text-zinc-300 hover:text-white transition">
-
-                        Communities
-
-                    </a>
+                        </a>
 
 
-                    <!-- MESSAGES -->
+                        <!-- FAVORITES -->
 
-                    {% if user.is_authenticated %}
+                        <a href="{% url 'favorites' %}"
+                           class="text-zinc-300 hover:text-white transition">
 
-                    <a href="{% url 'chat_list' %}"
-                       aria-label="Messages"
-                       class="text-xl text-zinc-300 hover:text-white transition">
+                            ⭐ Favorites
 
-                        🔔
+                        </a>
 
-                    </a>
+
+                        <!-- COMMUNITIES -->
+
+                        <a href="{% url 'group_list' %}"
+                           class="text-zinc-300 hover:text-white transition">
+
+                            👥 Communities
+
+                        </a>
+
+
+                        <!-- MESSAGES -->
+
+                        {% if user.is_authenticated %}
+
+                        <a href="{% url 'chat_list' %}"
+                           aria-label="Messages"
+                           class="text-zinc-300 hover:text-white transition">
+
+                            🔔 Messages
+
+                        </a>
+
+                        {% endif %}
 
                     {% endif %}
 
@@ -126,17 +142,57 @@
                 <div class="flex items-center gap-6 text-base">
 
 
-                    <!-- PEOPLE -->
+                    <!-- ================================================= -->
+                    <!-- LOGIN PAGE -->
+                    <!-- ================================================= -->
 
-                    <a href="{% url 'browse_users' %}"
-                       class="text-zinc-300 hover:text-white transition">
+                    {% if "/login/" in request.path %}
 
-                        People
+                        <a href="{% url 'login' %}"
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
 
-                    </a>
+                            Login
+
+                        </a>
 
 
-                    {% if user.is_authenticated %}
+                    <!-- ================================================= -->
+                    <!-- REGISTRATION PAGE -->
+                    <!-- ================================================= -->
+
+                    {% elif "/register/" in request.path %}
+
+                        <a href="{% url 'register' %}"
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
+
+                            Join Aniva
+
+                        </a>
+
+
+                    <!-- ================================================= -->
+                    <!-- NORMAL PAGES -->
+                    <!-- ================================================= -->
+
+                    {% else %}
+
+
+                        <!-- PEOPLE -->
+
+                        {% if user.is_authenticated %}
+
+                        <a href="{% url 'browse_users' %}"
+                           class="text-zinc-300 hover:text-white transition">
+
+                            👤 People
+
+                        </a>
 
 
                         <!-- PROFILE -->
@@ -144,7 +200,7 @@
                         <a href="{% url 'profile' %}"
                            class="text-zinc-300 hover:text-white transition">
 
-                            Profile
+                            👤 Profile
 
                         </a>
 
@@ -154,7 +210,7 @@
                         <a href="{% url 'friends_list' %}"
                            class="text-zinc-300 hover:text-white transition">
 
-                            Friends
+                            👥 Friends
 
                         </a>
 
@@ -188,7 +244,10 @@
                             {% csrf_token %}
 
                             <button type="submit"
-                                    class="text-zinc-300 hover:text-red-400 transition">
+                                    class="px-4 py-2 rounded-lg
+                                           bg-gradient-to-r from-violet-600 to-purple-600
+                                           hover:from-violet-500 hover:to-purple-500
+                                           transition font-semibold">
 
                                 Logout
 
@@ -197,13 +256,16 @@
                         </form>
 
 
-                    {% else %}
+                        {% else %}
 
 
                         <!-- LOGIN -->
 
                         <a href="{% url 'login' %}"
-                           class="text-zinc-300 hover:text-white transition">
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
 
                             Login
 
@@ -213,12 +275,17 @@
                         <!-- JOIN ANIVA -->
 
                         <a href="{% url 'register' %}"
-                           class="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 transition font-semibold">
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
 
                             Join Aniva
 
                         </a>
 
+
+                        {% endif %}
 
                     {% endif %}
 
@@ -231,69 +298,148 @@
             <!-- MOBILE NAVIGATION -->
             <!-- ================================================= -->
 
-            <div class="flex lg:hidden items-center gap-3 sm:gap-4 w-full">
+            <div class="flex lg:hidden items-center w-full">
 
 
-                <!-- MOBILE MESSAGES -->
+                <!-- MOBILE LOGO -->
 
-                {% if user.is_authenticated %}
+                <a href="{% url 'home' %}"
+                   class="text-2xl font-extrabold bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent">
 
-                <a href="{% url 'chat_list' %}"
-                   aria-label="Messages"
-                   class="text-xl text-zinc-300 hover:text-white transition">
-
-                    🔔
+                    Aniva
 
                 </a>
+
+
+                <!-- ================================================= -->
+                <!-- LOGIN PAGE -->
+                <!-- ================================================= -->
+
+                {% if "/login/" in request.path %}
+
+                    <div class="ml-auto">
+
+                        <a href="{% url 'login' %}"
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
+
+                            Login
+
+                        </a>
+
+                    </div>
+
+
+                <!-- ================================================= -->
+                <!-- REGISTRATION PAGE -->
+                <!-- ================================================= -->
+
+                {% elif "/register/" in request.path %}
+
+                    <div class="ml-auto">
+
+                        <a href="{% url 'register' %}"
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
+
+                            Join Aniva
+
+                        </a>
+
+                    </div>
+
+
+                <!-- ================================================= -->
+                <!-- NORMAL PAGES -->
+                <!-- ================================================= -->
+
+                {% else %}
+
+                    <div class="ml-auto flex items-center gap-4">
+
+
+                        <!-- MOBILE MESSAGES -->
+
+                        {% if user.is_authenticated %}
+
+                        <a href="{% url 'chat_list' %}"
+                           aria-label="Messages"
+                           class="text-xl text-zinc-300 hover:text-white transition">
+
+                            🔔
+
+                        </a>
+
+
+                        <!-- MOBILE PEOPLE -->
+
+                        <a href="{% url 'browse_users' %}"
+                           aria-label="People"
+                           class="text-xl text-zinc-300 hover:text-white transition">
+
+                            👤 People
+
+                        </a>
+
+
+                        <!-- MOBILE PROFILE -->
+
+                        <a href="{% url 'profile' %}"
+                           aria-label="Profile"
+                           class="text-xl text-zinc-300 hover:text-white transition">
+
+                            👤 Profile
+
+                        </a>
+
+                        {% else %}
+
+                        <!-- MOBILE LOGIN -->
+
+                        <a href="{% url 'login' %}"
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
+
+                            Login
+
+                        </a>
+
+
+                        <!-- MOBILE JOIN ANIVA -->
+
+                        <a href="{% url 'register' %}"
+                           class="px-4 py-2 rounded-lg
+                                  bg-gradient-to-r from-violet-600 to-purple-600
+                                  hover:from-violet-500 hover:to-purple-500
+                                  transition font-semibold">
+
+                            Join Aniva
+
+                        </a>
+
+                        {% endif %}
+
+
+                        <!-- MOBILE HAMBURGER -->
+
+                        <button id="mobile-menu-button"
+                                type="button"
+                                aria-label="Open menu"
+                                class="text-2xl text-zinc-300 hover:text-white transition">
+
+                            ☰
+
+                        </button>
+
+                    </div>
 
                 {% endif %}
-
-
-                <!-- MOBILE PEOPLE -->
-
-                <a href="{% url 'browse_users' %}"
-                   class="text-zinc-300 hover:text-white transition">
-
-                    <span class="sm:hidden">
-                        👤
-                    </span>
-
-                    <span class="hidden sm:inline">
-                        People
-                    </span>
-
-                </a>
-
-
-                <!-- MOBILE PROFILE -->
-
-                {% if user.is_authenticated %}
-
-                <a href="{% url 'profile' %}"
-                   class="text-zinc-300 hover:text-white transition">
-
-                    <span class="sm:hidden">
-                        👤
-                    </span>
-
-                    <span class="hidden sm:inline">
-                        Profile
-                    </span>
-
-                </a>
-
-                {% endif %}
-
-
-                <!-- MOBILE HAMBURGER -->
-
-                <button id="mobile-menu-button"
-                        type="button"
-                        class="ml-auto text-2xl text-zinc-300 hover:text-white transition">
-
-                    ☰
-
-                </button>
 
             </div>
 
@@ -303,6 +449,8 @@
         <!-- ================================================= -->
         <!-- MOBILE MENU -->
         <!-- ================================================= -->
+
+        {% if "/login/" not in request.path and "/register/" not in request.path %}
 
         <div id="mobile-menu"
              class="hidden lg:hidden border-t border-zinc-800 py-4">
@@ -316,7 +464,7 @@
                 <a href="{% url 'anime_list' %}"
                    class="text-zinc-300 hover:text-white transition">
 
-                    Explore
+                    🔍 Explore
 
                 </a>
 
@@ -326,7 +474,7 @@
                 <a href="{% url 'favorites' %}"
                    class="text-zinc-300 hover:text-white transition">
 
-                    Favorites
+                    ⭐ Favorites
 
                 </a>
 
@@ -336,7 +484,7 @@
                 <a href="{% url 'group_list' %}"
                    class="text-zinc-300 hover:text-white transition">
 
-                    Communities
+                    👥 Communities
 
                 </a>
 
@@ -349,7 +497,7 @@
                     <a href="{% url 'friends_list' %}"
                        class="text-zinc-300 hover:text-white transition">
 
-                        Friends
+                        👥 Friends
 
                     </a>
 
@@ -382,7 +530,10 @@
                         {% csrf_token %}
 
                         <button type="submit"
-                                class="text-zinc-300 hover:text-red-400 transition">
+                                class="px-4 py-2 rounded-lg
+                                       bg-gradient-to-r from-violet-600 to-purple-600
+                                       hover:from-violet-500 hover:to-purple-500
+                                       transition font-semibold">
 
                             Logout
 
@@ -397,7 +548,10 @@
                     <!-- LOGIN -->
 
                     <a href="{% url 'login' %}"
-                       class="text-zinc-300 hover:text-white transition">
+                       class="px-4 py-2 rounded-lg
+                              bg-gradient-to-r from-violet-600 to-purple-600
+                              hover:from-violet-500 hover:to-purple-500
+                              transition font-semibold">
 
                         Login
 
@@ -419,6 +573,8 @@
             </div>
 
         </div>
+
+        {% endif %}
 
     </div>
 
@@ -483,7 +639,7 @@
 
 </script>
 
-
 </body>
 
 </html>
+
