@@ -207,7 +207,7 @@
 
                         <!-- FRIENDS -->
 
-                        <a href="{% url 'friends_list' %}"
+                        <a href="{% url 'friends_list' user.username %}"
                            class="text-zinc-300 hover:text-white transition">
 
                             👥 Friends
@@ -494,7 +494,7 @@
 
                     <!-- FRIENDS -->
 
-                    <a href="{% url 'friends_list' %}"
+                    <a href="{% url 'friends_list' user.username %}"
                        class="text-zinc-300 hover:text-white transition">
 
                         👥 Friends

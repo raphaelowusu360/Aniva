@@ -219,19 +219,26 @@ def favorites(request):
 
 # FRIEND SYSTEM
 
+
 @login_required
-def friends_list(request):
-    friends = get_friends(
-        request.user
+def friends_list(request, username):
+    profile_user = get_object_or_404(
+        User,
+        username=username
     )
+
+    friends = get_friends(profile_user)
 
     return render(
         request,
         "users/friends_list.html",
         {
-            "friends": friends
+            "friends": friends,
+            "profile_user": profile_user
         }
     )
+
+
 
 @login_required
 def friend_requests_list(request):

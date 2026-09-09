@@ -197,4 +197,33 @@
 
 {% endif %}
 
+<!-- BACK BUTTON -->
+
+<div class="mt-6 sm:mt-8">
+
+    <a
+        href="{% url 'public_profile' profile_user.username %}"
+        class="w-full sm:w-auto
+               inline-flex items-center justify-center
+               bg-gradient-to-r
+               from-violet-600
+               to-purple-600
+               text-white
+               px-6
+               py-3
+               rounded-xl
+               font-semibold
+               shadow-lg
+               shadow-violet-500/20
+               hover:from-violet-500
+               hover:to-purple-500
+               transition
+               active:scale-[0.98]"
+    >
+        ← Back
+    </a>
+
+</div>
+
+
 {% endblock %}

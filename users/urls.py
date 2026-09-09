@@ -95,11 +95,11 @@ urlpatterns = [
     # FRIEND SYSTEM
     # ==========================
 
-    path(
-        'friends/',
-        views.friends_list,
-        name='friends_list'
-    ),
+  path(
+    "friends/<str:username>/",
+    views.friends_list,
+    name="friends_list"
+),
 
     path(
         'friend-requests/',
