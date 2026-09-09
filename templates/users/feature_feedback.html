@@ -9,7 +9,7 @@ Shape Aniva
 {% block content %}
 
 
-<div class="max-w-5xl mx-auto px-6 py-10">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
 
     <!-- HERO -->
@@ -18,17 +18,17 @@ Shape Aniva
                 from-violet-700
                 via-purple-700
                 to-indigo-700
-                rounded-3xl
-                p-10
+                rounded-2xl sm:rounded-3xl
+                p-6 sm:p-10
                 text-center
                 shadow-xl
-                mb-10">
+                mb-8 sm:mb-10">
 
-        <h1 class="text-4xl font-extrabold text-white mb-4">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-3 sm:mb-4">
             Shape The Future Of Aniva 🚀
         </h1>
 
-        <p class="text-purple-100 text-lg max-w-2xl mx-auto">
+        <p class="text-purple-100 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Your ideas help us build the ultimate anime social platform.
             Suggest features, share opinions, and influence Aniva's future.
         </p>
@@ -45,10 +45,12 @@ Shape Aniva
             <div class="bg-green-600/20
                         border border-green-500
                         text-green-300
-                        px-5 py-3
+                        px-4 sm:px-5
+                        py-3
                         rounded-xl
-                        mb-6
-                        text-center">
+                        mb-5 sm:mb-6
+                        text-center
+                        text-sm sm:text-base">
 
                 ✅ {{ message }}
 
@@ -63,18 +65,18 @@ Shape Aniva
 
     <div class="bg-zinc-900/90
                 border border-zinc-800
-                rounded-3xl
-                p-8
+                rounded-2xl sm:rounded-3xl
+                p-5 sm:p-8
                 shadow-xl
-                mb-12">
+                mb-10 sm:mb-12">
 
 
-        <h2 class="text-2xl font-bold text-white mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-white mb-5 sm:mb-6">
             Share Your Ideas 💡
         </h2>
 
 
-        <form method="POST" class="space-y-6">
+        <form method="POST" class="space-y-5 sm:space-y-6">
 
             {% csrf_token %}
 
@@ -83,7 +85,7 @@ Shape Aniva
 
             <div>
 
-                <label class="block text-zinc-300 mb-2 font-medium">
+                <label class="block text-zinc-300 mb-2 font-medium text-sm sm:text-base">
                     Feature You Want To See
                 </label>
 
@@ -96,12 +98,15 @@ Shape Aniva
                            bg-zinc-950
                            border border-zinc-700
                            rounded-xl
-                           p-4
+                           p-3.5 sm:p-4
+                           text-sm sm:text-base
                            text-white
                            placeholder-zinc-500
                            focus:outline-none
                            focus:ring-2
-                           focus:ring-violet-500"
+                           focus:ring-violet-500
+                           focus:border-violet-500
+                           resize-y"
                 ></textarea>
 
             </div>
@@ -111,7 +116,7 @@ Shape Aniva
 
             <div>
 
-                <label class="block text-zinc-300 mb-2 font-medium">
+                <label class="block text-zinc-300 mb-2 font-medium text-sm sm:text-base">
                     What Do You Love About Aniva?
                 </label>
 
@@ -124,12 +129,15 @@ Shape Aniva
                            bg-zinc-950
                            border border-zinc-700
                            rounded-xl
-                           p-4
+                           p-3.5 sm:p-4
+                           text-sm sm:text-base
                            text-white
                            placeholder-zinc-500
                            focus:outline-none
                            focus:ring-2
-                           focus:ring-violet-500"
+                           focus:ring-violet-500
+                           focus:border-violet-500
+                           resize-y"
                 ></textarea>
 
             </div>
@@ -144,12 +152,13 @@ Shape Aniva
                        from-violet-600
                        to-purple-600
                        text-white
-                       py-3
+                       py-3.5
                        rounded-xl
                        font-semibold
                        hover:from-violet-500
                        hover:to-purple-500
-                       transition"
+                       transition
+                       active:scale-[0.98]"
             >
                 Submit Idea 🚀
             </button>
@@ -166,7 +175,7 @@ Shape Aniva
     <div>
 
 
-        <h2 class="text-3xl font-bold text-white mb-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-5 sm:mb-6">
             Community Ideas
         </h2>
 
@@ -174,7 +183,7 @@ Shape Aniva
         {% if feedbacks %}
 
 
-            <div class="space-y-5">
+            <div class="space-y-4 sm:space-y-5">
 
 
                 {% for fb in feedbacks %}
@@ -185,7 +194,7 @@ Shape Aniva
                     <div class="bg-zinc-900
                                 border border-zinc-800
                                 rounded-2xl
-                                p-6
+                                p-4 sm:p-6
                                 shadow-lg
                                 hover:border-violet-500
                                 transition">
@@ -193,9 +202,9 @@ Shape Aniva
 
                         <!-- USER + DATE -->
 
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-4">
 
-                            <h3 class="font-bold text-violet-400">
+                            <h3 class="font-bold text-violet-400 break-words">
                                 {{ fb.user.username }}
                             </h3>
 
@@ -214,7 +223,7 @@ Shape Aniva
                                 Feature Request
                             </p>
 
-                            <p class="text-zinc-100">
+                            <p class="text-zinc-100 text-sm sm:text-base leading-relaxed break-words">
                                 {{ fb.feature_request }}
                             </p>
 
@@ -223,13 +232,13 @@ Shape Aniva
 
                         <!-- WHY THEY LOVE ANIVA -->
 
-                        <div class="mb-6">
+                        <div class="mb-5 sm:mb-6">
 
                             <p class="text-sm text-zinc-400 mb-1">
                                 Why They Love Aniva
                             </p>
 
-                            <p class="text-zinc-300">
+                            <p class="text-zinc-300 text-sm sm:text-base leading-relaxed break-words">
                                 {{ fb.likes_about_site }}
                             </p>
 
@@ -238,7 +247,7 @@ Shape Aniva
 
                         <!-- REACTIONS -->
 
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2 sm:gap-3">
 
 
                             <!-- LIKE BUTTON -->
@@ -246,6 +255,7 @@ Shape Aniva
                             <form
                                 method="POST"
                                 action="{% url 'react_to_feedback' fb.id %}"
+                                class="flex-1 sm:flex-none"
                             >
 
                                 {% csrf_token %}
@@ -258,14 +268,20 @@ Shape Aniva
 
                                 <button
                                     type="submit"
-                                    class="flex items-center gap-2
-                                           px-4 py-2
+                                    class="w-full
+                                           sm:w-auto
+                                           flex items-center
+                                           justify-center
+                                           gap-2
+                                           px-4
+                                           py-2.5
                                            rounded-xl
                                            bg-zinc-800
                                            text-zinc-300
                                            hover:bg-violet-600
                                            hover:text-white
-                                           transition"
+                                           transition
+                                           active:scale-[0.97]"
                                 >
 
                                     <span>
@@ -286,6 +302,7 @@ Shape Aniva
                             <form
                                 method="POST"
                                 action="{% url 'react_to_feedback' fb.id %}"
+                                class="flex-1 sm:flex-none"
                             >
 
                                 {% csrf_token %}
@@ -298,14 +315,20 @@ Shape Aniva
 
                                 <button
                                     type="submit"
-                                    class="flex items-center gap-2
-                                           px-4 py-2
+                                    class="w-full
+                                           sm:w-auto
+                                           flex items-center
+                                           justify-center
+                                           gap-2
+                                           px-4
+                                           py-2.5
                                            rounded-xl
                                            bg-zinc-800
                                            text-zinc-300
                                            hover:bg-red-600
                                            hover:text-white
-                                           transition"
+                                           transition
+                                           active:scale-[0.97]"
                                 >
 
                                     <span>
@@ -341,14 +364,14 @@ Shape Aniva
             <div class="text-center
                         bg-zinc-900
                         border border-zinc-800
-                        rounded-3xl
-                        p-10">
+                        rounded-2xl sm:rounded-3xl
+                        p-7 sm:p-10">
 
-                <div class="text-5xl mb-4">
+                <div class="text-4xl sm:text-5xl mb-4">
                     💭
                 </div>
 
-                <p class="text-zinc-400">
+                <p class="text-zinc-400 text-sm sm:text-base">
                     No ideas yet. Be the first person to shape Aniva.
                 </p>
 

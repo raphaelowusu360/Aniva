@@ -6,13 +6,11 @@ Chat with {{ other_user.username }}
 
 {% block content %}
 
-
 <!-- ========================= -->
 <!-- CHAT HEADER -->
 <!-- ========================= -->
 
-<div class="flex items-center gap-4 mb-6">
-
+<div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
 
     <!-- PROFILE PICTURE -->
 
@@ -21,11 +19,13 @@ Chat with {{ other_user.username }}
         <img
             src="{{ other_user.profile.profile_picture.url }}"
             alt="{{ other_user.username }}"
-            class="w-12 h-12
+            class="w-11 h-11
+                   sm:w-12 sm:h-12
                    rounded-full
                    object-cover
                    border-2
-                   border-violet-500/50"
+                   border-violet-500/50
+                   flex-shrink-0"
         >
 
     {% else %}
@@ -33,16 +33,18 @@ Chat with {{ other_user.username }}
         <!-- FALLBACK AVATAR -->
 
         <div
-            class="w-12 h-12
+            class="w-11 h-11
+                   sm:w-12 sm:h-12
                    rounded-full
                    bg-gradient-to-br
                    from-violet-600
                    to-purple-700
                    flex items-center
                    justify-center
-                   text-lg
+                   text-base sm:text-lg
                    font-bold
-                   text-white"
+                   text-white
+                   flex-shrink-0"
         >
             {{ other_user.username|first|upper }}
         </div>
@@ -52,22 +54,27 @@ Chat with {{ other_user.username }}
 
     <!-- USER INFORMATION -->
 
-    <div>
+    <div class="min-w-0">
 
-        <h1 class="text-2xl font-bold text-zinc-100">
+        <h1
+            class="text-xl sm:text-2xl
+                   font-bold
+                   text-zinc-100
+                   truncate"
+        >
             {{ other_user.username }}
         </h1>
 
 
         {% if other_user.profile.is_online %}
 
-            <p class="text-green-400 text-sm">
+            <p class="text-green-400 text-xs sm:text-sm">
                 🟢 Online
             </p>
 
         {% else %}
 
-            <p class="text-zinc-400 text-sm">
+            <p class="text-zinc-400 text-xs sm:text-sm truncate">
                 ⚪ Last seen
                 {{ other_user.profile.last_seen|date:"M d, H:i" }}
             </p>
@@ -88,11 +95,13 @@ Chat with {{ other_user.username }}
     id="chat-box"
     class="mb-4
            space-y-3
-           h-96
+           h-[60vh]
+           min-h-[20rem]
+           sm:h-96
            overflow-y-auto
            border border-zinc-700
-           p-4
-           rounded-2xl
+           p-3 sm:p-4
+           rounded-xl sm:rounded-2xl
            bg-zinc-900/80"
 >
 
@@ -115,10 +124,12 @@ Chat with {{ other_user.username }}
             <!-- MESSAGE BUBBLE -->
 
             <div
-                class="max-w-xs
-                       px-4
-                       py-3
+                class="max-w-[85%]
+                       sm:max-w-xs
+                       px-3 sm:px-4
+                       py-2.5 sm:py-3
                        rounded-2xl
+                       break-words
 
                        {% if msg.sender == request.user %}
 
@@ -138,7 +149,7 @@ Chat with {{ other_user.username }}
 
                 <!-- USERNAME -->
 
-                <p class="text-xs opacity-70 mb-1">
+                <p class="text-[11px] sm:text-xs opacity-70 mb-1">
                     {{ msg.sender.username }}
                 </p>
 
@@ -147,7 +158,7 @@ Chat with {{ other_user.username }}
 
                 {% if msg.content %}
 
-                    <p class="break-words">
+                    <p class="text-sm sm:text-base break-words whitespace-pre-wrap">
                         {{ msg.content }}
                     </p>
 
@@ -161,7 +172,12 @@ Chat with {{ other_user.username }}
                     <img
                         src="{{ msg.image.url }}"
                         alt="Message image"
-                        class="rounded-lg mt-2 max-w-full"
+                        class="rounded-lg
+                               mt-2
+                               max-w-full
+                               max-h-64
+                               sm:max-h-80
+                               object-contain"
                     >
 
                 {% endif %}
@@ -169,9 +185,16 @@ Chat with {{ other_user.username }}
 
                 <!-- TIME + DELETE -->
 
-                <div class="flex justify-between items-center mt-2">
+                <div
+                    class="flex
+                           flex-wrap
+                           justify-between
+                           items-center
+                           gap-2
+                           mt-2"
+                >
 
-                    <small class="text-xs text-zinc-300">
+                    <small class="text-[10px] sm:text-xs text-zinc-300">
                         {{ msg.timestamp|date:"M d, H:i" }}
                     </small>
 
@@ -180,10 +203,12 @@ Chat with {{ other_user.username }}
 
                         <a
                             href="{% url 'delete_chat_message' msg.id %}"
-                            class="text-xs
+                            class="text-[10px] sm:text-xs
                                    text-red-300
                                    hover:text-red-500
-                                   ml-3"
+                                   active:scale-95
+                                   transition
+                                   ml-auto"
                         >
                             Delete
                         </a>
@@ -203,9 +228,13 @@ Chat with {{ other_user.username }}
 
         <!-- EMPTY CHAT -->
 
-        <p class="text-zinc-400 text-center">
-            No messages yet. Start chatting!
-        </p>
+        <div class="flex items-center justify-center h-full">
+
+            <p class="text-zinc-400 text-sm sm:text-base text-center">
+                No messages yet. Start chatting!
+            </p>
+
+        </div>
 
 
     {% endfor %}
@@ -236,42 +265,65 @@ Chat with {{ other_user.username }}
         placeholder="Type your Message..."
         class="w-full
                p-3
+               text-sm sm:text-base
                border border-zinc-700
                rounded-xl
                bg-zinc-800
                text-zinc-100
                focus:outline-none
                focus:ring-2
-               focus:ring-violet-500"
+               focus:ring-violet-500
+               resize-y"
     ></textarea>
 
 
     <!-- IMAGE + SEND -->
 
-    <div class="flex gap-3 items-center">
+    <div
+        class="flex
+               flex-col
+               sm:flex-row
+               gap-3
+               sm:items-center"
+    >
 
 
         <input
             type="file"
             name="image"
             accept="image/*"
-            class="text-zinc-300"
+            class="w-full
+                   text-sm
+                   text-zinc-300
+                   file:mr-3
+                   file:rounded-lg
+                   file:border-0
+                   file:bg-zinc-700
+                   file:px-3
+                   file:py-2
+                   file:text-sm
+                   file:font-medium
+                   file:text-zinc-200"
         >
 
 
         <button
             type="submit"
-            class="bg-gradient-to-r
+            class="w-full
+                   sm:w-auto
+                   bg-gradient-to-r
                    from-violet-600
                    to-purple-600
                    text-white
                    px-5
-                   py-2
+                   py-2.5
                    rounded-xl
                    font-medium
                    hover:from-violet-500
                    hover:to-purple-500
-                   transition"
+                   active:scale-[0.98]
+                   transition
+                   flex-shrink-0"
         >
             Send
         </button>
@@ -284,4 +336,3 @@ Chat with {{ other_user.username }}
 
 
 {% endblock %}
-

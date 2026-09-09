@@ -4,338 +4,198 @@
 {% block title %}My Collection | Aniva{% endblock %}
 
 
-
 {% block content %}
 
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
-<div class="max-w-7xl mx-auto px-6 py-10">
 
+    <!-- HEADER -->
 
+    <div class="mb-8 sm:mb-12">
 
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 sm:mb-3">
+            My Anime Collection
+        </h1>
 
+        <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
+            Your favorite worlds, characters, and stories saved on Aniva.
+        </p>
 
-<!-- Header -->
+    </div>
 
 
-<div class="mb-12">
+    {% if favorites %}
 
 
-    <h1 class="text-4xl font-extrabold text-white mb-3">
+        <!-- COLLECTION GRID -->
 
-        My Anime Collection
+        <div class="grid
+                    grid-cols-1
+                    sm:grid-cols-2
+                    md:grid-cols-3
+                    lg:grid-cols-4
+                    gap-4
+                    sm:gap-6
+                    lg:gap-7">
 
-    </h1>
 
+            {% for anime in favorites %}
 
 
-    <p class="text-zinc-400 text-lg">
+                <!-- ANIME CARD -->
 
-        Your favorite worlds, characters, and stories saved on Aniva.
+                <div class="group
+                            bg-zinc-900
+                            border border-zinc-800
+                            rounded-2xl sm:rounded-3xl
+                            overflow-hidden
+                            shadow-xl
+                            hover:border-violet-500
+                            hover:-translate-y-2
+                            transition
+                            duration-300
+                            active:scale-[0.99]">
 
-    </p>
 
+                    <!-- COVER -->
 
-</div>
+                    <div class="relative overflow-hidden">
 
+                        <img
+                            src="{{ anime.image_url }}"
+                            alt="{{ anime.title }}"
+                            class="w-full
+                                   h-56
+                                   sm:h-64
+                                   object-cover
+                                   group-hover:scale-110
+                                   transition
+                                   duration-500"
+                        >
 
 
+                        <div class="absolute inset-0
+                                    bg-gradient-to-t
+                                    from-black/70
+                                    via-transparent
+                                    opacity-0
+                                    group-hover:opacity-100
+                                    transition">
+                        </div>
 
+                    </div>
 
 
+                    <!-- INFO -->
 
+                    <div class="p-4 sm:p-5">
 
+                        <h2 class="text-lg sm:text-xl
+                                   font-bold
+                                   text-white
+                                   mb-2
+                                   truncate">
 
-{% if favorites %}
+                            {{ anime.title }}
 
+                        </h2>
 
 
+                        <p class="text-sm
+                                  text-zinc-400
+                                  leading-relaxed">
 
+                            {{ anime.description|truncatechars:120 }}
 
-<div class="grid
+                        </p>
 
-            grid-cols-1
+                    </div>
 
-            sm:grid-cols-2
 
-            md:grid-cols-3
+                </div>
 
-            lg:grid-cols-4
 
-            gap-7">
-
-
-
-
-
-
-
-{% for anime in favorites %}
-
-
-
-
-
-
-<div class="group
-
-            bg-zinc-900
-
-            border border-zinc-800
-
-            rounded-3xl
-
-            overflow-hidden
-
-            shadow-xl
-
-            hover:border-violet-500
-
-            hover:-translate-y-2
-
-            transition
-
-            duration-300">
-
-
-
-
-
-
-
-    <!-- Cover -->
-
-
-    <div class="relative overflow-hidden">
-
-
-        <img
-
-        src="{{ anime.image_url }}"
-
-        alt="{{ anime.title }}"
-
-        class="w-full
-
-               h-64
-
-               object-cover
-
-               group-hover:scale-110
-
-               transition
-
-               duration-500">
-
-
-
-
-
-        <div class="absolute inset-0
-
-                    bg-gradient-to-t
-
-                    from-black/70
-
-                    via-transparent
-
-                    opacity-0
-
-                    group-hover:opacity-100
-
-                    transition">
+            {% endfor %}
 
 
         </div>
 
 
-
-    </div>
-
+    {% else %}
 
 
+        <!-- EMPTY COLLECTION -->
+
+        <div class="bg-zinc-900
+                    border border-zinc-800
+                    rounded-2xl sm:rounded-3xl
+                    p-8
+                    sm:p-14
+                    text-center">
 
 
+            <div class="text-5xl sm:text-6xl mb-4 sm:mb-5">
+                ⭐
+            </div>
 
 
+            <h2 class="text-xl sm:text-2xl
+                       font-bold
+                       text-white
+                       mb-2 sm:mb-3">
 
-    <!-- Info -->
+                Your Collection Is Empty
 
-
-    <div class="p-5">
-
-
-
-
-
-        <h2 class="text-xl
-
-                   font-bold
-
-                   text-white
-
-                   mb-2
-
-                   truncate">
+            </h2>
 
 
-            {{ anime.title }}
+            <p class="text-zinc-400
+                      text-sm sm:text-base
+                      mb-6
+                      max-w-md
+                      mx-auto
+                      leading-relaxed">
+
+                Save anime you love and build your personal collection.
+
+            </p>
 
 
-        </h2>
+            <a
+                href="{% url 'anime_list' %}"
+                class="w-full
+                       sm:w-auto
+                       inline-flex
+                       items-center
+                       justify-center
+                       bg-gradient-to-r
+                       from-violet-600
+                       to-purple-600
+                       text-white
+                       px-6
+                       py-3.5
+                       rounded-xl
+                       font-semibold
+                       shadow-lg
+                       shadow-violet-500/20
+                       hover:from-violet-500
+                       hover:to-purple-500
+                       transition
+                       active:scale-[0.98]"
+            >
+
+                Discover Anime
+
+            </a>
 
 
+        </div>
 
 
-
-        <p class="text-sm
-
-                  text-zinc-400
-
-                  leading-relaxed">
-
-
-            {{ anime.description|truncatechars:120 }}
-
-
-        </p>
-
-
-
-
-
-
-
-    </div>
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-{% endfor %}
-
-
-
+    {% endif %}
 
 
 </div>
-
-
-
-
-
-
-
-
-
-{% else %}
-
-
-
-
-
-<!-- Empty Collection -->
-
-
-<div class="bg-zinc-900
-
-            border border-zinc-800
-
-            rounded-3xl
-
-            p-14
-
-            text-center">
-
-
-
-
-
-    <div class="text-6xl mb-5">
-
-        ⭐
-
-    </div>
-
-
-
-
-
-    <h2 class="text-2xl font-bold text-white mb-3">
-
-        Your Collection Is Empty
-
-    </h2>
-
-
-
-
-
-    <p class="text-zinc-400 mb-6">
-
-        Save anime you love and build your personal collection.
-
-    </p>
-
-
-
-
-
-
-    <a href="{% url 'anime_list' %}"
-
-       class="inline-block
-
-              bg-gradient-to-r
-
-              from-violet-600
-
-              to-purple-600
-
-              text-white
-
-              px-6
-
-              py-3
-
-              rounded-xl
-
-              font-semibold">
-
-
-        Discover Anime
-
-
-    </a>
-
-
-
-
-
-
-</div>
-
-
-
-
-
-{% endif %}
-
-
-
-
-
-
-</div>
-
-
 
 
 {% endblock %}

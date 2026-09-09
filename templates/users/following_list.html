@@ -8,9 +8,9 @@
 
 <!-- PAGE HEADER -->
 
-<div class="mb-8">
+<div class="mb-6 sm:mb-8 px-4 sm:px-0">
 
-    <h1 class="text-4xl font-extrabold text-white">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-white">
         Following
     </h1>
 
@@ -21,21 +21,22 @@
 
     <!-- FOLLOWING LIST -->
 
-    <div class="space-y-3 mt-8">
+    <div class="space-y-3 mt-6 sm:mt-8 px-4 sm:px-0">
 
         {% for followed_user in following %}
 
             <a
                 href="{% url 'public_profile' followed_user.username %}"
                 class="group
-                       flex items-center gap-4
-                       p-4
-                       rounded-xl
+                       flex items-center gap-3 sm:gap-4
+                       p-3 sm:p-4
+                       rounded-2xl sm:rounded-xl
                        bg-zinc-900/90
                        border border-zinc-800
                        hover:border-violet-500/50
                        hover:bg-zinc-900
-                       transition"
+                       transition
+                       active:scale-[0.99]"
             >
 
                 <!-- PROFILE PICTURE -->
@@ -45,7 +46,7 @@
                     <img
                         src="{{ followed_user.profile.profile_picture.url }}"
                         alt="{{ followed_user.username }}"
-                        class="w-14 h-14
+                        class="w-12 h-12 sm:w-14 sm:h-14
                                shrink-0
                                rounded-full
                                object-cover
@@ -58,7 +59,7 @@
                 {% else %}
 
                     <div
-                        class="w-14 h-14
+                        class="w-12 h-12 sm:w-14 sm:h-14
                                shrink-0
                                rounded-full
                                bg-gradient-to-r
@@ -66,7 +67,7 @@
                                to-purple-600
                                flex items-center
                                justify-center
-                               text-xl
+                               text-lg sm:text-xl
                                font-bold
                                text-white
                                border-2
@@ -87,7 +88,7 @@
                     <h2
                         class="text-white
                                font-semibold
-                               text-lg
+                               text-base sm:text-lg
                                truncate
                                group-hover:text-violet-300
                                transition"
@@ -95,7 +96,7 @@
                         {{ followed_user.username }}
                     </h2>
 
-                    <p class="text-zinc-500 text-sm mt-1">
+                    <p class="text-zinc-500 text-xs sm:text-sm mt-1">
                         Aniva member
                     </p>
 
@@ -106,7 +107,8 @@
 
                 <div
                     class="text-zinc-500
-                           text-xl
+                           text-lg sm:text-xl
+                           shrink-0
                            group-hover:text-violet-400
                            transition"
                 >
@@ -124,26 +126,26 @@
 
     <!-- EMPTY STATE -->
 
-    <div class="text-center py-20">
+    <div class="text-center py-16 sm:py-20 px-4">
 
         <div
-            class="w-20 h-20
+            class="w-16 h-16 sm:w-20 sm:h-20
                    mx-auto
                    rounded-full
                    bg-violet-900/30
                    border border-violet-500/20
                    flex items-center
                    justify-center
-                   text-4xl"
+                   text-3xl sm:text-4xl"
         >
             👥
         </div>
 
-        <h2 class="text-2xl font-bold text-white mt-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-white mt-5 sm:mt-6">
             Not Following Anyone
         </h2>
 
-        <p class="text-zinc-500 mt-2">
+        <p class="text-zinc-500 text-sm sm:text-base mt-2 max-w-md mx-auto">
             {{ profile_user.username }} isn't following anyone yet.
         </p>
 
@@ -154,11 +156,12 @@
 
 <!-- BACK BUTTON -->
 
-<div class="mt-8">
+<div class="mt-6 sm:mt-8 px-4 sm:px-0">
 
     <a
         href="{% url 'profile' %}"
-        class="inline-flex items-center justify-center
+        class="w-full sm:w-auto
+               inline-flex items-center justify-center
                bg-gradient-to-r
                from-violet-600
                to-purple-600
@@ -171,7 +174,8 @@
                shadow-violet-500/20
                hover:from-violet-500
                hover:to-purple-500
-               transition"
+               transition
+               active:scale-[0.98]"
     >
         ← Back
     </a>

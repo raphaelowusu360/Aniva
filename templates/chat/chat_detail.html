@@ -4,15 +4,17 @@
 
 {% block content %}
 
-<div class="max-w-4xl mx-auto px-4 py-6">
+<div class="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
 
     <!-- CHAT HEADER -->
-    <div class="flex items-center gap-4
+
+    <div class="flex items-center gap-3 sm:gap-4
                 bg-zinc-900/90
                 border border-zinc-800
                 rounded-2xl
-                px-5 py-4
-                mb-4
+                px-4 sm:px-5
+                py-3 sm:py-4
+                mb-3 sm:mb-4
                 shadow-lg">
 
         {% if other_user.profile.profile_picture %}
@@ -20,16 +22,22 @@
             <img
                 src="{{ other_user.profile.profile_picture.url }}"
                 alt="{{ other_user.username }}"
-                class="w-14 h-14 rounded-full object-cover
+                class="w-11 h-11 sm:w-14 sm:h-14
+                       shrink-0
+                       rounded-full
+                       object-cover
                        border-2 border-violet-500/50"
             >
 
         {% else %}
 
-            <div class="w-14 h-14 rounded-full
+            <div class="w-11 h-11 sm:w-14 sm:h-14
+                        shrink-0
+                        rounded-full
                         bg-gradient-to-br from-violet-600 to-purple-700
                         flex items-center justify-center
-                        text-xl font-bold text-white">
+                        text-lg sm:text-xl
+                        font-bold text-white">
 
                 {{ other_user.username|first|upper }}
 
@@ -37,13 +45,13 @@
 
         {% endif %}
 
-        <div>
+        <div class="min-w-0">
 
-            <h1 class="text-xl font-bold text-white">
+            <h1 class="text-lg sm:text-xl font-bold text-white truncate">
                 {{ other_user.username }}
             </h1>
 
-            <p class="text-sm text-green-400">
+            <p class="text-xs sm:text-sm text-green-400">
                 ● Connected on Aniva
             </p>
 
@@ -56,11 +64,12 @@
 
     <div
         id="chat-container"
-        class="h-[32rem]
+        class="h-[60vh] sm:h-[32rem]
+               min-h-[20rem]
                overflow-y-auto
-               space-y-5
-               p-5
-               rounded-3xl
+               space-y-4 sm:space-y-5
+               p-3 sm:p-5
+               rounded-2xl sm:rounded-3xl
                bg-gradient-to-b
                from-zinc-900
                to-zinc-950
@@ -73,10 +82,11 @@
 
                 <div class="flex justify-center">
 
-                    <span class="text-xs
+                    <span class="text-[11px] sm:text-xs
                                  bg-zinc-800
                                  text-zinc-400
-                                 px-4 py-1
+                                 px-3 sm:px-4
+                                 py-1
                                  rounded-full">
 
                         {{ msg.timestamp|date:"M d, Y" }}
@@ -97,11 +107,12 @@
                 {% endif %}"
             >
 
-                <div class="max-w-xs md:max-w-md relative">
+                <div class="max-w-[85%] sm:max-w-xs md:max-w-md relative">
 
                     <div
                         onclick="toggleDelete(this)"
-                        class="px-5 py-3
+                        class="px-4 sm:px-5
+                               py-2.5 sm:py-3
                                cursor-pointer
                                shadow-lg
                                rounded-3xl
@@ -120,8 +131,12 @@
 
                         {% if msg.content %}
 
-                            <p class="break-words leading-relaxed">
+                            <p class="break-words
+                                      leading-relaxed
+                                      text-sm sm:text-base">
+
                                 {{ msg.content }}
+
                             </p>
 
                         {% endif %}
@@ -132,8 +147,9 @@
                             <img
                                 src="{{ msg.image.url }}"
                                 class="mt-3
+                                       w-full
+                                       max-h-64 sm:max-h-72
                                        rounded-2xl
-                                       max-h-72
                                        object-cover"
                             >
 
@@ -145,7 +161,7 @@
                                     gap-2
                                     mt-2">
 
-                            <span class="text-xs opacity-70">
+                            <span class="text-[11px] sm:text-xs opacity-70">
                                 {{ msg.timestamp|date:"H:i" }}
                             </span>
 
@@ -153,13 +169,13 @@
 
                                 {% if msg.is_read %}
 
-                                    <span class="text-xs">
+                                    <span class="text-[11px] sm:text-xs">
                                         ✓✓
                                     </span>
 
                                 {% else %}
 
-                                    <span class="text-xs">
+                                    <span class="text-[11px] sm:text-xs">
                                         ✓
                                     </span>
 
@@ -194,7 +210,9 @@
                                 class="bg-red-600
                                        text-white
                                        rounded-full
-                                       w-7 h-7"
+                                       w-7 h-7
+                                       flex items-center
+                                       justify-center"
                             >
                                 ×
                             </button>
@@ -212,14 +230,14 @@
 
             <div
                 id="empty-chat-message"
-                class="text-center py-20"
+                class="text-center py-16 sm:py-20"
             >
 
-                <div class="text-5xl mb-4">
+                <div class="text-4xl sm:text-5xl mb-4">
                     👋
                 </div>
 
-                <p class="text-zinc-400">
+                <p class="text-zinc-400 text-sm sm:text-base">
                     Start your conversation on Aniva.
                 </p>
 
@@ -235,7 +253,7 @@
     <form
         method="POST"
         enctype="multipart/form-data"
-        class="mt-4 sticky bottom-0 bg-zinc-950 py-3"
+        class="mt-3 sm:mt-4 sticky bottom-0 bg-zinc-950 py-2 sm:py-3"
     >
 
         {% csrf_token %}
@@ -245,15 +263,15 @@
 
         <div
             id="image-preview-container"
-            class="hidden mb-3 relative w-fit"
+            class="hidden mb-3 relative w-fit max-w-full"
         >
 
             <img
                 id="image-preview"
                 src=""
                 alt="Image preview"
-                class="max-w-xs
-                       max-h-48
+                class="max-w-[75vw] sm:max-w-xs
+                       max-h-40 sm:max-h-48
                        rounded-2xl
                        object-cover
                        border
@@ -274,7 +292,8 @@
                        text-white
                        font-bold
                        flex items-center
-                       justify-center"
+                       justify-center
+                       active:scale-95"
             >
                 ×
             </button>
@@ -284,7 +303,7 @@
 
         <!-- INPUT -->
 
-        <div class="flex gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
 
             <input
                 type="text"
@@ -292,10 +311,13 @@
                 id="message-input"
                 placeholder="Message..."
                 class="flex-1
+                       min-w-0
                        rounded-full
-                       px-5 py-3
+                       px-4 sm:px-5
+                       py-3
                        bg-zinc-900
                        border border-zinc-700
+                       text-sm sm:text-base
                        text-white
                        focus:outline-none
                        focus:ring-2
@@ -306,11 +328,17 @@
             <!-- IMAGE -->
 
             <label
-                class="cursor-pointer
+                class="shrink-0
+                       cursor-pointer
                        bg-zinc-800
                        rounded-full
-                       px-4 py-3
-                       hover:bg-zinc-700"
+                       w-11 h-11
+                       sm:w-auto sm:h-auto
+                       sm:px-4 sm:py-3
+                       flex items-center
+                       justify-center
+                       hover:bg-zinc-700
+                       active:scale-95"
             >
 
                 📷
@@ -330,13 +358,19 @@
 
             <button
                 type="submit"
-                class="rounded-full
-                       px-6
+                class="shrink-0
+                       rounded-full
+                       w-11 h-11
+                       sm:w-auto sm:h-auto
+                       sm:px-6 sm:py-3
+                       flex items-center
+                       justify-center
                        bg-gradient-to-r
                        from-violet-600
                        to-purple-600
                        text-white
-                       font-bold"
+                       font-bold
+                       active:scale-95"
             >
                 ➤
             </button>
@@ -617,7 +651,7 @@ chatSocket.onmessage =
 
 
         messageContainer.className =
-            "max-w-xs md:max-w-md relative";
+            "max-w-[85%] sm:max-w-xs md:max-w-md relative";
 
 
         /* BUBBLE */
@@ -627,7 +661,7 @@ chatSocket.onmessage =
 
 
         bubble.className =
-            "px-5 py-3 shadow-lg rounded-3xl";
+            "px-4 sm:px-5 py-2.5 sm:py-3 shadow-lg rounded-3xl";
 
 
         if (isMine) {
@@ -652,7 +686,7 @@ chatSocket.onmessage =
 
 
             text.className =
-                "break-words leading-relaxed";
+                "break-words leading-relaxed text-sm sm:text-base";
 
 
             text.textContent =
@@ -677,7 +711,7 @@ chatSocket.onmessage =
 
 
             image.className =
-                "mt-3 rounded-2xl max-h-72 object-cover";
+                "mt-3 rounded-2xl max-h-64 sm:max-h-72 w-full object-cover";
 
 
             bubble.appendChild(image);
@@ -700,7 +734,7 @@ chatSocket.onmessage =
 
 
         time.className =
-            "text-xs opacity-70";
+            "text-[11px] sm:text-xs opacity-70";
 
 
         time.textContent =
@@ -719,7 +753,7 @@ chatSocket.onmessage =
 
 
             read.className =
-                "text-xs";
+                "text-[11px] sm:text-xs";
 
 
             read.textContent =
@@ -776,7 +810,9 @@ chatSocket.onmessage =
                     class="bg-red-600
                            text-white
                            rounded-full
-                           w-7 h-7"
+                           w-7 h-7
+                           flex items-center
+                           justify-center"
                 >
                     ×
                 </button>

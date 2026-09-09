@@ -4,365 +4,464 @@
 
 {% block content %}
 
-<div class="max-w-4xl mx-auto px-6 py-10">
+<div class="max-w-4xl mx-auto px-2 sm:px-4 py-6 sm:py-10">
 
-<div class="bg-gradient-to-br from-violet-900/40 via-zinc-900 to-zinc-950
-            border border-zinc-800 rounded-3xl p-8 shadow-2xl">
+    <div class="bg-gradient-to-br
+                from-violet-900/40
+                via-zinc-900
+                to-zinc-950
+                border border-zinc-800
+                rounded-2xl sm:rounded-3xl
+                p-5 sm:p-8
+                shadow-2xl">
 
-    <!-- ========================== -->
-    <!-- HEADER -->
-    <!-- ========================== -->
 
-    <div class="flex flex-col md:flex-row items-center gap-8">
+        <!-- ========================== -->
+        <!-- HEADER -->
+        <!-- ========================== -->
 
-        <!-- AVATAR -->
+        <div class="flex flex-col md:flex-row
+                    items-center gap-5 sm:gap-8">
 
-        <div>
 
-            {% if profile and profile.profile_picture %}
+            <!-- AVATAR -->
 
-                <img
-                    src="{{ profile.profile_picture.url }}"
-                    class="w-40 h-40 rounded-full object-cover
-                           border-4 border-violet-500 shadow-xl"
+            <div class="shrink-0">
+
+                {% if profile and profile.profile_picture %}
+
+                    <img
+                        src="{{ profile.profile_picture.url }}"
+                        alt="Profile Picture"
+                        class="w-28 h-28
+                               sm:w-40 sm:h-40
+                               rounded-full
+                               object-cover
+                               border-4
+                               border-violet-500
+                               shadow-xl"
+                    >
+
+                {% else %}
+
+                    <div
+                        class="w-28 h-28
+                               sm:w-40 sm:h-40
+                               rounded-full
+                               bg-gradient-to-br
+                               from-violet-600
+                               to-purple-800
+                               flex
+                               items-center
+                               justify-center
+                               text-4xl sm:text-5xl
+                               font-bold
+                               shadow-xl"
+                    >
+
+                        {{ profile_user.username|first|upper }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- USER INFO -->
+
+            <div class="text-center md:text-left
+                        min-w-0 w-full">
+
+                <h1
+                    class="text-2xl sm:text-4xl
+                           font-extrabold
+                           text-white
+                           break-words"
                 >
 
-            {% else %}
+                    {{ profile_user.username }}
 
-                <div
-                    class="w-40 h-40 rounded-full
-                           bg-gradient-to-br from-violet-600 to-purple-800
-                           flex items-center justify-center
-                           text-5xl font-bold shadow-xl"
-                >
+                </h1>
 
-                    {{ profile_user.username|first|upper }}
+
+                <p class="text-violet-400
+                          mt-2
+                          font-medium">
+
+                    ✨ Aniva Member
+
+                </p>
+
+
+                <!-- ONLINE STATUS -->
+
+                <div class="mt-3">
+
+                    {% if is_online %}
+
+                        <p class="text-green-400
+                                  font-semibold">
+
+                            🟢 Online
+
+                        </p>
+
+                    {% elif profile and profile.last_seen %}
+
+                        <p class="text-zinc-400 text-sm sm:text-base">
+
+                            ⚪ Last seen
+                            {{ profile.last_seen|timesince }} ago
+
+                        </p>
+
+                    {% else %}
+
+                        <p class="text-zinc-500 text-sm sm:text-base">
+
+                            ⚪ No activity yet
+
+                        </p>
+
+                    {% endif %}
 
                 </div>
 
-            {% endif %}
+
+                <!-- USER DETAILS -->
+
+                <div class="mt-5
+                            space-y-2
+                            text-sm sm:text-base
+                            text-zinc-300">
+
+
+                    <p class="break-words">
+
+                        🌍
+                        {{ profile.country|default:"Location not added" }}
+
+                    </p>
+
+
+                    <p class="break-words">
+
+                        🎌
+                        {{ profile.favourite_anime|default:"No favourite anime yet" }}
+
+                    </p>
+
+
+                    <p>
+
+                        📅 Joined
+                        {{ profile_user.date_joined|date:"F Y" }}
+
+                    </p>
+
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- USER INFO -->
 
-        <div class="text-center md:text-left">
+        <!-- ========================== -->
+        <!-- BIO -->
+        <!-- ========================== -->
 
-            <h1 class="text-4xl font-extrabold text-white">
+        <div class="mt-6 sm:mt-8
+                    bg-zinc-950/60
+                    rounded-2xl
+                    p-4 sm:p-5">
 
-                {{ profile_user.username }}
 
-            </h1>
+            <h3 class="text-lg
+                       font-semibold
+                       text-white
+                       mb-2">
+
+                About
+
+            </h3>
 
 
-            <p class="text-violet-400 mt-2 font-medium">
+            <p class="text-sm sm:text-base
+                      text-zinc-300
+                      leading-relaxed
+                      break-words">
 
-                ✨ Aniva Member
+                {{ profile.bio|default:"This user has not written a bio yet." }}
 
             </p>
 
-
-            <!-- ONLINE STATUS -->
-
-            <div class="mt-3">
-
-                {% if is_online %}
-
-                    <p class="text-green-400 font-semibold">
-
-                        🟢 Online
-
-                    </p>
-
-                {% elif profile and profile.last_seen %}
-
-                    <p class="text-zinc-400">
-
-                        ⚪ Last seen {{ profile.last_seen|timesince }} ago
-
-                    </p>
-
-                {% else %}
-
-                    <p class="text-zinc-500">
-
-                        ⚪ No activity yet
-
-                    </p>
-
-                {% endif %}
-
-            </div>
-
-
-            <!-- USER DETAILS -->
-
-            <div class="mt-5 space-y-2 text-zinc-300">
-
-                <p>
-
-                    🌍
-                    {{ profile.country|default:"Location not added" }}
-
-                </p>
-
-
-                <p>
-
-                    🎌
-                    {{ profile.favourite_anime|default:"No favourite anime yet" }}
-
-                </p>
-
-
-                <p>
-
-                    📅 Joined
-                    {{ profile_user.date_joined|date:"F Y" }}
-
-                </p>
-
-            </div>
-
         </div>
 
-    </div>
 
 
-    <!-- ========================== -->
-    <!-- BIO -->
-    <!-- ========================== -->
+        <!-- ========================== -->
+        <!-- FOLLOW / FRIEND STATS -->
+        <!-- ========================== -->
 
-    <div class="mt-8 bg-zinc-950/60 rounded-2xl p-5">
+        <div class="mt-6 sm:mt-8">
 
-        <h3 class="text-lg font-semibold text-white mb-2">
 
-            About
+            <div class="grid
+                        grid-cols-3
+                        gap-2 sm:gap-4">
 
-        </h3>
 
-
-        <p class="text-zinc-300 leading-relaxed">
-
-            {{ profile.bio|default:"This user has not written a bio yet." }}
-
-        </p>
-
-    </div>
-
-
-    <!-- ========================== -->
-    <!-- FOLLOW / FRIEND STATS -->
-    <!-- ========================== -->
-
-    <div class="mt-8">
-
-        <div class="flex flex-wrap items-center justify-center
-                    md:justify-start gap-4">
-
-
-            <!-- FOLLOWERS -->
-
-            <a
-                href="{% url 'followers_list' profile_user.username %}"
-                class="group px-6 py-4 rounded-2xl
-                       bg-zinc-950/70
-                       border border-zinc-800
-                       hover:border-violet-500
-                       transition"
-            >
-
-                <div class="text-center">
-
-                    <div
-                        class="text-2xl font-bold text-white
-                               group-hover:text-violet-400 transition"
-                    >
-
-                        {{ followers_count }}
-
-                    </div>
-
-
-                    <div class="text-sm text-zinc-400">
-
-                        Followers
-
-                    </div>
-
-                </div>
-
-            </a>
-
-
-            <!-- FOLLOWING -->
-
-            <a
-                href="{% url 'following_list' profile_user.username %}"
-                class="group px-6 py-4 rounded-2xl
-                       bg-zinc-950/70
-                       border border-zinc-800
-                       hover:border-violet-500
-                       transition"
-            >
-
-                <div class="text-center">
-
-                    <div
-                        class="text-2xl font-bold text-white
-                               group-hover:text-violet-400 transition"
-                    >
-
-                        {{ following_count }}
-
-                    </div>
-
-
-                    <div class="text-sm text-zinc-400">
-
-                        Following
-
-                    </div>
-
-                </div>
-
-            </a>
-
-
-            <!-- FRIENDS -->
-
-            <a
-                href="{% url 'friends_list' %}"
-                class="group px-6 py-4 rounded-2xl
-                       bg-zinc-950/70
-                       border border-zinc-800
-                       hover:border-green-500
-                       transition"
-            >
-
-                <div class="text-center">
-
-                    <div
-                        class="text-2xl font-bold text-white
-                               group-hover:text-green-400 transition"
-                    >
-
-                        {{ friends|length }}
-
-                    </div>
-
-
-                    <div class="text-sm text-zinc-400">
-
-                        Friends
-
-                    </div>
-
-                </div>
-
-            </a>
-
-
-            <!-- ========================== -->
-            <!-- FOLLOW BUTTON -->
-            <!-- ========================== -->
-
-            {% if profile_user != request.user %}
-
-                {% if is_following %}
-
-                    <form
-                        method="POST"
-                        action="{% url 'unfollow_user' profile_user.id %}"
-                    >
-
-                        {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            class="px-6 py-4 rounded-2xl
-                                   border border-red-500
-                                   text-red-400
-                                   hover:bg-red-500/10
-                                   transition"
-                        >
-
-                            ✓ Following
-
-                        </button>
-
-                    </form>
-
-                {% else %}
-
-                    <form
-                        method="POST"
-                        action="{% url 'follow_user' profile_user.id %}"
-                    >
-
-                        {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            class="px-6 py-4 rounded-2xl
-                                   bg-violet-600
-                                   text-white
-                                   font-semibold
-                                   hover:bg-violet-500
-                                   transition"
-                        >
-
-                            ➕ Follow
-
-                        </button>
-
-                    </form>
-
-                {% endif %}
-
-            {% endif %}
-
-        </div>
-
-    </div>
-
-
-    <!-- ========================== -->
-    <!-- SOCIAL / MESSAGE -->
-    <!-- ========================== -->
-
-    {% if profile_user != request.user %}
-
-        <div class="mt-8 flex flex-col sm:flex-row gap-3">
-
-            {% if is_friend %}
-
-                <!-- MESSAGE BUTTON ONLY -->
+                <!-- FOLLOWERS -->
 
                 <a
-                    href="{% url 'chat_detail' profile_user.id %}"
-                    class="bg-gradient-to-r
-                           from-violet-600
-                           to-purple-600
-                           px-5 py-3 rounded-xl
-                           text-white font-semibold
-                           hover:from-violet-500
-                           hover:to-purple-500"
+                    href="{% url 'followers_list' profile_user.username %}"
+                    class="group
+                           px-2 sm:px-6
+                           py-3 sm:py-4
+                           rounded-xl sm:rounded-2xl
+                           bg-zinc-950/70
+                           border border-zinc-800
+                           hover:border-violet-500
+                           transition"
                 >
 
-                    💬 Message
+                    <div class="text-center">
+
+                        <div
+                            class="text-xl sm:text-2xl
+                                   font-bold
+                                   text-white
+                                   group-hover:text-violet-400
+                                   transition"
+                        >
+
+                            {{ followers_count }}
+
+                        </div>
+
+
+                        <div class="text-xs sm:text-sm
+                                    text-zinc-400">
+
+                            Followers
+
+                        </div>
+
+                    </div>
 
                 </a>
 
+
+
+                <!-- FOLLOWING -->
+
+                <a
+                    href="{% url 'following_list' profile_user.username %}"
+                    class="group
+                           px-2 sm:px-6
+                           py-3 sm:py-4
+                           rounded-xl sm:rounded-2xl
+                           bg-zinc-950/70
+                           border border-zinc-800
+                           hover:border-violet-500
+                           transition"
+                >
+
+                    <div class="text-center">
+
+                        <div
+                            class="text-xl sm:text-2xl
+                                   font-bold
+                                   text-white
+                                   group-hover:text-violet-400
+                                   transition"
+                        >
+
+                            {{ following_count }}
+
+                        </div>
+
+
+                        <div class="text-xs sm:text-sm
+                                    text-zinc-400">
+
+                            Following
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+
+                <!-- FRIENDS -->
+
+                <a
+                    href="{% url 'friends_list' %}"
+                    class="group
+                           px-2 sm:px-6
+                           py-3 sm:py-4
+                           rounded-xl sm:rounded-2xl
+                           bg-zinc-950/70
+                           border border-zinc-800
+                           hover:border-green-500
+                           transition"
+                >
+
+                    <div class="text-center">
+
+                        <div
+                            class="text-xl sm:text-2xl
+                                   font-bold
+                                   text-white
+                                   group-hover:text-green-400
+                                   transition"
+                        >
+
+                            {{ friends|length }}
+
+                        </div>
+
+
+                        <div class="text-xs sm:text-sm
+                                    text-zinc-400">
+
+                            Friends
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+
+
+            <!-- FOLLOW BUTTON -->
+
+            {% if profile_user != request.user %}
+
+                <div class="mt-3 sm:mt-4">
+
+
+                    {% if is_following %}
+
+                        <form
+                            method="POST"
+                            action="{% url 'unfollow_user' profile_user.id %}"
+                        >
+
+                            {% csrf_token %}
+
+
+                            <button
+                                type="submit"
+                                class="w-full
+                                       px-6
+                                       py-3
+                                       rounded-xl
+                                       border border-red-500
+                                       text-red-400
+                                       hover:bg-red-500/10
+                                       transition"
+                            >
+
+                                ✓ Following
+
+                            </button>
+
+                        </form>
+
+
+                    {% else %}
+
+                        <form
+                            method="POST"
+                            action="{% url 'follow_user' profile_user.id %}"
+                        >
+
+                            {% csrf_token %}
+
+
+                            <button
+                                type="submit"
+                                class="w-full
+                                       px-6
+                                       py-3
+                                       rounded-xl
+                                       bg-violet-600
+                                       text-white
+                                       font-semibold
+                                       hover:bg-violet-500
+                                       transition"
+                            >
+
+                                ➕ Follow
+
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+
+                </div>
+
             {% endif %}
 
         </div>
 
-    {% endif %}
 
-</div>
 
+        <!-- ========================== -->
+        <!-- SOCIAL / MESSAGE -->
+        <!-- ========================== -->
+
+        {% if profile_user != request.user %}
+
+            <div class="mt-6 sm:mt-8">
+
+
+                {% if is_friend %}
+
+                    <!-- MESSAGE BUTTON -->
+
+                    <a
+                        href="{% url 'chat_detail' profile_user.id %}"
+                        class="block
+                               w-full
+                               text-center
+                               bg-gradient-to-r
+                               from-violet-600
+                               to-purple-600
+                               px-5 py-3
+                               rounded-xl
+                               text-white
+                               font-semibold
+                               hover:from-violet-500
+                               hover:to-purple-500
+                               transition"
+                    >
+
+                        💬 Message
+
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
 
 </div>
 

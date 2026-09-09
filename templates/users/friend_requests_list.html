@@ -4,125 +4,155 @@
 
 {% block content %}
 
-<div class="max-w-4xl mx-auto">
-
-   
-
-    <!-- ====================================================== -->
-    <!-- FOLLOW BACK -->
-    <!-- ====================================================== -->
-
-    {% if follow_requests %}
-
-        <div>
-
-            <!-- SECTION HEADER -->
-
-            <div class="mb-6">
-
-                <h2 class="text-3xl font-extrabold text-white mb-2">
-                    Follow Back
-                </h2>
-
-                <p class="text-zinc-400">
-                    People who follow you that you haven't followed back.
-                </p>
-
-            </div>
+<div class="max-w-4xl mx-auto px-4 sm:px-6">
 
 
-            <!-- FOLLOW BACK LIST -->
+<!-- ====================================================== -->
+<!-- FOLLOW BACK -->
+<!-- ====================================================== -->
 
-            <div class="space-y-4">
+{% if follow_requests %}
 
-                {% for follow_request in follow_requests %}
+    <div>
 
-                    <div
-                        class="flex items-center gap-4
-                               bg-gradient-to-br
-                               from-zinc-900
-                               to-zinc-950
-                               border border-zinc-800
-                               rounded-3xl
-                               p-5
-                               shadow-xl
-                               hover:border-violet-500
-                               transition"
-                    >
+        <!-- SECTION HEADER -->
 
-                        <!-- PROFILE PICTURE -->
+        <div class="mb-6 sm:mb-8">
 
-                        {% if follow_request.follower.profile.profile_picture %}
+            <h2 class="text-2xl sm:text-3xl
+                       font-extrabold
+                       text-white
+                       mb-2">
 
-                            <img
-                                src="{{ follow_request.follower.profile.profile_picture.url }}"
-                                alt="{{ follow_request.follower.username }}"
-                                class="w-16 h-16
-                                       rounded-full
-                                       object-cover
-                                       border-2
-                                       border-violet-500/50
-                                       flex-shrink-0"
-                            >
+                Follow Back
 
-                        {% else %}
+            </h2>
 
-                            <!-- FALLBACK AVATAR -->
+            <p class="text-zinc-400
+                      text-sm sm:text-base
+                      leading-relaxed">
 
-                            <div
-                                class="w-16 h-16
-                                       rounded-full
-                                       bg-gradient-to-br
-                                       from-violet-600
-                                       to-purple-700
-                                       flex items-center
-                                       justify-center
-                                       text-2xl
-                                       font-bold
-                                       text-white
-                                       flex-shrink-0"
-                            >
-                                {{ follow_request.follower.username|first|upper }}
-                            </div>
+                People who follow you that you haven't followed back.
 
-                        {% endif %}
+            </p>
+
+        </div>
 
 
-                        <!-- USER INFORMATION -->
+        <!-- FOLLOW BACK LIST -->
 
-                        <div class="flex-1 min-w-0">
+        <div class="space-y-4">
 
-                            <h3
-                                class="text-xl
-                                       font-bold
-                                       text-white
-                                       truncate"
-                            >
-                                {{ follow_request.follower.username }}
-                            </h3>
+            {% for follow_request in follow_requests %}
 
-                            <p class="text-zinc-400 text-sm">
-                                Started following you
-                            </p>
+                <div
+                    class="flex flex-wrap sm:flex-nowrap
+                           items-center
+                           gap-4
+                           bg-gradient-to-br
+                           from-zinc-900
+                           to-zinc-950
+                           border border-zinc-800
+                           rounded-2xl sm:rounded-3xl
+                           p-4 sm:p-5
+                           shadow-xl
+                           hover:border-violet-500
+                           transition"
+                >
+
+                    <!-- PROFILE PICTURE -->
+
+                    {% if follow_request.follower.profile.profile_picture %}
+
+                        <img
+                            src="{{ follow_request.follower.profile.profile_picture.url }}"
+                            alt="{{ follow_request.follower.username }}"
+                            class="w-14 h-14 sm:w-16 sm:h-16
+                                   rounded-full
+                                   object-cover
+                                   border-2
+                                   border-violet-500/50
+                                   flex-shrink-0"
+                        >
+
+                    {% else %}
+
+                        <!-- FALLBACK AVATAR -->
+
+                        <div
+                            class="w-14 h-14 sm:w-16 sm:h-16
+                                   rounded-full
+                                   bg-gradient-to-br
+                                   from-violet-600
+                                   to-purple-700
+                                   flex items-center
+                                   justify-center
+                                   text-xl sm:text-2xl
+                                   font-bold
+                                   text-white
+                                   flex-shrink-0"
+                        >
+
+                            {{ follow_request.follower.username|first|upper }}
 
                         </div>
+
+                    {% endif %}
+
+
+                    <!-- USER INFORMATION -->
+
+                    <div class="flex-1 min-w-0">
+
+                        <h3
+                            class="text-lg sm:text-xl
+                                   font-bold
+                                   text-white
+                                   truncate"
+                        >
+
+                            {{ follow_request.follower.username }}
+
+                        </h3>
+
+                        <p class="text-zinc-400 text-xs sm:text-sm">
+
+                            Started following you
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="w-full sm:w-auto
+                                flex
+                                gap-3
+                                sm:gap-2
+                                mt-1 sm:mt-0">
 
 
                         <!-- VIEW PROFILE -->
 
                         <a
                             href="{% url 'public_profile' follow_request.follower.username %}"
-                            class="hidden sm:block
+                            class="flex-1 sm:flex-none
+                                   text-center
                                    px-4
-                                   py-2
+                                   py-3
                                    rounded-xl
                                    bg-zinc-800
                                    text-zinc-300
+                                   text-sm
                                    font-semibold
                                    hover:bg-zinc-700
+                                   active:bg-zinc-600
                                    transition"
                         >
+
                             Profile
+
                         </a>
 
 
@@ -131,58 +161,89 @@
                         <form
                             method="POST"
                             action="{% url 'follow_back_user' follow_request.follower.id %}"
+                            class="flex-1 sm:flex-none"
                         >
 
                             {% csrf_token %}
 
                             <button
                                 type="submit"
-                                class="px-5
+                                class="w-full
+                                       sm:w-auto
+                                       px-5
                                        py-3
                                        rounded-xl
                                        bg-gradient-to-r
                                        from-violet-600
                                        to-purple-600
                                        text-white
+                                       text-sm
                                        font-semibold
                                        shadow-lg
                                        shadow-violet-500/20
                                        hover:from-violet-500
                                        hover:to-purple-500
-                                       hover:-translate-y-0.5
+                                       active:scale-[0.98]
                                        transition-all
                                        duration-200"
                             >
+
                                 Follow Back
+
                             </button>
 
                         </form>
 
+
                     </div>
 
-                {% endfor %}
+                </div>
 
-            </div>
+            {% endfor %}
 
         </div>
 
-    {% endif %}
+    </div>
 
+{% else %}
 
-    <!-- BACK HOME -->
+    <!-- ====================================================== -->
+    <!-- NO FRIEND REQUESTS -->
+    <!-- ====================================================== -->
 
-    <div class="mt-10">
+    <div class="flex flex-col items-center justify-center text-center py-16">
 
-        <a
-            href="{% url 'home' %}"
-            class="text-violet-400
-                   hover:text-violet-300
-                   transition"
-        >
-            ← Back Home
-        </a>
+        <div class="text-5xl mb-4">
+            🤝
+        </div>
+
+        <p class="text-zinc-400 text-base sm:text-lg">
+            No friend requests yet.
+        </p>
 
     </div>
+
+{% endif %}
+
+
+<!-- BACK HOME -->
+
+<div class="mt-7 sm:mt-10">
+
+    <a
+        href="{% url 'home' %}"
+        class="text-violet-400
+               hover:text-violet-300
+               transition
+               text-sm sm:text-base"
+    >
+
+        ← Back Home
+
+    </a>
+
+</div>
+
 
 </div>
 

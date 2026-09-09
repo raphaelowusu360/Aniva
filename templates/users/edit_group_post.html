@@ -4,243 +4,138 @@
 {% block title %}Edit Post - Aniva{% endblock %}
 
 
-
 {% block content %}
 
-
-<div class="max-w-3xl mx-auto px-6 py-10">
-
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
 
+    <div class="bg-zinc-900/90
+                backdrop-blur-xl
+                border border-zinc-800
+                rounded-2xl sm:rounded-3xl
+                shadow-2xl
+                p-5 sm:p-8">
 
 
+        <!-- HEADER -->
 
-<div class="bg-zinc-900/90
+        <div class="mb-5 sm:mb-6">
 
-            backdrop-blur-xl
+            <h1 class="text-2xl sm:text-3xl font-bold text-zinc-100">
+                Edit Post ✏️
+            </h1>
 
-            border border-zinc-800
+            <p class="text-zinc-400 text-sm sm:text-base mt-2 leading-relaxed">
+                Update your thoughts and keep the conversation going.
+            </p>
 
-            rounded-3xl
-
-            shadow-2xl
-
-            p-8">
-
-
-
+        </div>
 
 
+        <!-- EDIT FORM -->
+
+        <form method="POST" class="space-y-5">
+
+            {% csrf_token %}
 
 
-<!-- Header -->
+            <!-- POST CONTENT -->
 
-<div class="mb-6">
+            <div>
+
+                <label
+                    class="block
+                           text-sm
+                           font-medium
+                           text-zinc-300
+                           mb-2"
+                >
+                    Post Content
+                </label>
 
 
-<h1 class="text-3xl font-bold text-zinc-100">
+                <textarea
+                    name="content"
+                    rows="5"
+                    class="w-full
+                           bg-zinc-950
+                           border border-zinc-700
+                           rounded-2xl
+                           p-3.5 sm:p-4
+                           text-sm sm:text-base
+                           text-zinc-100
+                           placeholder-zinc-500
+                           resize-none
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-violet-500/50
+                           focus:border-violet-500
+                           transition"
+                >{{ post.content }}</textarea>
 
-Edit Post ✏️
-
-</h1>
+            </div>
 
 
-<p class="text-zinc-400 mt-2">
+            <!-- ACTIONS -->
 
-Update your thoughts and keep the conversation going.
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
 
-</p>
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    class="w-full sm:w-auto
+                           bg-gradient-to-r
+                           from-violet-600
+                           to-purple-600
+                           text-white
+                           px-6
+                           py-3
+                           rounded-xl
+                           font-medium
+                           hover:from-violet-500
+                           hover:to-purple-500
+                           transition
+                           shadow-lg
+                           shadow-violet-500/20
+                           active:scale-[0.98]"
+                >
+                    Save Changes
+                </button>
+
+
+                <!-- CANCEL -->
+
+                <a
+                    href="{% url 'group_detail' post.group.id %}"
+                    class="w-full sm:w-auto
+                           inline-flex
+                           items-center
+                           justify-center
+                           px-6
+                           py-3
+                           rounded-xl
+                           border border-zinc-700
+                           text-zinc-300
+                           hover:bg-zinc-800
+                           transition
+                           active:scale-[0.98]"
+                >
+                    Cancel
+                </a>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
 
 
 </div>
-
-
-
-
-
-
-
-
-
-<form method="POST" class="space-y-5">
-
-
-{% csrf_token %}
-
-
-
-
-
-<div>
-
-
-<label class="block
-
-              text-sm
-
-              font-medium
-
-              text-zinc-300
-
-              mb-2">
-
-
-Post Content
-
-
-</label>
-
-
-
-
-
-
-<textarea
-
-name="content"
-
-rows="5"
-
-class="w-full
-
-       bg-zinc-950
-
-       border border-zinc-700
-
-       rounded-2xl
-
-       p-4
-
-       text-zinc-100
-
-       placeholder-zinc-500
-
-       resize-none
-
-       focus:outline-none
-
-       focus:ring-2
-
-       focus:ring-violet-500/50
-
-       focus:border-violet-500
-
-       transition"
-
->{{ post.content }}</textarea>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="flex items-center gap-3">
-
-
-
-
-
-<button type="submit"
-
-class="bg-gradient-to-r
-
-       from-violet-600
-
-       to-purple-600
-
-       text-white
-
-       px-6
-
-       py-2.5
-
-       rounded-xl
-
-       font-medium
-
-       hover:from-violet-500
-
-       hover:to-purple-500
-
-       transition
-
-       shadow-lg
-
-       shadow-violet-500/20">
-
-
-Save Changes
-
-
-</button>
-
-
-
-
-
-
-
-<a href="{% url 'group_detail' post.group.id %}"
-
-class="px-6
-
-       py-2.5
-
-       rounded-xl
-
-       border border-zinc-700
-
-       text-zinc-300
-
-       hover:bg-zinc-800
-
-       transition">
-
-
-Cancel
-
-
-</a>
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-</form>
-
-
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-</div>
-
 
 
 {% endblock %}

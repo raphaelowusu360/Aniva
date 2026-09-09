@@ -4,143 +4,103 @@
 {% block title %}Create Community | Aniva{% endblock %}
 
 
-
 {% block content %}
 
-
-<div class="max-w-3xl mx-auto px-6 py-12">
-
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
 
-    <!-- Header -->
+    <!-- HEADER -->
 
-    <div class="text-center mb-10">
+    <div class="text-center mb-7 sm:mb-10">
 
-
-        <h1 class="text-4xl font-extrabold text-white mb-3">
-
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 sm:mb-3">
             Create Your Community
-
         </h1>
 
-
-
-        <p class="text-zinc-400 text-lg">
-
+        <p class="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
             Bring people together around shared interests, ideas, and passions.
-
         </p>
-
-
 
     </div>
 
 
+    <!-- CREATION CARD -->
 
-
-
-
-
-    <!-- Creation Card -->
-
-
-    <div class="bg-gradient-to-br from-violet-900/40
-                via-zinc-900 to-zinc-950
-
+    <div class="bg-gradient-to-br
+                from-violet-900/40
+                via-zinc-900
+                to-zinc-950
                 border border-zinc-800
-                rounded-3xl
+                rounded-2xl sm:rounded-3xl
                 shadow-2xl
-                p-8">
+                p-5 sm:p-8">
 
 
+        <!-- CARD HEADER -->
 
+        <div class="flex items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
 
-
-        <div class="flex items-center gap-4 mb-8">
-
-
-            <div class="w-14 h-14 rounded-2xl
+            <div class="w-12 h-12 sm:w-14 sm:h-14
+                        shrink-0
+                        rounded-xl sm:rounded-2xl
                         bg-gradient-to-br
                         from-violet-600
                         to-purple-700
                         flex items-center justify-center
-                        text-3xl">
+                        text-2xl sm:text-3xl">
 
                 🌎
 
             </div>
 
 
+            <div class="min-w-0">
 
-            <div>
-
-                <h2 class="text-2xl font-bold text-white">
-
+                <h2 class="text-xl sm:text-2xl font-bold text-white">
                     New Aniva Community
-
                 </h2>
 
-
-                <p class="text-zinc-400">
-
+                <p class="text-zinc-400 text-sm sm:text-base mt-1 leading-relaxed">
                     Create a space where people can connect.
-
                 </p>
 
-
             </div>
-
 
         </div>
 
 
+        <!-- FORM -->
 
-
-
-
-
-        <form method="POST" class="space-y-6">
-
+        <form method="POST" class="space-y-5 sm:space-y-6">
 
             {% csrf_token %}
 
 
-
-
-
-            <!-- Name -->
-
+            <!-- NAME -->
 
             <div>
 
-
-                <label for="name"
-
-                    class="block text-sm font-medium
-                           text-zinc-300 mb-2">
-
+                <label
+                    for="name"
+                    class="block text-sm font-medium text-zinc-300 mb-2"
+                >
                     Community Name
-
                 </label>
 
 
-
                 <input
-
                     type="text"
-
                     name="name"
-
                     id="name"
-
                     required
-
                     placeholder="Example: Anime Legends, Gaming Hub..."
-
-                    class="w-full rounded-xl
+                    class="w-full
+                           rounded-xl
                            bg-zinc-950
                            border border-zinc-800
-                           px-4 py-3
+                           px-3.5 sm:px-4
+                           py-3 sm:py-3
+                           text-sm sm:text-base
                            text-white
                            placeholder-zinc-500
                            focus:outline-none
@@ -148,112 +108,80 @@
                            focus:ring-violet-500
                            focus:border-violet-500
                            transition"
-
                 >
-
 
             </div>
 
 
-
-
-
-
-
-            <!-- Description -->
-
+            <!-- DESCRIPTION -->
 
             <div>
 
-
-                <label for="description"
-
-                    class="block text-sm font-medium
-                           text-zinc-300 mb-2">
-
-
+                <label
+                    for="description"
+                    class="block text-sm font-medium text-zinc-300 mb-2"
+                >
                     Community Description
-
-
                 </label>
 
 
-
-
                 <textarea
-
                     name="description"
-
                     id="description"
-
                     rows="5"
-
                     placeholder="What is this community about?"
-
-                    class="w-full rounded-xl
+                    class="w-full
+                           rounded-xl
                            bg-zinc-950
                            border border-zinc-800
-                           px-4 py-3
+                           px-3.5 sm:px-4
+                           py-3
+                           text-sm sm:text-base
                            text-white
                            placeholder-zinc-500
                            focus:outline-none
                            focus:ring-2
                            focus:ring-violet-500
-                           transition">
-
-
-                </textarea>
-
+                           focus:border-violet-500
+                           transition
+                           resize-y"
+                ></textarea>
 
             </div>
 
 
-
-
-
-
-
-
-            <!-- Future Features Preview -->
-
+            <!-- FUTURE FEATURES PREVIEW -->
 
             <div class="bg-zinc-950/60
                         border border-zinc-800
                         rounded-2xl
-                        p-5">
+                        p-4 sm:p-5">
 
 
                 <h3 class="text-white font-semibold mb-3">
-
                     Coming Soon
-
                 </h3>
 
 
-
-                <div class="grid grid-cols-2 gap-3 text-sm text-zinc-400">
-
+                <div class="grid grid-cols-1 sm:grid-cols-2
+                            gap-2.5 sm:gap-3
+                            text-sm text-zinc-400">
 
                     <span>
                         🖼 Community Banner
                     </span>
 
-
                     <span>
                         🎨 Categories
                     </span>
-
 
                     <span>
                         👥 Roles
                     </span>
 
-
                     <span>
                         ⭐ Community Badges
                     </span>
-
-
 
                 </div>
 
@@ -261,59 +189,36 @@
             </div>
 
 
-
-
-
-
-
-
-            <!-- Submit -->
-
+            <!-- SUBMIT -->
 
             <button
-
                 type="submit"
-
                 class="w-full
                        bg-gradient-to-r
                        from-violet-600
                        to-purple-600
-
                        text-white
                        font-bold
-
-                       py-3
-
+                       py-3.5
                        rounded-xl
-
                        hover:from-violet-500
                        hover:to-purple-500
-
                        transition
-
-                       shadow-lg">
-
-
+                       shadow-lg
+                       shadow-violet-500/20
+                       active:scale-[0.98]"
+            >
                 Create Community
-
-
             </button>
-
-
 
 
         </form>
 
 
-
-
     </div>
 
 
-
-
 </div>
-
 
 
 {% endblock %}

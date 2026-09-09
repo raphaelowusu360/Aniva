@@ -1,192 +1,686 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Aniva - Connect, create, and discover communities around your passions.">
 
-    <title>
-        {% block title %}Aniva | Connect. Create. Belong.{% endblock %}
-    </title>
+<meta charset="UTF-8">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <!-- Custom Tailwind Configuration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        aniva: {
-                            purple: '#8b5cf6',
-                            dark: '#09090b'
-                        }
+<meta name="description"
+      content="Aniva - Connect, create, and discover communities around your passions.">
+
+<title>
+    {% block title %}Aniva | Connect. Create. Belong.{% endblock %}
+</title>
+
+
+<!-- ===================================================== -->
+<!-- TAILWIND CSS -->
+<!-- ===================================================== -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<!-- ===================================================== -->
+<!-- CUSTOM TAILWIND CONFIG -->
+<!-- ===================================================== -->
+
+<script>
+
+    tailwind.config = {
+
+        theme: {
+
+            extend: {
+
+                colors: {
+
+                    aniva: {
+
+                        purple: '#8b5cf6',
+                        dark: '#09090b'
+
                     }
-                }
-            }
-        }
-    </script>
-</head>
 
+                }
+
+            }
+
+        }
+
+    }
+
+</script>
+
+
+</head>
 
 <body class="bg-zinc-950 text-zinc-100 font-sans">
 
+<!-- ========================================================= -->
 
-    <!-- Navbar -->
-    <nav class="bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 shadow-lg px-6 py-4">
+<!-- NAVBAR -->
 
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+<!-- ========================================================= -->
 
-
-            <!-- Left Section -->
-            <div class="flex items-center gap-8">
-
-
-                <!-- Brand -->
-                <a href="{% url 'home' %}" 
-                   class="flex items-center gap-2 text-2xl font-extrabold transition">
-
-                    <span class="bg-gradient-to-r from-violet-400 to-purple-600 bg-clip-text text-transparent">
-                        Aniva
-                    </span>
-
-                </a>
+<nav class="bg-zinc-900/80
+           backdrop-blur-xl
+           border-b border-zinc-800
+           shadow-lg
+           px-4 sm:px-6
+           py-3">
 
 
-                <!-- Navigation -->
-                <div class="flex flex-wrap gap-4 text-sm lg:text-base">
-
-                    <a href="{% url 'anime_list' %}"
-                       class="hover:text-violet-400 transition">
-                        Explore
-                    </a>
+<div class="max-w-7xl mx-auto">
 
 
-                    <a href="{% url 'favorites' %}"
-                       class="hover:text-violet-400 transition">
-                        Favorites
-                    </a>
+    <!-- ================================================= -->
+    <!-- MAIN NAVBAR ROW -->
+    <!-- ================================================= -->
+
+    <div class="flex items-center gap-3">
 
 
-                    <a href="{% url 'group_list' %}"
-                       class="hover:text-violet-400 transition">
-                        Communities
-                    </a>
+        <!-- ================================================= -->
+        <!-- ANIVA LOGO -->
+        <!-- ================================================= -->
+
+        <a href="{% url 'home' %}"
+           class="flex items-center
+                  text-2xl
+                  font-extrabold
+                  flex-shrink-0
+                  mr-auto">
+
+            <span class="bg-gradient-to-r
+                         from-violet-400
+                         to-purple-600
+                         bg-clip-text
+                         text-transparent">
+
+                Aniva
+
+            </span>
+
+        </a>
 
 
-                    <a href="{% url 'browse_users' %}"
-                       class="hover:text-violet-400 transition">
-                        People
-                    </a>
+        <!-- ================================================= -->
+        <!-- DESKTOP NAVIGATION -->
+        <!-- ================================================= -->
+
+        <div class="hidden lg:flex
+                    items-center
+                    gap-6
+                    text-base">
 
 
-                    <a href="{% url 'chat_list' %}"
-   class="relative hover:text-violet-400 transition flex items-center gap-1">
+            <!-- Explore -->
 
-    🔔
+            <a href="{% url 'anime_list' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
 
-    {% if unread_messages %}
-        <span class="absolute -top-3 -right-3
-                     bg-red-600 text-white
-                     text-xs font-bold
-                     rounded-full
-                     min-w-[20px] h-[20px]
-                     flex items-center justify-center
-                     px-1">
+                Explore
 
-            {{ unread_messages }}
-
-        </span>
-    {% endif %}
-
-</a>
+            </a>
 
 
-                </div>
+            <!-- Favorites -->
 
-            </div>
+            <a href="{% url 'favorites' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Favorites
+
+            </a>
 
 
+            <!-- Communities -->
+
+            <a href="{% url 'group_list' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Communities
+
+            </a>
 
 
-            <!-- Right Section -->
+            <!-- People -->
+
+            <a href="{% url 'browse_users' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                People
+
+            </a>
+
 
             {% if user.is_authenticated %}
 
-            <div class="flex items-center flex-wrap gap-4 text-sm lg:text-base">
+
+            <!-- ================================================= -->
+            <!-- MESSAGES -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'chat_list' %}"
+               class="relative
+                      hover:text-violet-400
+                      transition
+                      flex
+                      items-center"
+               aria-label="Messages">
+
+                🔔
+
+                {% if unread_messages %}
+
+                <span class="absolute
+                             -top-2
+                             -right-3
+                             bg-red-600
+                             text-white
+                             text-xs
+                             font-bold
+                             rounded-full
+                             min-w-[20px]
+                             h-[20px]
+                             flex
+                             items-center
+                             justify-center
+                             px-1">
+
+                    {{ unread_messages }}
+
+                </span>
+
+                {% endif %}
+
+            </a>
 
 
-                <a href="{% url 'profile' %}"
-                   class="hover:text-violet-400 transition">
-                    Profile
-                </a>
+            <!-- Profile -->
+
+            <a href="{% url 'profile' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Profile
+
+            </a>
 
 
-                <a href="{% url 'friends_list' %}"
-                   class="hover:text-violet-400 transition">
-                    Friends
-                </a>
+            <!-- Friends -->
+
+            <a href="{% url 'friends_list' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Friends
+
+            </a>
 
 
-                <a href="{% url 'friend_requests_list' %}"
-                   class="hover:text-violet-400 transition">
-                    Requests
-                </a>
+            <!-- Requests -->
+
+            <a href="{% url 'friend_requests_list' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Requests
+
+            </a>
 
 
-                <a href="{% url 'feature_feedback' %}"
-                   class="hover:text-violet-400 transition">
-                    Feedback
-                </a>
+            <!-- Feedback -->
+
+            <a href="{% url 'feature_feedback' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Feedback
+
+            </a>
 
 
+            <!-- Logout -->
 
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
+            <form method="POST"
+                  action="{% url 'logout' %}">
 
-                    <button type="submit"
-                        class="bg-gradient-to-r from-violet-600 to-purple-600 
-                               px-4 py-2 rounded-xl text-white font-medium
-                               hover:from-violet-500 hover:to-purple-500
-                               transition shadow-lg">
+                {% csrf_token %}
 
-                        Logout
+                <button type="submit"
+                        class="bg-gradient-to-r
+                               from-violet-600
+                               to-purple-600
+                               px-4
+                               py-2
+                               rounded-xl
+                               text-white
+                               font-medium
+                               hover:from-violet-500
+                               hover:to-purple-500
+                               transition
+                               shadow-lg
+                               whitespace-nowrap">
 
-                    </button>
+                    Logout
 
-                </form>
+                </button>
 
-
-            </div>
+            </form>
 
 
             {% else %}
 
 
-            <div class="flex gap-4">
+            <!-- Login -->
+
+            <a href="{% url 'login' %}"
+               class="hover:text-violet-400
+                      transition
+                      whitespace-nowrap">
+
+                Login
+
+            </a>
 
 
-                <a href="{% url 'login' %}"
-                   class="hover:text-violet-400 transition">
-                    Login
-                </a>
+            <!-- Join Aniva -->
+
+            <a href="{% url 'register' %}"
+               class="bg-gradient-to-r
+                      from-violet-600
+                      to-purple-600
+                      px-4
+                      py-2
+                      rounded-xl
+                      font-medium
+                      hover:from-violet-500
+                      hover:to-purple-500
+                      transition
+                      whitespace-nowrap">
+
+                Join Aniva
+
+            </a>
 
 
-                <a href="{% url 'register' %}"
-                   class="bg-gradient-to-r from-violet-600 to-purple-600
-                          px-4 py-2 rounded-xl font-medium
-                          hover:from-violet-500 hover:to-purple-500 transition">
+            {% endif %}
 
-                    Join Aniva
-
-                </a>
+        </div>
 
 
+        <!-- ================================================= -->
+        <!-- MOBILE / SMALL SCREEN QUICK TABS -->
+        <!-- ================================================= -->
+
+        <div class="flex lg:hidden
+                    items-center
+                    gap-3
+                    sm:gap-4">
+
+
+            {% if user.is_authenticated %}
+
+
+            <!-- ================================================= -->
+            <!-- MESSAGES -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'chat_list' %}"
+               class="relative
+                      flex
+                      items-center
+                      justify-center
+                      text-lg
+                      sm:text-xl
+                      hover:text-violet-400
+                      transition"
+               aria-label="Messages">
+
+                🔔
+
+
+                {% if unread_messages %}
+
+                <span class="absolute
+                             -top-2
+                             -right-2
+                             bg-red-600
+                             text-white
+                             text-[10px]
+                             font-bold
+                             rounded-full
+                             min-w-[17px]
+                             h-[17px]
+                             flex
+                             items-center
+                             justify-center
+                             px-1">
+
+                    {{ unread_messages }}
+
+                </span>
+
+                {% endif %}
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- PEOPLE -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'browse_users' %}"
+               class="flex
+                      items-center
+                      justify-center
+                      text-lg
+                      sm:text-xl
+                      hover:text-violet-400
+                      transition"
+               aria-label="People">
+
+                <span class="sm:hidden">
+                    👤People
+                </span>
+
+                <span class="hidden sm:inline text-sm">
+                    People
+                </span>
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- PROFILE -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'profile' %}"
+               class="flex
+                      items-center
+                      justify-center
+                      text-lg
+                      sm:text-xl
+                      hover:text-violet-400
+                      transition"
+               aria-label="Profile">
+
+                <span class="sm:hidden">
+                    👤Profile
+                </span>
+
+                <span class="hidden sm:inline text-sm">
+                    Profile
+                </span>
+
+            </a>
+
+
+            {% endif %}
+
+
+            <!-- ================================================= -->
+            <!-- HAMBURGER -->
+            <!-- ================================================= -->
+
+            <button id="mobile-menu-button"
+                    type="button"
+                    class="p-2
+                           rounded-xl
+                           bg-zinc-800
+                           hover:bg-zinc-700
+                           transition
+                           text-xl
+                           flex
+                           items-center
+                           justify-center"
+                    aria-label="Open menu"
+                    aria-expanded="false">
+
+                ☰
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- MOBILE MENU -->
+    <!-- ========================================================= -->
+
+    <div id="mobile-menu"
+         class="hidden
+                mt-4
+                pt-4
+                border-t
+                border-zinc-800">
+
+
+        <div class="flex
+                    flex-col
+                    gap-2">
+
+
+            <!-- ================================================= -->
+            <!-- EXPLORE -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'anime_list' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                🔎 Explore
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- FAVORITES -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'favorites' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                ❤️ Favorites
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- COMMUNITIES -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'group_list' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                👥 Communities
+
+            </a>
+
+
+            {% if user.is_authenticated %}
+
+
+            <!-- ================================================= -->
+            <!-- DIVIDER -->
+            <!-- ================================================= -->
+
+            <div class="border-t
+                        border-zinc-800
+                        my-2">
             </div>
+
+
+            <!-- ================================================= -->
+            <!-- FRIENDS -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'friends_list' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                👥 Friends
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- REQUESTS -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'friend_requests_list' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                🤝 Requests
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- FEEDBACK -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'feature_feedback' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                💡 Feedback
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- LOGOUT -->
+            <!-- ================================================= -->
+
+            <form method="POST"
+                  action="{% url 'logout' %}"
+                  class="mt-1">
+
+                {% csrf_token %}
+
+                <button type="submit"
+                        class="w-full
+                               bg-gradient-to-r
+                               from-violet-600
+                               to-purple-600
+                               px-4
+                               py-3
+                               rounded-xl
+                               text-white
+                               font-medium
+                               hover:from-violet-500
+                               hover:to-purple-500
+                               transition
+                               shadow-lg">
+
+                    Logout
+
+                </button>
+
+            </form>
+
+
+            {% else %}
+
+
+            <!-- ================================================= -->
+            <!-- DIVIDER -->
+            <!-- ================================================= -->
+
+            <div class="border-t
+                        border-zinc-800
+                        my-2">
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- LOGIN -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'login' %}"
+               class="px-4
+                      py-3
+                      rounded-xl
+                      hover:bg-zinc-800
+                      hover:text-violet-400
+                      transition">
+
+                Login
+
+            </a>
+
+
+            <!-- ================================================= -->
+            <!-- JOIN ANIVA -->
+            <!-- ================================================= -->
+
+            <a href="{% url 'register' %}"
+               class="text-center
+                      bg-gradient-to-r
+                      from-violet-600
+                      to-purple-600
+                      px-4
+                      py-3
+                      rounded-xl
+                      font-medium
+                      hover:from-violet-500
+                      hover:to-purple-500
+                      transition">
+
+                Join Aniva
+
+            </a>
 
 
             {% endif %}
@@ -194,88 +688,168 @@
 
         </div>
 
-    </nav>
-
-
-
-
-
-    <!-- Messages -->
-
-    {% if "/chats/" not in request.path and messages %}
-
-    <div id="message-container"
-         class="max-w-7xl mx-auto mt-5 px-4 space-y-3">
-
-
-        {% for message in messages %}
-
-
-        <div class="alert-message p-4 rounded-xl border text-sm transition-opacity duration-500
-
-            {% if message.tags == 'success' %}
-                bg-green-900/40 text-green-300 border-green-700
-
-            {% elif message.tags == 'error' %}
-                bg-red-900/40 text-red-300 border-red-700
-
-            {% elif message.tags == 'warning' %}
-                bg-yellow-900/40 text-yellow-300 border-yellow-700
-
-            {% else %}
-                bg-zinc-800 text-zinc-200 border-zinc-700
-
-            {% endif %}">
-
-
-            {{ message }}
-
-
-        </div>
-
-
-        {% endfor %}
-
-
     </div>
 
 
+</div>
 
-    <script>
 
-        setTimeout(() => {
+</nav>
 
-            document.querySelectorAll('.alert-message').forEach(msg => {
+<!-- ========================================================= -->
+
+<!-- MOBILE MENU JAVASCRIPT -->
+
+<!-- ========================================================= -->
+
+<script>
+
+    const mobileMenuButton =
+        document.getElementById("mobile-menu-button");
+
+    const mobileMenu =
+        document.getElementById("mobile-menu");
+
+
+    if (mobileMenuButton && mobileMenu) {
+
+        mobileMenuButton.addEventListener(
+            "click",
+            function () {
+
+                mobileMenu.classList.toggle("hidden");
+
+
+                const isOpen =
+                    !mobileMenu.classList.contains("hidden");
+
+
+                mobileMenuButton.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
+
+
+                mobileMenuButton.innerHTML =
+                    isOpen ? "✕" : "☰";
+
+            }
+        );
+
+    }
+
+</script>
+
+<!-- ========================================================= -->
+
+<!-- DJANGO MESSAGES -->
+
+<!-- ========================================================= -->
+
+{% if "/chats/" not in request.path and messages %}
+
+<div id="message-container"
+     class="max-w-7xl
+            mx-auto
+            mt-5
+            px-4
+            space-y-3">
+
+
+{% for message in messages %}
+
+
+<div class="alert-message
+            p-4
+            rounded-xl
+            border
+            text-sm
+            transition-opacity
+            duration-500
+
+    {% if message.tags == 'success' %}
+
+        bg-green-900/40
+        text-green-300
+        border-green-700
+
+    {% elif message.tags == 'error' %}
+
+        bg-red-900/40
+        text-red-300
+        border-red-700
+
+    {% elif message.tags == 'warning' %}
+
+        bg-yellow-900/40
+        text-yellow-300
+        border-yellow-700
+
+    {% else %}
+
+        bg-zinc-800
+        text-zinc-200
+        border-zinc-700
+
+    {% endif %}">
+
+
+    {{ message }}
+
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+<script>
+
+    setTimeout(() => {
+
+        document
+            .querySelectorAll('.alert-message')
+            .forEach(msg => {
 
                 msg.classList.add('opacity-0');
 
-                setTimeout(() => msg.remove(), 500);
+
+                setTimeout(() => {
+
+                    msg.remove();
+
+                }, 500);
 
             });
 
-        }, 3000);
+    }, 3000);
+
+</script>
+
+{% endif %}
+
+<!-- ========================================================= -->
+
+<!-- MAIN CONTENT -->
+
+<!-- ========================================================= -->
+
+<main class="max-w-7xl
+             mx-auto
+             mt-6
+             sm:mt-8
+             px-3
+             sm:px-4">
 
 
-    </script>
+{% block content %}
+
+{% endblock %}
 
 
-    {% endif %}
-
-
-
-
-
-    <!-- Main Content -->
-
-    <main class="max-w-7xl mx-auto mt-8 px-4">
-
-        {% block content %}
-
-        {% endblock %}
-
-    </main>
-
-
+</main>
 
 </body>
 

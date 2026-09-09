@@ -50,7 +50,9 @@ def chat_detail(request, user_id):
         id=user_id
     )
 
+    # -----------------------------
     # Find existing conversation
+    # -----------------------------
     chat = (
         Chat.objects
         .filter(users=request.user)
@@ -58,7 +60,9 @@ def chat_detail(request, user_id):
         .first()
     )
 
+    # -----------------------------
     # Create new conversation
+    # -----------------------------
     if not chat:
 
         chat = Chat.objects.create()
@@ -84,6 +88,7 @@ def chat_detail(request, user_id):
 
         if content or image:
 
+            # Save message
             message = Message.objects.create(
                 chat=chat,
                 sender=request.user,
@@ -91,7 +96,9 @@ def chat_detail(request, user_id):
                 image=image
             )
 
+            # -----------------------------
             # Send message through WebSocket
+            # -----------------------------
             channel_layer = get_channel_layer()
 
             async_to_sync(
@@ -100,15 +107,26 @@ def chat_detail(request, user_id):
                 f"chat_{chat.id}",
                 {
                     "type": "chat_message",
-                    "message": message.content or "",
-                    "sender": request.user.username,
+
+                    "message": (
+                        message.content
+                        or ""
+                    ),
+
+                    "sender": (
+                        request.user.username
+                    ),
+
                     "image": (
                         message.image.url
                         if message.image
                         else ""
                     ),
-                    "timestamp": message.timestamp.strftime(
-                        "%H:%M"
+
+                    "timestamp": (
+                        message.timestamp.strftime(
+                            "%H:%M"
+                        )
                     ),
                 }
             )
@@ -177,8 +195,9 @@ def delete_chat_message(request, message_id):
 
     message.delete()
 
-    # If conversation still has another user,
-    # return to chat
+    # -----------------------------
+    # Return to chat
+    # -----------------------------
     if other_user:
 
         return redirect(

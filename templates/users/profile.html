@@ -4,194 +4,178 @@
 
 {% block content %}
 
-<!-- ================================================= -->
-
-<!-- PROFILE PAGE -->
-
-<!-- ================================================= -->
-
-<div
-    class="space-y-8"
->
+<div class="space-y-6 sm:space-y-8">
 
 
-<!-- ================================================= -->
-<!-- PROFILE HEADER -->
-<!-- ================================================= -->
-
-<div
-    class="bg-gradient-to-br
-           from-black
-           via-zinc-950
-           to-violet-950/60
-           border
-           border-violet-900/40
-           rounded-3xl
-           p-8
-           shadow-2xl
-           shadow-violet-950/20"
->
+    <!-- ================================================= -->
+    <!-- PROFILE HEADER -->
+    <!-- ================================================= -->
 
     <div
-        class="flex
-               flex-col
-               md:flex-row
-               items-center
-               gap-8"
+        class="bg-gradient-to-br
+               from-black
+               via-zinc-950
+               to-violet-950/60
+               border
+               border-violet-900/40
+               rounded-2xl sm:rounded-3xl
+               p-5 sm:p-8
+               shadow-2xl
+               shadow-violet-950/20"
     >
 
-
-        <!-- ================================================= -->
-        <!-- PROFILE PICTURE -->
-        <!-- ================================================= -->
-
-        <div>
-
-            {% if profile.profile_picture %}
-
-                <img
-                    src="{{ profile.profile_picture.url }}"
-                    alt="Profile Picture"
-                    class="w-40 h-40
-                           object-cover
-                           rounded-full
-                           border-4
-                           border-violet-500
-                           shadow-lg
-                           shadow-violet-950/50"
-                >
-
-            {% else %}
-
-                <div
-                    class="w-40 h-40
-                           rounded-full
-                           bg-gradient-to-br
-                           from-violet-600
-                           via-purple-700
-                           to-black
-                           flex
-                           items-center
-                           justify-center
-                           text-5xl
-                           font-bold
-                           text-white
-                           border-4
-                           border-violet-500
-                           shadow-lg
-                           shadow-violet-950/50"
-                >
-
-                    {{ user.username|first|upper }}
-
-                </div>
-
-            {% endif %}
-
-        </div>
+        <div
+            class="flex
+                   flex-col
+                   md:flex-row
+                   items-center
+                   gap-5 sm:gap-8"
+        >
 
 
-        <!-- ================================================= -->
-        <!-- USER INFORMATION -->
-        <!-- ================================================= -->
+            <!-- PROFILE PICTURE -->
 
-        <div class="text-center md:text-left">
+            <div class="shrink-0">
 
-            <h2
-                class="text-3xl
-                       font-bold
-                       text-white"
-            >
+                {% if profile.profile_picture %}
 
-                {{ user.username }}
-
-            </h2>
-
-
-            <p
-                class="text-violet-300
-                       mt-1"
-            >
-
-                Aniva Member
-
-            </p>
-
-
-            <!-- ONLINE STATUS -->
-
-            <div class="mt-3">
-
-                {% if profile.is_online %}
-
-                    <p
-                        class="text-green-400
-                               font-semibold"
+                    <img
+                        src="{{ profile.profile_picture.url }}"
+                        alt="Profile Picture"
+                        class="w-28 h-28
+                               sm:w-40 sm:h-40
+                               object-cover
+                               rounded-full
+                               border-4
+                               border-violet-500
+                               shadow-lg
+                               shadow-violet-950/50"
                     >
-
-                        🟢 Online
-
-                    </p>
 
                 {% else %}
 
-                    <p class="text-zinc-400">
+                    <div
+                        class="w-28 h-28
+                               sm:w-40 sm:h-40
+                               rounded-full
+                               bg-gradient-to-br
+                               from-violet-600
+                               via-purple-700
+                               to-black
+                               flex
+                               items-center
+                               justify-center
+                               text-4xl sm:text-5xl
+                               font-bold
+                               text-white
+                               border-4
+                               border-violet-500
+                               shadow-lg
+                               shadow-violet-950/50"
+                    >
 
-                        ⚪ Last seen:
-                        {{ profile.last_seen|timesince }} ago
+                        {{ user.username|first|upper }}
 
-                    </p>
+                    </div>
 
                 {% endif %}
 
             </div>
 
 
-            <!-- PROFILE DETAILS -->
+            <!-- USER INFORMATION -->
 
-            <div
-                class="mt-5
-                       space-y-2
-                       text-zinc-300"
-            >
+            <div class="text-center md:text-left min-w-0 w-full">
 
-                <p>
+                <h2
+                    class="text-2xl sm:text-3xl
+                           font-bold
+                           text-white
+                           break-words"
+                >
 
-                    🌍
+                    {{ user.username }}
 
-                    <strong class="text-white">
-                        Country:
-                    </strong>
+                </h2>
 
-                    {{ profile.country|default:"Not added yet" }}
 
+                <p class="text-violet-300 mt-1">
+                    Aniva Member
                 </p>
 
 
-                <p>
+                <!-- ONLINE STATUS -->
 
-                    🎌
+                <div class="mt-3">
 
-                    <strong class="text-white">
-                        Favourite Anime:
-                    </strong>
+                    {% if profile.is_online %}
 
-                    {{ profile.favourite_anime|default:"Not selected" }}
+                        <p class="text-green-400 font-semibold">
+                            🟢 Online
+                        </p>
 
-                </p>
+                    {% else %}
+
+                        <p class="text-zinc-400 text-sm sm:text-base">
+
+                            ⚪ Last seen:
+                            {{ profile.last_seen|timesince }} ago
+
+                        </p>
+
+                    {% endif %}
+
+                </div>
 
 
-                <p>
+                <!-- PROFILE DETAILS -->
 
-                    📅
+                <div
+                    class="mt-5
+                           space-y-2
+                           text-sm sm:text-base
+                           text-zinc-300"
+                >
 
-                    <strong class="text-white">
-                        Joined:
-                    </strong>
+                    <p class="break-words">
 
-                    {{ user.date_joined|date:"F j, Y" }}
+                        🌍
 
-                </p>
+                        <strong class="text-white">
+                            Country:
+                        </strong>
+
+                        {{ profile.country|default:"Not added yet" }}
+
+                    </p>
+
+
+                    <p class="break-words">
+
+                        🎌
+
+                        <strong class="text-white">
+                            Favourite Anime:
+                        </strong>
+
+                        {{ profile.favourite_anime|default:"Not selected" }}
+
+                    </p>
+
+
+                    <p>
+
+                        📅
+
+                        <strong class="text-white">
+                            Joined:
+                        </strong>
+
+                        {{ user.date_joined|date:"F j, Y" }}
+
+                    </p>
+
+                </div>
 
             </div>
 
@@ -199,380 +183,369 @@
 
     </div>
 
-</div>
-
-
-<!-- ================================================= -->
-<!-- FOLLOWERS / FOLLOWING / FRIENDS -->
-<!-- ================================================= -->
-
-<div
-    class="flex
-           flex-wrap
-           items-center
-           justify-center
-           md:justify-start
-           gap-4"
->
 
 
     <!-- ================================================= -->
-    <!-- FOLLOWERS -->
+    <!-- FOLLOWERS / FOLLOWING / FRIENDS -->
     <!-- ================================================= -->
 
-    <a
-        href="{% url 'followers_list' request.user.username %}"
-        class="group
-               px-6
-               py-4
-               rounded-2xl
-               bg-gradient-to-br
-               from-zinc-950
-               to-black
-               border
-               border-zinc-800
-               hover:border-violet-500
-               hover:bg-gradient-to-br
-               hover:from-violet-950
-               hover:via-purple-950
-               hover:to-black
-               hover:shadow-lg
-               hover:shadow-violet-950/40
-               hover:-translate-y-1
-               transition-all
-               duration-300"
+    <div
+        class="grid
+               grid-cols-3
+               gap-2 sm:gap-4"
     >
 
-        <div class="text-center">
 
-            <div
-                class="text-2xl
-                       font-bold
-                       text-white
-                       group-hover:text-violet-300
-                       transition"
-            >
-
-                {{ followers_count }}
-
-            </div>
-
-            <div
-                class="text-sm
-                       text-zinc-400
-                       group-hover:text-violet-300
-                       transition"
-            >
-
-                Followers
-
-            </div>
-
-        </div>
-
-    </a>
-
-
-    <!-- ================================================= -->
-    <!-- FOLLOWING -->
-    <!-- ================================================= -->
-
-    <a
-        href="{% url 'following_list' request.user.username %}"
-        class="group
-               px-6
-               py-4
-               rounded-2xl
-               bg-gradient-to-br
-               from-zinc-950
-               to-black
-               border
-               border-zinc-800
-               hover:border-violet-500
-               hover:bg-gradient-to-br
-               hover:from-violet-950
-               hover:via-purple-950
-               hover:to-black
-               hover:shadow-lg
-               hover:shadow-violet-950/40
-               hover:-translate-y-1
-               transition-all
-               duration-300"
-    >
-
-        <div class="text-center">
-
-            <div
-                class="text-2xl
-                       font-bold
-                       text-white
-                       group-hover:text-violet-300
-                       transition"
-            >
-
-                {{ following_count }}
-
-            </div>
-
-            <div
-                class="text-sm
-                       text-zinc-400
-                       group-hover:text-violet-300
-                       transition"
-            >
-
-                Following
-
-            </div>
-
-        </div>
-
-    </a>
-
-
-    <!-- ================================================= -->
-    <!-- FRIENDS -->
-    <!-- ================================================= -->
-
-    <a
-        href="{% url 'friends_list' %}"
-        class="group
-               px-6
-               py-4
-               rounded-2xl
-               bg-gradient-to-br
-               from-zinc-950
-               to-black
-               border
-               border-zinc-800
-               hover:border-violet-500
-               hover:bg-gradient-to-br
-               hover:from-violet-950
-               hover:via-purple-950
-               hover:to-black
-               hover:shadow-lg
-               hover:shadow-violet-950/40
-               hover:-translate-y-1
-               transition-all
-               duration-300"
-    >
-
-        <div class="text-center">
-
-            <div
-                class="text-2xl
-                       font-bold
-                       text-white
-                       group-hover:text-violet-300
-                       transition"
-            >
-
-                {{ friends|length }}
-
-            </div>
-
-            <div
-                class="text-sm
-                       text-zinc-400
-                       group-hover:text-violet-300
-                       transition"
-            >
-
-                Friends
-
-            </div>
-
-        </div>
-
-    </a>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- ABOUT ME -->
-<!-- ================================================= -->
-
-<div
-    class="bg-gradient-to-br
-           from-black
-           via-zinc-950
-           to-purple-950/40
-           border
-           border-zinc-800
-           rounded-2xl
-           p-6
-           shadow-xl"
->
-
-    <h3
-        class="text-lg
-               font-semibold
-               text-white
-               mb-2"
-    >
-
-        About Me
-
-    </h3>
-
-
-    <p
-        class="text-zinc-300
-               leading-relaxed"
-    >
-
-        {{ profile.bio|default:"This member has not added a bio yet." }}
-
-    </p>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- EDIT PROFILE -->
-<!-- ================================================= -->
-
-<div
-    class="bg-gradient-to-br
-           from-black
-           via-zinc-950
-           to-violet-950/40
-           border
-           border-zinc-800
-           rounded-2xl
-           p-6
-           shadow-xl"
->
-
-
-    <!-- ================================================= -->
-    <!-- FORM -->
-    <!-- ================================================= -->
-
-    <form
-        method="POST"
-        enctype="multipart/form-data"
-        class="space-y-6
-
-               [&_input]:w-full
-               [&_input]:bg-zinc-950
-               [&_input]:text-white
-               [&_input]:border
-               [&_input]:border-zinc-700
-               [&_input]:rounded-xl
-               [&_input]:p-3
-               [&_input]:outline-none
-               [&_input]:transition
-
-               [&_input]:focus:border-violet-500
-               [&_input]:focus:ring-2
-               [&_input]:focus:ring-violet-500/20
-
-               [&_textarea]:w-full
-               [&_textarea]:bg-zinc-950
-               [&_textarea]:text-white
-               [&_textarea]:border
-               [&_textarea]:border-zinc-700
-               [&_textarea]:rounded-xl
-               [&_textarea]:p-3
-               [&_textarea]:outline-none
-               [&_textarea]:transition
-
-               [&_textarea]:focus:border-violet-500
-               [&_textarea]:focus:ring-2
-               [&_textarea]:focus:ring-violet-500/20
-
-               [&_select]:w-full
-               [&_select]:bg-zinc-950
-               [&_select]:text-white
-               [&_select]:border
-               [&_select]:border-zinc-700
-               [&_select]:rounded-xl
-               [&_select]:p-3
-               [&_select]:outline-none
-               [&_select]:transition
-
-               [&_select]:focus:border-violet-500
-               [&_select]:focus:ring-2
-               [&_select]:focus:ring-violet-500/20
-
-               [&_input[type=file]]:cursor-pointer
-               [&_input[type=file]]:text-zinc-400"
-    >
-
-        {% csrf_token %}
-
-
-        {% for field in form %}
-
-            <div>
-
-                <label
-                    class="block
-                           text-sm
-                           font-medium
-                           text-zinc-300
-                           mb-2"
-                >
-
-                    {{ field.label }}
-
-                </label>
-
-
-                {{ field }}
-
-
-                {% if field.errors %}
-
-                    <p
-                        class="text-red-400
-                               text-sm
-                               mt-1"
-                    >
-
-                        {{ field.errors }}
-
-                    </p>
-
-                {% endif %}
-
-            </div>
-
-        {% endfor %}
-
-
-        <!-- ================================================= -->
-        <!-- SAVE BUTTON -->
-        <!-- ================================================= -->
-
-        <button
-            type="submit"
-            class="bg-gradient-to-r
-                   from-violet-600
-                   via-purple-600
-                   to-violet-700
-                   px-6
-                   py-3
-                   rounded-xl
-                   text-white
-                   font-semibold
-                   hover:from-violet-500
-                   hover:via-purple-500
-                   hover:to-violet-600
-                   transition
-                   shadow-lg
-                   shadow-violet-950/40"
+        <!-- FOLLOWERS -->
+
+        <a
+            href="{% url 'followers_list' request.user.username %}"
+            class="group
+                   px-2 sm:px-6
+                   py-3 sm:py-4
+                   rounded-xl sm:rounded-2xl
+                   bg-gradient-to-br
+                   from-zinc-950
+                   to-black
+                   border
+                   border-zinc-800
+                   hover:border-violet-500
+                   hover:from-violet-950
+                   hover:via-purple-950
+                   hover:to-black
+                   hover:shadow-lg
+                   hover:shadow-violet-950/40
+                   hover:-translate-y-1
+                   transition-all
+                   duration-300"
         >
 
-            Save Profile
+            <div class="text-center">
 
-        </button>
+                <div
+                    class="text-xl sm:text-2xl
+                           font-bold
+                           text-white
+                           group-hover:text-violet-300
+                           transition"
+                >
 
-    </form>
+                    {{ followers_count }}
 
-</div>
+                </div>
+
+                <div
+                    class="text-xs sm:text-sm
+                           text-zinc-400
+                           group-hover:text-violet-300
+                           transition"
+                >
+
+                    Followers
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- FOLLOWING -->
+
+        <a
+            href="{% url 'following_list' request.user.username %}"
+            class="group
+                   px-2 sm:px-6
+                   py-3 sm:py-4
+                   rounded-xl sm:rounded-2xl
+                   bg-gradient-to-br
+                   from-zinc-950
+                   to-black
+                   border
+                   border-zinc-800
+                   hover:border-violet-500
+                   hover:from-violet-950
+                   hover:via-purple-950
+                   hover:to-black
+                   hover:shadow-lg
+                   hover:shadow-violet-950/40
+                   hover:-translate-y-1
+                   transition-all
+                   duration-300"
+        >
+
+            <div class="text-center">
+
+                <div
+                    class="text-xl sm:text-2xl
+                           font-bold
+                           text-white
+                           group-hover:text-violet-300
+                           transition"
+                >
+
+                    {{ following_count }}
+
+                </div>
+
+                <div
+                    class="text-xs sm:text-sm
+                           text-zinc-400
+                           group-hover:text-violet-300
+                           transition"
+                >
+
+                    Following
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- FRIENDS -->
+
+        <a
+            href="{% url 'friends_list' %}"
+            class="group
+                   px-2 sm:px-6
+                   py-3 sm:py-4
+                   rounded-xl sm:rounded-2xl
+                   bg-gradient-to-br
+                   from-zinc-950
+                   to-black
+                   border
+                   border-zinc-800
+                   hover:border-violet-500
+                   hover:from-violet-950
+                   hover:via-purple-950
+                   hover:to-black
+                   hover:shadow-lg
+                   hover:shadow-violet-950/40
+                   hover:-translate-y-1
+                   transition-all
+                   duration-300"
+        >
+
+            <div class="text-center">
+
+                <div
+                    class="text-xl sm:text-2xl
+                           font-bold
+                           text-white
+                           group-hover:text-violet-300
+                           transition"
+                >
+
+                    {{ friends|length }}
+
+                </div>
+
+                <div
+                    class="text-xs sm:text-sm
+                           text-zinc-400
+                           group-hover:text-violet-300
+                           transition"
+                >
+
+                    Friends
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- ABOUT ME -->
+    <!-- ================================================= -->
+
+    <div
+        class="bg-gradient-to-br
+               from-black
+               via-zinc-950
+               to-purple-950/40
+               border
+               border-zinc-800
+               rounded-2xl
+               p-5 sm:p-6
+               shadow-xl"
+    >
+
+        <h3
+            class="text-lg
+                   font-semibold
+                   text-white
+                   mb-2"
+        >
+
+            About Me
+
+        </h3>
+
+
+        <p
+            class="text-sm sm:text-base
+                   text-zinc-300
+                   leading-relaxed
+                   break-words"
+        >
+
+            {{ profile.bio|default:"This member has not added a bio yet." }}
+
+        </p>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- EDIT PROFILE -->
+    <!-- ================================================= -->
+
+    <div
+        class="bg-gradient-to-br
+               from-black
+               via-zinc-950
+               to-violet-950/40
+               border
+               border-zinc-800
+               rounded-2xl
+               p-5 sm:p-6
+               shadow-xl"
+    >
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-5 sm:space-y-6
+
+                   [&_input]:w-full
+                   [&_input]:bg-zinc-950
+                   [&_input]:text-white
+                   [&_input]:border
+                   [&_input]:border-zinc-700
+                   [&_input]:rounded-xl
+                   [&_input]:p-3
+                   [&_input]:outline-none
+                   [&_input]:transition
+
+                   [&_input]:focus:border-violet-500
+                   [&_input]:focus:ring-2
+                   [&_input]:focus:ring-violet-500/20
+
+                   [&_textarea]:w-full
+                   [&_textarea]:bg-zinc-950
+                   [&_textarea]:text-white
+                   [&_textarea]:border
+                   [&_textarea]:border-zinc-700
+                   [&_textarea]:rounded-xl
+                   [&_textarea]:p-3
+                   [&_textarea]:outline-none
+                   [&_textarea]:transition
+
+                   [&_textarea]:focus:border-violet-500
+                   [&_textarea]:focus:ring-2
+                   [&_textarea]:focus:ring-violet-500/20
+
+                   [&_select]:w-full
+                   [&_select]:bg-zinc-950
+                   [&_select]:text-white
+                   [&_select]:border
+                   [&_select]:border-zinc-700
+                   [&_select]:rounded-xl
+                   [&_select]:p-3
+                   [&_select]:outline-none
+                   [&_select]:transition
+
+                   [&_select]:focus:border-violet-500
+                   [&_select]:focus:ring-2
+                   [&_select]:focus:ring-violet-500/20
+
+                   [&_input[type=file]]:cursor-pointer
+                   [&_input[type=file]]:text-zinc-400
+                   [&_input[type=file]]:text-sm"
+        >
+
+            {% csrf_token %}
+
+
+            {% for field in form %}
+
+                <div>
+
+                    <label
+                        class="block
+                               text-sm
+                               font-medium
+                               text-zinc-300
+                               mb-2"
+                    >
+
+                        {{ field.label }}
+
+                    </label>
+
+
+                    {{ field }}
+
+
+                    {% if field.errors %}
+
+                        <p
+                            class="text-red-400
+                                   text-sm
+                                   mt-1"
+                        >
+
+                            {{ field.errors }}
+
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- SAVE BUTTON -->
+
+            <button
+                type="submit"
+                class="w-full sm:w-auto
+                       bg-gradient-to-r
+                       from-violet-600
+                       via-purple-600
+                       to-violet-700
+                       px-6
+                       py-3
+                       rounded-xl
+                       text-white
+                       font-semibold
+                       hover:from-violet-500
+                       hover:via-purple-500
+                       hover:to-violet-600
+                       transition
+                       shadow-lg
+                       shadow-violet-950/40"
+            >
+
+                Save Profile
+
+            </button>
+
+        </form>
+
+    </div>
 
 
 </div>
