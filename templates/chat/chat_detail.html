@@ -5,49 +5,76 @@
 {% block content %}
 
 <!-- ========================================================= -->
-<!-- FULL SCREEN CHAT -->
+<!-- FULL SCREEN WHATSAPP / INSTAGRAM STYLE CHAT -->
 <!-- ========================================================= -->
 
-<div class="fixed inset-0 z-40 bg-zinc-950 flex flex-col">
+<div
+    id="fullscreen-chat"
+    class="fixed z-[9999] bg-zinc-950 flex flex-col overflow-hidden"
+    style="
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100dvh !important;
+        max-width: none !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+    "
+>
 
 
     <!-- ===================================================== -->
     <!-- CHAT HEADER -->
     <!-- ===================================================== -->
 
-    <div class="shrink-0
-                bg-zinc-950/95
-                backdrop-blur-xl
-                border-b border-zinc-800
-                px-3 sm:px-5
-                py-3 sm:py-4
-                shadow-lg">
+    <header
+        class="
+            shrink-0
+            bg-zinc-950
+            border-b
+            border-zinc-800
+            px-3
+            sm:px-5
+            py-3
+            sm:py-4
+        "
+    >
 
-        <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-3 sm:gap-4 w-full">
 
 
             <!-- BACK BUTTON -->
 
-            <a
-                href="{% url 'chat_list' %}"
-                class="shrink-0
-                       w-10 h-10
-                       rounded-full
-                       flex items-center justify-center
-                       text-zinc-300
-                       hover:text-white
-                       hover:bg-zinc-800
-                       active:scale-95
-                       transition"
-                aria-label="Back to messages"
-            >
+            <a href="javascript:history.back()"
+   class="flex items-center justify-center
+          w-10 h-10
+          rounded-full
+          bg-zinc-900/80
+          border border-zinc-800
+          text-zinc-300
+          hover:bg-zinc-800
+          hover:text-white
+          hover:border-zinc-700
+          transition-all duration-200
+          active:scale-95
+          shrink-0">
 
-                <span class="text-2xl leading-none">
-                    ←
-                </span>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-5 h-5"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor"
+         stroke-width="2.2">
 
-            </a>
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 19l-7-7 7-7" />
 
+    </svg>
+
+</a>
 
             <!-- PROFILE PICTURE -->
 
@@ -56,27 +83,40 @@
                 <img
                     src="{{ other_user.profile.profile_picture.url }}"
                     alt="{{ other_user.username }}"
-                    class="w-11 h-11 sm:w-12 sm:h-12
-                           shrink-0
-                           rounded-full
-                           object-cover
-                           border-2
-                           border-violet-500/50"
+                    class="
+                        w-11
+                        h-11
+                        sm:w-12
+                        sm:h-12
+                        shrink-0
+                        rounded-full
+                        object-cover
+                        border-2
+                        border-violet-500/50
+                    "
                 >
 
             {% else %}
 
                 <div
-                    class="w-11 h-11 sm:w-12 sm:h-12
-                           shrink-0
-                           rounded-full
-                           bg-gradient-to-br
-                           from-violet-600
-                           to-purple-700
-                           flex items-center justify-center
-                           text-lg sm:text-xl
-                           font-bold
-                           text-white"
+                    class="
+                        w-11
+                        h-11
+                        sm:w-12
+                        sm:h-12
+                        shrink-0
+                        rounded-full
+                        bg-gradient-to-br
+                        from-violet-600
+                        to-purple-700
+                        flex
+                        items-center
+                        justify-center
+                        text-lg
+                        sm:text-xl
+                        font-bold
+                        text-white
+                    "
                 >
 
                     {{ other_user.username|first|upper }}
@@ -91,10 +131,13 @@
             <div class="min-w-0 flex-1">
 
                 <h1
-                    class="text-base sm:text-lg
-                           font-bold
-                           text-white
-                           truncate"
+                    class="
+                        text-base
+                        sm:text-lg
+                        font-bold
+                        text-white
+                        truncate
+                    "
                 >
 
                     {{ other_user.username }}
@@ -109,286 +152,336 @@
 
             </div>
 
-
         </div>
 
-    </div>
+    </header>
 
 
     <!-- ===================================================== -->
-    <!-- MESSAGES AREA -->
+    <!-- MESSAGES -->
     <!-- ===================================================== -->
 
-    <div
+    <main
         id="chat-container"
-        class="flex-1
-               min-h-0
-               overflow-y-auto
-               overscroll-contain
-               space-y-3 sm:space-y-4
-               px-3 sm:px-6
-               py-4 sm:py-6
-               bg-gradient-to-b
-               from-zinc-950
-               to-zinc-950"
+        class="
+            flex-1
+            min-h-0
+            overflow-y-auto
+            overscroll-contain
+            px-3
+            sm:px-5
+            md:px-8
+            py-4
+            sm:py-6
+            bg-zinc-950
+        "
     >
 
+        <div
+            id="messages-list"
+            class="
+                w-full
+                min-h-full
+                space-y-3
+                sm:space-y-4
+            "
+        >
 
-        {% for msg in messages %}
-
-
-            <!-- DATE -->
-
-            {% ifchanged msg.timestamp.date %}
-
-                <div class="flex justify-center py-2">
-
-                    <span
-                        class="text-[11px] sm:text-xs
-                               bg-zinc-800
-                               text-zinc-400
-                               px-3 sm:px-4
-                               py-1
-                               rounded-full"
-                    >
-
-                        {{ msg.timestamp|date:"M d, Y" }}
-
-                    </span>
-
-                </div>
-
-            {% endifchanged %}
+            {% for msg in messages %}
 
 
-            <!-- MESSAGE ROW -->
+                <!-- ================================================= -->
+                <!-- DATE -->
+                <!-- ================================================= -->
 
-            <div
-                class="flex
-                {% if msg.sender == request.user %}
-                    justify-end
-                {% else %}
-                    justify-start
-                {% endif %}"
-            >
+                {% ifchanged msg.timestamp.date %}
 
+                    <div class="flex justify-center py-2">
 
-                <!-- MESSAGE CONTAINER -->
-
-                <div
-                    class="max-w-[82%]
-                           sm:max-w-[70%]
-                           md:max-w-[60%]
-                           lg:max-w-[55%]
-                           relative"
-                >
-
-
-                    <!-- MESSAGE BUBBLE -->
-
-                    <div
-                        onclick="toggleDelete(this)"
-                        class="px-4 sm:px-5
-                               py-2.5 sm:py-3
-                               cursor-pointer
-                               shadow-lg
-                               rounded-3xl
-
-                               {% if msg.sender == request.user %}
-
-                                   bg-gradient-to-r
-                                   from-violet-600
-                                   to-purple-600
-                                   text-white
-                                   rounded-br-md
-
-                               {% else %}
-
-                                   bg-zinc-800
-                                   text-zinc-100
-                                   rounded-bl-md
-
-                               {% endif %}"
-                    >
-
-
-                        <!-- TEXT -->
-
-                        {% if msg.content %}
-
-                            <p
-                                class="break-words
-                                       leading-relaxed
-                                       text-sm sm:text-base"
-                            >
-
-                                {{ msg.content }}
-
-                            </p>
-
-                        {% endif %}
-
-
-                        <!-- IMAGE -->
-
-                        {% if msg.image %}
-
-                            <img
-                                src="{{ msg.image.url }}"
-                                alt="Shared image"
-                                class="mt-3
-                                       w-full
-                                       max-h-72 sm:max-h-96
-                                       rounded-2xl
-                                       object-cover"
-                            >
-
-                        {% endif %}
-
-
-                        <!-- TIME + READ STATUS -->
-
-                        <div
-                            class="flex
-                                   justify-end
-                                   items-center
-                                   gap-2
-                                   mt-2"
+                        <span
+                            class="
+                                text-[11px]
+                                sm:text-xs
+                                bg-zinc-800
+                                text-zinc-400
+                                px-3
+                                sm:px-4
+                                py-1
+                                rounded-full
+                            "
                         >
 
-                            <span
-                                class="text-[11px] sm:text-xs
-                                       opacity-70"
-                            >
+                            {{ msg.timestamp|date:"M d, Y" }}
 
-                                {{ msg.timestamp|date:"H:i" }}
+                        </span>
 
-                            </span>
+                    </div>
+
+                {% endifchanged %}
 
 
-                            {% if msg.sender == request.user %}
+                <!-- ================================================= -->
+                <!-- MESSAGE ROW -->
+                <!-- ================================================= -->
 
-                                {% if msg.is_read %}
+                <div
+                    class="
+                        flex
+                        w-full
+                        {% if msg.sender == request.user %}
+                            justify-end
+                        {% else %}
+                            justify-start
+                        {% endif %}
+                    "
+                >
 
-                                    <span class="text-[11px] sm:text-xs">
-                                        ✓✓
-                                    </span>
+                    <div
+                        class="
+                            max-w-[82%]
+                            sm:max-w-[70%]
+                            md:max-w-[60%]
+                            lg:max-w-[55%]
+                            relative
+                        "
+                    >
+
+
+                        <!-- ================================================= -->
+                        <!-- MESSAGE BUBBLE -->
+                        <!-- ================================================= -->
+
+                        <div
+                            onclick="toggleDelete(this)"
+                            class="
+                                px-4
+                                sm:px-5
+                                py-2.5
+                                sm:py-3
+                                cursor-pointer
+                                shadow-lg
+                                rounded-3xl
+
+                                {% if msg.sender == request.user %}
+
+                                    bg-gradient-to-r
+                                    from-violet-600
+                                    to-purple-600
+                                    text-white
+                                    rounded-br-md
 
                                 {% else %}
 
-                                    <span class="text-[11px] sm:text-xs">
-                                        ✓
-                                    </span>
+                                    bg-zinc-800
+                                    text-zinc-100
+                                    rounded-bl-md
+
+                                {% endif %}
+                            "
+                        >
+
+
+                            <!-- TEXT -->
+
+                            {% if msg.content %}
+
+                                <p
+                                    class="
+                                        break-words
+                                        leading-relaxed
+                                        text-sm
+                                        sm:text-base
+                                    "
+                                >
+
+                                    {{ msg.content }}
+
+                                </p>
+
+                            {% endif %}
+
+
+                            <!-- IMAGE -->
+
+                            {% if msg.image %}
+
+                                <img
+                                    src="{{ msg.image.url }}"
+                                    alt="Shared image"
+                                    class="
+                                        mt-3
+                                        w-full
+                                        max-h-72
+                                        sm:max-h-96
+                                        rounded-2xl
+                                        object-cover
+                                    "
+                                >
+
+                            {% endif %}
+
+
+                            <!-- TIME + READ STATUS -->
+
+                            <div
+                                class="
+                                    flex
+                                    justify-end
+                                    items-center
+                                    gap-2
+                                    mt-2
+                                "
+                            >
+
+                                <span
+                                    class="
+                                        text-[11px]
+                                        sm:text-xs
+                                        opacity-70
+                                    "
+                                >
+
+                                    {{ msg.timestamp|date:"H:i" }}
+
+                                </span>
+
+
+                                {% if msg.sender == request.user %}
+
+                                    {% if msg.is_read %}
+
+                                        <span class="text-[11px] sm:text-xs">
+                                            ✓✓
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="text-[11px] sm:text-xs">
+                                            ✓
+                                        </span>
+
+                                    {% endif %}
 
                                 {% endif %}
 
-                            {% endif %}
+                            </div>
 
                         </div>
 
 
-                    </div>
+                        <!-- ================================================= -->
+                        <!-- DELETE BUTTON -->
+                        <!-- ================================================= -->
 
+                        {% if msg.sender == request.user %}
 
-                    <!-- ================================================= -->
-                    <!-- DELETE BUTTON -->
-                    <!-- ================================================= -->
-
-                    {% if msg.sender == request.user %}
-
-                        <form
-                            method="POST"
-                            action="{% url 'delete_chat_message' msg.id %}"
-                            class="absolute
-                                   right-0
-                                   -top-3
-                                   hidden
-                                   delete-btn"
-                        >
-
-                            {% csrf_token %}
-
-                            <button
-                                type="submit"
-                                onclick="return confirm('Delete message?');"
-                                class="bg-red-600
-                                       text-white
-                                       rounded-full
-                                       w-7 h-7
-                                       flex items-center
-                                       justify-center
-                                       shadow-lg"
+                            <form
+                                method="POST"
+                                action="{% url 'delete_chat_message' msg.id %}"
+                                class="
+                                    absolute
+                                    right-0
+                                    -top-3
+                                    hidden
+                                    delete-btn
+                                "
                             >
 
-                                ×
+                                {% csrf_token %}
 
-                            </button>
+                                <button
+                                    type="submit"
+                                    onclick="return confirm('Delete message?');"
+                                    class="
+                                        bg-red-600
+                                        text-white
+                                        rounded-full
+                                        w-7
+                                        h-7
+                                        flex
+                                        items-center
+                                        justify-center
+                                        shadow-lg
+                                    "
+                                >
 
-                        </form>
+                                    ×
 
-                    {% endif %}
+                                </button>
 
+                            </form>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+
+                <!-- ================================================= -->
+                <!-- EMPTY CHAT -->
+                <!-- ================================================= -->
+
+                <div
+                    id="empty-chat-message"
+                    class="
+                        h-full
+                        min-h-[60vh]
+                        flex
+                        flex-col
+                        items-center
+                        justify-center
+                        text-center
+                        px-6
+                    "
+                >
+
+                    <div class="text-4xl sm:text-5xl mb-4">
+
+                        👋
+
+                    </div>
+
+                    <p class="text-zinc-400 text-sm sm:text-base">
+
+                        Start your conversation on Aniva.
+
+                    </p>
 
                 </div>
 
 
-            </div>
+            {% endfor %}
 
+        </div>
 
-        {% empty %}
-
-
-            <!-- EMPTY CHAT -->
-
-            <div
-                id="empty-chat-message"
-                class="h-full
-                       flex
-                       flex-col
-                       items-center
-                       justify-center
-                       text-center
-                       px-6"
-            >
-
-                <div class="text-4xl sm:text-5xl mb-4">
-
-                    👋
-
-                </div>
-
-                <p class="text-zinc-400 text-sm sm:text-base">
-
-                    Start your conversation on Aniva.
-
-                </p>
-
-            </div>
-
-
-        {% endfor %}
-
-
-    </div>
+    </main>
 
 
     <!-- ===================================================== -->
     <!-- MESSAGE COMPOSER -->
     <!-- ===================================================== -->
 
-    <div
-        class="shrink-0
-               bg-zinc-950/95
-               backdrop-blur-xl
-               border-t border-zinc-800
-               px-3 sm:px-5
-               py-3 sm:py-4"
+    <footer
+        class="
+            shrink-0
+            bg-zinc-950
+            border-t
+            border-zinc-800
+            px-3
+            sm:px-5
+            py-3
+            sm:py-4
+        "
     >
-
 
         <form
             method="POST"
             enctype="multipart/form-data"
+            class="w-full"
         >
 
             {% csrf_token %}
@@ -400,46 +493,51 @@
 
             <div
                 id="image-preview-container"
-                class="hidden
-                       mb-3
-                       relative
-                       w-fit
-                       max-w-full"
+                class="
+                    hidden
+                    mb-3
+                    relative
+                    w-fit
+                    max-w-full
+                "
             >
 
                 <img
                     id="image-preview"
                     src=""
                     alt="Image preview"
-                    class="max-w-[75vw]
-                           sm:max-w-xs
-                           max-h-40
-                           sm:max-h-48
-                           rounded-2xl
-                           object-cover
-                           border
-                           border-zinc-700
-                           shadow-lg"
+                    class="
+                        max-w-[75vw]
+                        sm:max-w-xs
+                        max-h-40
+                        sm:max-h-48
+                        rounded-2xl
+                        object-cover
+                        border
+                        border-zinc-700
+                        shadow-lg
+                    "
                 >
-
-
-                <!-- REMOVE IMAGE -->
 
                 <button
                     type="button"
                     id="remove-image"
-                    class="absolute
-                           -top-2
-                           -right-2
-                           w-7 h-7
-                           rounded-full
-                           bg-red-600
-                           text-white
-                           font-bold
-                           flex items-center
-                           justify-center
-                           active:scale-95
-                           shadow-lg"
+                    class="
+                        absolute
+                        -top-2
+                        -right-2
+                        w-7
+                        h-7
+                        rounded-full
+                        bg-red-600
+                        text-white
+                        font-bold
+                        flex
+                        items-center
+                        justify-center
+                        active:scale-95
+                        shadow-lg
+                    "
                 >
 
                     ×
@@ -450,32 +548,38 @@
 
 
             <!-- ================================================= -->
-            <!-- MESSAGE INPUT ROW -->
+            <!-- INPUT ROW -->
             <!-- ================================================= -->
 
             <div
-                class="flex
-                       items-center
-                       gap-2 sm:gap-3
-                       max-w-6xl
-                       mx-auto"
+                class="
+                    flex
+                    items-center
+                    gap-2
+                    sm:gap-3
+                    w-full
+                "
             >
 
 
                 <!-- IMAGE BUTTON -->
 
                 <label
-                    class="shrink-0
-                           cursor-pointer
-                           bg-zinc-800
-                           rounded-full
-                           w-11 h-11
-                           flex items-center
-                           justify-center
-                           text-lg
-                           hover:bg-zinc-700
-                           active:scale-95
-                           transition"
+                    class="
+                        shrink-0
+                        cursor-pointer
+                        bg-zinc-800
+                        rounded-full
+                        w-11
+                        h-11
+                        flex
+                        items-center
+                        justify-center
+                        text-lg
+                        hover:bg-zinc-700
+                        active:scale-95
+                        transition
+                    "
                     title="Send image"
                 >
 
@@ -500,44 +604,53 @@
                     id="message-input"
                     placeholder="Message..."
                     autocomplete="off"
-                    class="flex-1
-                           min-w-0
-                           rounded-full
-                           px-4 sm:px-5
-                           py-3
-                           bg-zinc-900
-                           border border-zinc-700
-                           text-sm sm:text-base
-                           text-white
-                           placeholder-zinc-500
-                           focus:outline-none
-                           focus:ring-2
-                           focus:ring-violet-500
-                           focus:border-transparent"
+                    class="
+                        flex-1
+                        min-w-0
+                        rounded-full
+                        px-4
+                        sm:px-5
+                        py-3
+                        bg-zinc-900
+                        border
+                        border-zinc-700
+                        text-sm
+                        sm:text-base
+                        text-white
+                        placeholder-zinc-500
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-violet-500
+                        focus:border-transparent
+                    "
                 >
 
 
-                <!-- SEND -->
+                <!-- SEND BUTTON -->
 
                 <button
                     type="submit"
-                    class="shrink-0
-                           rounded-full
-                           w-11 h-11
-                           flex items-center
-                           justify-center
-                           bg-gradient-to-r
-                           from-violet-600
-                           to-purple-600
-                           text-white
-                           font-bold
-                           text-lg
-                           shadow-lg
-                           shadow-violet-500/20
-                           hover:from-violet-500
-                           hover:to-purple-500
-                           active:scale-95
-                           transition"
+                    class="
+                        shrink-0
+                        rounded-full
+                        w-11
+                        h-11
+                        flex
+                        items-center
+                        justify-center
+                        bg-gradient-to-r
+                        from-violet-600
+                        to-purple-600
+                        text-white
+                        font-bold
+                        text-lg
+                        shadow-lg
+                        shadow-violet-500/20
+                        hover:from-violet-500
+                        hover:to-purple-500
+                        active:scale-95
+                        transition
+                    "
                     title="Send message"
                 >
 
@@ -545,15 +658,11 @@
 
                 </button>
 
-
             </div>
-
 
         </form>
 
-
-    </div>
-
+    </footer>
 
 </div>
 
@@ -563,6 +672,19 @@
 <!-- ========================================================= -->
 
 <script>
+
+/* ========================================================= */
+/* ESCAPE BASE TEMPLATE CONTAINER */
+/* ========================================================= */
+
+const fullscreenChat =
+    document.getElementById("fullscreen-chat");
+
+if (fullscreenChat) {
+
+    document.body.appendChild(fullscreenChat);
+
+}
 
 
 /* ========================================================= */
@@ -793,6 +915,19 @@ chatSocket.onmessage =
         }
 
 
+        const messagesList =
+            document.getElementById(
+                "messages-list"
+            );
+
+
+        if (!messagesList) {
+
+            return;
+
+        }
+
+
         /* ============================================= */
         /* IS THIS OUR OWN MESSAGE? */
         /* ============================================= */
@@ -828,8 +963,8 @@ chatSocket.onmessage =
 
         wrapper.className =
             isMine
-                ? "flex justify-end"
-                : "flex justify-start";
+                ? "flex w-full justify-end"
+                : "flex w-full justify-start";
 
 
         /* ============================================= */
@@ -1003,14 +1138,6 @@ chatSocket.onmessage =
                 "absolute right-0 -top-3 hidden delete-btn";
 
 
-            /*
-             * The real delete URL is handled by the
-             * server-side template for existing messages.
-             *
-             * For newly received WebSocket messages,
-             * we preserve the existing behavior.
-             */
-
             deleteForm.action =
                 "{% url 'chat_list' %}";
 
@@ -1019,12 +1146,16 @@ chatSocket.onmessage =
 
                 <button
                     type="submit"
-                    class="bg-red-600
-                           text-white
-                           rounded-full
-                           w-7 h-7
-                           flex items-center
-                           justify-center"
+                    class="
+                        bg-red-600
+                        text-white
+                        rounded-full
+                        w-7
+                        h-7
+                        flex
+                        items-center
+                        justify-center
+                    "
                 >
                     ×
                 </button>
@@ -1048,13 +1179,13 @@ chatSocket.onmessage =
         );
 
 
-        container.appendChild(
+        messagesList.appendChild(
             wrapper
         );
 
 
         /* ============================================= */
-        /* SCROLL TO BOTTOM */
+        /* SCROLL */
         /* ============================================= */
 
         scrollToBottom();
