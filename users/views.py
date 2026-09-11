@@ -177,6 +177,7 @@ def public_profile(request, username):
 
     friends = get_friends(profile_user)
 
+   
     return render(
         request,
         "users/public_profile.html",
@@ -194,7 +195,7 @@ def public_profile(request, username):
             "is_following": is_following,
             "followers_count": followers_count,
             "following_count": following_count,
-            "friends": friends,
+            "friends": friends,    
         }
     )
 

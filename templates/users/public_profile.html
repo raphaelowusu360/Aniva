@@ -418,51 +418,51 @@
         </div>
 
 
+<!-- ========================== -->
+<!-- SOCIAL / MESSAGE -->
+<!-- ========================== -->
 
-        <!-- ========================== -->
-        <!-- SOCIAL / MESSAGE -->
-        <!-- ========================== -->
+{% if profile_user != request.user %}
 
-        {% if profile_user != request.user %}
+    <div class="mt-6 sm:mt-8">
 
-            <div class="mt-6 sm:mt-8">
+        {% if request.user in friends %}
 
+            <!-- MESSAGE BUTTON -->
 
-                {% if is_friend %}
+            <a
+                href="{% url 'chat_detail' profile_user.id %}"
+                class="flex
+                       items-center
+                       justify-center
+                       gap-2
+                       w-full
+                       bg-gradient-to-r
+                       from-violet-600
+                       to-purple-600
+                       px-5
+                       py-3
+                       rounded-xl
+                       text-white
+                       font-semibold
+                       shadow-lg
+                       shadow-violet-950/30
+                       hover:from-violet-500
+                       hover:to-purple-500
+                       hover:-translate-y-0.5
+                       active:scale-95
+                       transition-all
+                       duration-200"
+            >
 
-                    <!-- MESSAGE BUTTON -->
+                💬 Message
 
-                    <a
-                        href="{% url 'chat_detail' profile_user.id %}"
-                        class="block
-                               w-full
-                               text-center
-                               bg-gradient-to-r
-                               from-violet-600
-                               to-purple-600
-                               px-5 py-3
-                               rounded-xl
-                               text-white
-                               font-semibold
-                               hover:from-violet-500
-                               hover:to-purple-500
-                               transition"
-                    >
-
-                        💬 Message
-
-                    </a>
-
-                {% endif %}
-
-
-            </div>
+            </a>
 
         {% endif %}
 
-
     </div>
 
-</div>
+{% endif %}
 
 {% endblock %}
